@@ -8,15 +8,32 @@
 
 import UIKit
 import CoreData
+import Alamofire
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var curUser: User?
+    
+    var realm: Realm!
+    
+    //>     Creating an Instance of the Alamofire Manager
+    var manager = Manager.sharedInstance
+    
+    let defaults = NSUserDefaults.standardUserDefaults()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        self.realm      = try! Realm()
+        
+        self.loadCurUser()
+        
+        //self.setupAlamofireManager()
+        
         return true
     }
 
@@ -106,6 +123,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+    // MARK: - Custom Methods
+    
+    /*
+    func setupAlamofireManager() {
+        
+        var dictDefaultHeaders      = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders ?? [:]
+        
+        //>     Specifying the Headers we need
+        if let userAuth = self.curUserAuth {
+            dictDefaultHeaders["X-IQE-Auth"] = "\(userAuth)"
+            //dictDefaultHeaders["content-type"] = "application/json; charset=utf-8"
+        }
+        
+        let configuration       = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.HTTPAdditionalHeaders = dictDefaultHeaders
+        
+        self.manager            = Alamofire.Manager(configuration: configuration)
+    }
+    */
+    
+    func loadCurUser() {
+        if let userID = defaults.objectForKey(k_UserDef_LoggedInUserID) as? String {
+            let predicate                   = NSPredicate(format: "u_id = %@", userID)
+            if let user = appDelegate.realm.objects(User).filter(predicate).first {
+                appDelegate.curUser         = user
+            }
+        }
+    }
 }
 
+// MARK: - Convenience Constructors
+let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
