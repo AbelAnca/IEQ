@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2773C0DE297FDBE46895D55A /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37130A1C72F0781B19DDFBDA /* Pods.framework */; };
+		AF2B6F861C18B67D00CE554B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F851C18B67D00CE554B /* User.swift */; };
+		AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F881C18B73F00CE554B /* RealmManager.swift */; };
 		B58E6D961C16DBF90003C51A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6D951C16DBF90003C51A /* APIManager.swift */; };
 		B58E6D981C16DC110003C51A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6D971C16DC110003C51A /* APIConstants.swift */; };
 		B58E6D9C1C16F7F00003C51A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6D9B1C16F7F00003C51A /* Constants.swift */; };
@@ -23,7 +25,6 @@
 		B5C216D61C10CE86001CFA9A /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C216D51C10CE86001CFA9A /* SignUpVC.swift */; };
 		B5C31FAF1C175783009B6411 /* QuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FAE1C175783009B6411 /* QuestionVC.swift */; };
 		B5C31FB31C179644009B6411 /* PopoverRoleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FB21C179644009B6411 /* PopoverRoleVC.swift */; };
-		B5C31FB81C186F2F009B6411 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FB71C186F2F009B6411 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,8 @@
 /* Begin PBXFileReference section */
 		2694DB698EE6A313756AF7B5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		37130A1C72F0781B19DDFBDA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF2B6F851C18B67D00CE554B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		AF2B6F881C18B73F00CE554B /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		B58E6D951C16DBF90003C51A /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIManager.swift; path = Classes/Managers/APIManager/APIManager.swift; sourceTree = "<group>"; };
 		B58E6D971C16DC110003C51A /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIConstants.swift; path = Classes/Managers/APIManager/APIConstants.swift; sourceTree = "<group>"; };
 		B58E6D9B1C16F7F00003C51A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Utils/Constants.swift; sourceTree = "<group>"; };
@@ -67,7 +70,6 @@
 		B5C216D51C10CE86001CFA9A /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpVC.swift; path = Classes/MVC/Controller/Login/SignUpVC.swift; sourceTree = "<group>"; };
 		B5C31FAE1C175783009B6411 /* QuestionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionVC.swift; path = Classes/MVC/Controller/Login/QuestionVC.swift; sourceTree = "<group>"; };
 		B5C31FB21C179644009B6411 /* PopoverRoleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverRoleVC.swift; path = Classes/Utils/PopoverRoleVC.swift; sourceTree = "<group>"; };
-		B5C31FB71C186F2F009B6411 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Classes/Utils/User.swift; sourceTree = "<group>"; };
 		FFAA622C56D5349F40839162 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,9 +116,28 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		AF2B6F841C18B65600CE554B /* RealmModels */ = {
+			isa = PBXGroup;
+			children = (
+				AF2B6F851C18B67D00CE554B /* User.swift */,
+			);
+			name = RealmModels;
+			path = Classes/MVC/RealmModels;
+			sourceTree = "<group>";
+		};
+		AF2B6F871C18B73F00CE554B /* RealmManager */ = {
+			isa = PBXGroup;
+			children = (
+				AF2B6F881C18B73F00CE554B /* RealmManager.swift */,
+			);
+			name = RealmManager;
+			path = Classes/Managers/RealmManager;
+			sourceTree = "<group>";
+		};
 		B58E6D8F1C16DB730003C51A /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				AF2B6F871C18B73F00CE554B /* RealmManager */,
 				B58E6D901C16DB800003C51A /* APIManager */,
 			);
 			name = Managers;
@@ -137,7 +158,6 @@
 				B5C31FB21C179644009B6411 /* PopoverRoleVC.swift */,
 				B58E6D9B1C16F7F00003C51A /* Constants.swift */,
 				B58E6D9D1C16F8030003C51A /* Utils.swift */,
-				B5C31FB71C186F2F009B6411 /* User.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -207,6 +227,7 @@
 		B5C216B51C0E2ADA001CFA9A /* MVC */ = {
 			isa = PBXGroup;
 			children = (
+				AF2B6F841C18B65600CE554B /* RealmModels */,
 				B5C216B61C0E2B1B001CFA9A /* Controller */,
 			);
 			name = MVC;
@@ -329,9 +350,10 @@
 		B5C216781C0E2A77001CFA9A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = IEQ;
 				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0710;
-				ORGANIZATIONNAME = "Abel Anca";
+				ORGANIZATIONNAME = IEQ;
 				TargetAttributes = {
 					B5C2167F1C0E2A77001CFA9A = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -451,12 +473,13 @@
 				B5C31FB31C179644009B6411 /* PopoverRoleVC.swift in Sources */,
 				B58E6D9E1C16F8030003C51A /* Utils.swift in Sources */,
 				B5C216D61C10CE86001CFA9A /* SignUpVC.swift in Sources */,
+				AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */,
 				B5C216841C0E2A77001CFA9A /* AppDelegate.swift in Sources */,
 				B5C216CD1C0E2CFC001CFA9A /* IEQ.xcdatamodeld in Sources */,
 				B5C216D21C0E33B9001CFA9A /* LoginVC.swift in Sources */,
 				B5C31FAF1C175783009B6411 /* QuestionVC.swift in Sources */,
 				B58E6D9C1C16F7F00003C51A /* Constants.swift in Sources */,
-				B5C31FB81C186F2F009B6411 /* User.swift in Sources */,
+				AF2B6F861C18B67D00CE554B /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

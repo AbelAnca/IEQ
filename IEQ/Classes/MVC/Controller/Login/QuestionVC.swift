@@ -36,7 +36,7 @@ class QuestionVC: UIViewController {
             
             var dictDefaultHeaders      = [String : String]()
             
-            dictDefaultHeaders["X-IQE-Auth"] = "\(user.u_token)"
+            dictDefaultHeaders["X-IQE-Auth"] = "\(user.token)"
             dictDefaultHeaders["content-type"] = "application/json; charset=utf-8"
             
             

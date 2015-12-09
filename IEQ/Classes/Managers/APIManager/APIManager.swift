@@ -26,8 +26,8 @@ class APIError {
 class APIManager {
     
     var error : APIError?
-    var strMessage : NSString?
-    var data : NSDictionary?
+    var strMessage : String?
+    var data : [String: AnyObject]?
     
     init() {
         

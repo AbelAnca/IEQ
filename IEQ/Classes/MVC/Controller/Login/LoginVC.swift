@@ -124,36 +124,23 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 }
                 else
                     if let data = apiManager.data {
-                        if let token = data["authorization"] as? String {
-                            if let username = data["username"] as? String {
-                                if let id = data["id"] as? String {
-                                    
-                                    appDelegate.defaults.setObject(id, forKey: k_UserDef_LoggedInUserID)
-                                    appDelegate.defaults.synchronize()
-                                    
-                                    let user = User()
-                                    user.u_id = id
-                                    user.u_token = token
-                                    user.u_username = username
-                                    
-                                    try! appDelegate.realm.write {
-                                        appDelegate.realm.add(user)
-                                    }
-                                    
-                                    appDelegate.curUser = user
-                                    
-                                    //>     Call this method to set custom headers to alamofire manager
-                                    //appDelegate.setupAlamofireManager()
-                                }
-                            }
+                        if let user = RLMManager.sharedInstance.saveUser(data) {
+                            KVNProgress.showSuccessWithStatus("Successfully logged in as \(user.username)", completion: { () -> Void in
+                                self.pushQuestionVC()
+                                
+                                //=>     Call this method to set custom headers to alamofire manager
+                                //appDelegate.setupAlamofireManager()
+                            })
+                            
+                            return
                         }
-                        
-                        KVNProgress.dismiss()
-                        
-                        self.pushQuestionVC()
-                }
-                
-                KVNProgress.dismiss()
+                        else {
+                            KVNProgress.showErrorWithStatus("Failed to save user locally. Please try again!")
+                        }
+                    }
+                    else {
+                        KVNProgress.showErrorWithStatus("Failed to LOGIN. Please try again!")
+                    }
         }
     }
     
