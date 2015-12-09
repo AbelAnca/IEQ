@@ -19,7 +19,6 @@
 		B5C216C71C0E2CD4001CFA9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C216C41C0E2CD4001CFA9A /* Main.storyboard */; };
 		B5C216C91C0E2CE2001CFA9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5C216C81C0E2CE2001CFA9A /* Assets.xcassets */; };
 		B5C216CD1C0E2CFC001CFA9A /* IEQ.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5C216CA1C0E2CFC001CFA9A /* IEQ.xcdatamodeld */; };
-		B5C216CE1C0E2CFC001CFA9A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5C216CC1C0E2CFC001CFA9A /* Info.plist */; };
 		B5C216D21C0E33B9001CFA9A /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C216D11C0E33B9001CFA9A /* LoginVC.swift */; };
 		B5C216D61C10CE86001CFA9A /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C216D51C10CE86001CFA9A /* SignUpVC.swift */; };
 		B5C31FAF1C175783009B6411 /* QuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FAE1C175783009B6411 /* QuestionVC.swift */; };
@@ -372,7 +371,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5C216CE1C0E2CFC001CFA9A /* Info.plist in Resources */,
 				B5C216C61C0E2CD4001CFA9A /* LaunchScreen.storyboard in Resources */,
 				B5C216C91C0E2CE2001CFA9A /* Assets.xcassets in Resources */,
 				B5C216C71C0E2CD4001CFA9A /* Main.storyboard in Resources */,
@@ -549,7 +547,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -588,7 +586,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -602,6 +600,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/IEQ/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = IEQ.IEQ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -614,6 +613,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "$(SRCROOT)/IEQ/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = IEQ.IEQ;
 				PRODUCT_NAME = "$(TARGET_NAME)";
