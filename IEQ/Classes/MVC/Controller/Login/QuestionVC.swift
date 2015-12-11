@@ -220,51 +220,41 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     // MARK: - API Methods
     
     func loadQuestion_APICall() {
+        KVNProgress.showWithStatus("Please wait...")
         
-        if let user = appDelegate.curUser {
-            
-            KVNProgress.showWithStatus("Please wait...")
-            
-            var dictDefaultHeaders      = [String : String]()
-            
-            dictDefaultHeaders["X-IQE-Auth"] = "\(user.token)"
-            dictDefaultHeaders["content-type"] = "application/json; charset=utf-8"
-            
-            
-            Alamofire.request(.GET, "\(K_API_MAIN_URL)\(k_API_Question)", parameters: nil, encoding: .JSON, headers: dictDefaultHeaders)
-                .responseJSON { (response) -> Void in
-                    let apiManager              = APIManager()
-                    apiManager.handleResponse(response.response, json: response.result.value)
-                    
-                    if let error = apiManager.error {
-                        if let message = error.strMessage {
-                            KVNProgress.dismiss()
-                            
-                            let alert = Utils.okAlert("Error", message: message)
-                            self.presentViewController(alert, animated: true, completion: nil)
-                        }
+        appDelegate.manager.request(.GET, "\(K_API_MAIN_URL)\(k_API_Question)", parameters: nil, encoding: .JSON)
+            .responseJSON { (response) -> Void in
+                let apiManager              = APIManager()
+                apiManager.handleResponse(response.response, json: response.result.value)
+                
+                if let error = apiManager.error {
+                    if let message = error.strMessage {
+                        KVNProgress.dismiss()
+                        
+                        let alert = Utils.okAlert("Error", message: message)
+                        self.presentViewController(alert, animated: true, completion: nil)
                     }
-                    else
-                        if let data = apiManager.data {
-                            if let items = data["items"] as? [[String: AnyObject]] {
-                                // save questions in Realm
-                                for item in items {
-                                    RLMManager.sharedInstance.saveQuestion(item)
-                                }
-                                
-                                self.arrQuestion     = appDelegate.realm.objects(Question).sorted("sorted", ascending: true)
-                                
-                                KVNProgress.dismiss()
-                                self.drawnQuestion()
+                }
+                else
+                    if let data = apiManager.data {
+                        if let items = data["items"] as? [[String: AnyObject]] {
+                            // save questions in Realm
+                            for item in items {
+                                RLMManager.sharedInstance.saveQuestion(item)
                             }
                             
-                        }
-                        else {
+                            self.arrQuestion     = appDelegate.realm.objects(Question).sorted("sorted", ascending: true)
+                            
                             KVNProgress.dismiss()
+                            self.drawnQuestion()
+                        }
+                        
                     }
-                    
-                    KVNProgress.dismiss()
-            }
+                    else {
+                        KVNProgress.dismiss()
+                }
+                
+                KVNProgress.dismiss()
         }
     }
     
@@ -327,44 +317,33 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
             }
 
-            print(dictParams)
+            print("DICT PARAMS = \(dictParams)")
             
-            var dictDefaultHeaders      = [String : String]()
-            
-            dictDefaultHeaders["X-IQE-Auth"] = "\(user.token)"
-            dictDefaultHeaders["content-type"] = "application/json; charset=utf-8"
-            dictDefaultHeaders["content-length"] = "264"
-            
-            Alamofire.request(.POST, "\(K_API_MAIN_URL)\(k_API_Answer)", parameters: dictParams, encoding: .JSON, headers: dictDefaultHeaders)
-                .responseJSON(completionHandler: { (response) -> Void in
-                    
-                    let apiManager              = APIManager()
-                    apiManager.handleResponse(response.response, json: response.result.value)
-                    
-                    if let error = apiManager.error {
-                        if let message = error.strMessage {
-                            KVNProgress.dismiss()
-                            
-                            let alert = Utils.okAlert("Error", message: message)
-                            self.presentViewController(alert, animated: true, completion: nil)
-                        }
+            appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_Answer)", parameters: dictParams, encoding: .JSON)
+            .responseJSON(completionHandler: { (response) -> Void in
+                print(response)
+                
+                let apiManager              = APIManager()
+                apiManager.handleResponse(response.response, json: response.result.value)
+                
+                if let error = apiManager.error {
+                    if let message = error.strMessage {
+                        KVNProgress.dismiss()
+                        
+                        let alert = Utils.okAlert("Error", message: message)
+                        self.presentViewController(alert, animated: true, completion: nil)
                     }
-                    else
-                        if let data = apiManager.data {
-                            print(data)
-                            
-                            // If is success go to the next question
-                            self.prepareForNewQuestion()
-                            self.drawnQuestion()
-                            
-                            
-                    }
-                    
-                })
-
+                }
+                else
+                    if let data = apiManager.data {
+                        print(data)
+                        
+                        // If is success go to the next question
+                        self.prepareForNewQuestion()
+                        self.drawnQuestion()
+                }
+            })
         }
-        
-        
     }
     
     // MARK: - Action Methods

@@ -196,7 +196,7 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
                                 self.dismissViewController(true)
                                 
                                 //=>     Call this method to set custom headers to alamofire manager
-                                //appDelegate.setupAlamofireManager()
+                                appDelegate.setupAlamofireManager()
                             })
                             
                             return

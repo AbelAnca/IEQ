@@ -93,7 +93,10 @@ class LoginVC: BaseVC, UITextFieldDelegate {
     // MARK: - API Methods
     
     func login_APICall() {
-        let dictParams = ["username" : txfPhoneUseraemeOrEmail.text!, "password" : txfPassword.text!];
+        
+        var dictParams = [String : AnyObject]()
+        dictParams["username"] = txfPhoneUseraemeOrEmail.text!
+        dictParams["password"] = txfPassword.text!
         
         KVNProgress.showWithStatus("Please wait...")
         
@@ -119,7 +122,7 @@ class LoginVC: BaseVC, UITextFieldDelegate {
                                 self.dismissViewController(true)
                                 
                                 //=>     Call this method to set custom headers to alamofire manager
-                                //appDelegate.setupAlamofireManager()
+                                appDelegate.setupAlamofireManager()
                             })
                             
                             return

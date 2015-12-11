@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         loadCurrentUser()
         
-        //self.setupAlamofireManager()
+        setupAlamofireManager()
         
         return true
     }
@@ -62,15 +62,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Custom Methods
     
-    /*
+    
     func setupAlamofireManager() {
         
         var dictDefaultHeaders      = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders ?? [:]
         
         //>     Specifying the Headers we need
-        if let userAuth = self.curUserAuth {
-            dictDefaultHeaders["X-IQE-Auth"] = "\(userAuth)"
-            //dictDefaultHeaders["content-type"] = "application/json; charset=utf-8"
+        if let currentUser = curUser {
+            dictDefaultHeaders["X-IQE-Auth"]        = "\(currentUser.token)"
+            dictDefaultHeaders["content-type"]      = "application/json; charset=utf-8"
+            //dictDefaultHeaders["content-length"]    = "264"
         }
         
         let configuration       = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -78,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.manager            = Alamofire.Manager(configuration: configuration)
     }
-    */
+
     
     func loadCurrentUser() {
         if let strID = self.defaults.objectForKey(k_UserDef_LoggedInUserID) as? String {

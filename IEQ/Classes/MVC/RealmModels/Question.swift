@@ -70,10 +70,7 @@ extension Question {
             question                         = self.getNewOrExistingQuestion(obj, realm: realm)
             
             
-            try! realm.write({ () -> Void in
-                
-                print(dictInfo)
-                
+            try! realm.write({ () -> Void in                
                 if let acceptChoices = dictInfo["acceptChoices"] as? Bool {
                     question.acceptChoices   = acceptChoices
                 }
