@@ -18,6 +18,10 @@ class LandingVC: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         if let _ = appDelegate.curUser {
             pushToQuestionVC()
             

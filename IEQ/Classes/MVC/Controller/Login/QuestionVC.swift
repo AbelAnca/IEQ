@@ -15,6 +15,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var lblQuestion: UILabel!
+    @IBOutlet var lblNoOfQuestion: UILabel!
     
     @IBOutlet var segmentControl: UISegmentedControl!
     
@@ -30,8 +31,11 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     @IBOutlet var btnNextQuestion: UIButton!
     @IBOutlet var btnImage: UIButton!
     
+    @IBOutlet var topSpaceViewText: NSLayoutConstraint!
+    @IBOutlet var topSpaceViewSegment: NSLayoutConstraint!
+    
+    
     var index                           = 0
-    //var arrIdOfQuestions                = [String]()
     var arrQuestion: Results<(Question)>?
     
     var currentStrOfSegmControl         = ""
@@ -45,11 +49,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     // MARK: - ViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        
         if let _ = appDelegate.defaults.objectForKey(k_UserDef_Index) as? Int {
-            self.arrQuestion     = appDelegate.realm.objects(Question).sorted("title", ascending: true)
+            self.arrQuestion     = appDelegate.realm.objects(Question).sorted("sorted", ascending: true)
             loadCurrentQuestion()
         }
         else {
@@ -57,6 +58,11 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         }
         
         setupUI()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     // MARK: - Custom Methods
@@ -91,11 +97,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         txfAnswer.text                              = ""
     }
     
-    func hideAllViews() {
-        hideViewsAnswer()
-        btnNextQuestion.hidden = true
-        lblTitle.hidden = true
-        lblQuestion.hidden = true
+    func setLblNoOfQuestion() {
+        if let questions = arrQuestion {
+            lblNoOfQuestion.text = "\(index + 1) of \(questions.count)"
+        }
     }
     
     func hideViewsAnswer() {
@@ -114,9 +119,12 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         // Save index of arr in NSUserDef
         saveIndexInUserDef()
         
+        // Set number of question
+        setLblNoOfQuestion()
+        
         if let questions = arrQuestion {
-        if index < questions.count {
-             let question = questions[index]
+            if index < questions.count {
+                let question = questions[index]
                 
                 // Set title and question
                 lblQuestion.text                  = question.body
@@ -130,21 +138,25 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 isText                        = false
                 
                 // Multiple choise
-
-                    if question.acceptChoices == true {
-                        
-                        viewSegment.hidden            = false
-                        isChoice                      = true
-                        
-                        var arrChoices                = Array<String>()
-                        
-                        for choise in question.choises {
-                            arrChoices.append(choise.name)
-                        }
-                        
-                        segmentControl.replaceSegments(arrChoices)
-                        segmentControl.addTarget(self, action: "segmentedControlValueChanged:", forControlEvents:.ValueChanged)
+                
+                if question.acceptChoices == true {
+                    
+                    topSpaceViewSegment.constant  = 20
+                    viewSegment.hidden            = false
+                    isChoice                      = true
+                    
+                    var arrChoices                = Array<String>()
+                    
+                    for choise in question.choises {
+                        arrChoices.append(choise.name)
                     }
+                    
+                    segmentControl.replaceSegments(arrChoices)
+                    segmentControl.addTarget(self, action: "segmentedControlValueChanged:", forControlEvents:.ValueChanged)
+                }
+                else {
+                    topSpaceViewSegment.constant   = -50
+                }
                 
                 
                 // Upload a picture
@@ -155,70 +167,54 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 
                 // Write an answer
                 if question.acceptText == true {
+                    topSpaceViewText.constant     = 20
                     viewText.hidden               = false
                     isText                        = true
                 }
-        }
-        else
-            if index == questions.count {
-                let finalVC = storyboard?.instantiateViewControllerWithIdentifier("FinalVC") as! FinalVC
-                navigationController?.pushViewController(finalVC, animated: true)
+                else {
+                    topSpaceViewText.constant     = -50
+                }
+            }
+            else
+                if index == questions.count {
+                    let finalVC = storyboard?.instantiateViewControllerWithIdentifier("FinalVC") as! FinalVC
+                    navigationController?.pushViewController(finalVC, animated: true)
             }
         }
     }
-    
-    func nextQuestion() {
-        
-        if isChoice == true {
-            if currentStrOfSegmControl == "" {
-                presentAttentionAlert()
-                
-                return
-            }
-        }
-        
-        if isPicture == true {
-            if imgView.image == nil {
-                presentAttentionAlert()
-                
-                return
-            }
-        }
-        
-        if isText == true {
-            if txfAnswer.text == "" {
-                presentAttentionAlert()
-                
-                return
-            }
-        }
-        
-        print(txfAnswer.text)
-        print(currentStrOfSegmControl)
-        
-        if imgView.image != nil {
-            print("Yes")
-        }
-        
-        prepareForNewQuestion()
-        drawnQuestion()
-        
-        
-    }
+
     
     func setupImagePicker() {
-        if (UIImagePickerController.isSourceTypeAvailable(.Camera))  {
-            imagePicker.allowsEditing               = false
-            imagePicker.sourceType                  = .Camera
+        
+        let alert = UIAlertController(title: "Upload a picture", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            if (UIImagePickerController.isSourceTypeAvailable(.Camera))  {
+                self.imagePicker.allowsEditing               = false
+                self.imagePicker.sourceType                  = .Camera
+                
+                self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            }
+            else {
+                let alert = Utils.okAlert("Attention", message: "The Camera is not available")
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
             
-            presentViewController(imagePicker, animated: true, completion: nil)
-        }
-        else {
-            imagePicker.allowsEditing               = false
-            imagePicker.sourceType                  = .PhotoLibrary
-            
-            presentViewController(imagePicker, animated: true, completion: nil)
-        }
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Choose from Library", style: .Default, handler: { (action) -> Void in
+            if (UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary)) {
+                self.imagePicker.allowsEditing               = false
+                self.imagePicker.sourceType                  = .PhotoLibrary
+                
+                self.presentViewController(self.imagePicker, animated: true, completion: nil)
+            }
+        }))
+        
+        alert.popoverPresentationController?.sourceView = self.btnImage
+        alert.popoverPresentationController?.sourceRect = CGRectMake(0, 0, self.btnImage.frame.size.width, self.btnImage.frame.size.height)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     // MARK: - API Methods
@@ -256,7 +252,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                                     RLMManager.sharedInstance.saveQuestion(item)
                                 }
                                 
-                                self.arrQuestion     = appDelegate.realm.objects(Question).sorted("title", ascending: true)
+                                self.arrQuestion     = appDelegate.realm.objects(Question).sorted("sorted", ascending: true)
                                 
                                 KVNProgress.dismiss()
                                 self.drawnQuestion()
@@ -272,9 +268,108 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         }
     }
     
+    func postQuestion_APICall() {
+        if let user = appDelegate.curUser {
+            
+            // Create disctParams with question
+            var dictParams = [String : AnyObject]()
+            
+            // Set current user for question
+            dictParams["username"] = user.username
+            dictParams["userId"] = user.id
+            
+            // Set ID for question
+            if let questions = arrQuestion {
+                if index < questions.count {
+                    let question = questions[index]
+                    dictParams["questionId"] = question.id
+                }
+            }
+            
+            // Verify and set
+            if isChoice == true {
+                if currentStrOfSegmControl == "" {
+                    presentAttentionAlert()
+                    
+                    return
+                }
+                dictParams["choices"] = [currentStrOfSegmControl]
+            }
+            
+            if isText == true {
+                if txfAnswer.text == "" {
+                    presentAttentionAlert()
+                    
+                    return
+                }
+                
+                if let text = txfAnswer.text {
+                    dictParams["text"] = text
+                }
+            }
+            
+            if isPicture == true {
+                if imgView.image == nil {
+                    presentAttentionAlert()
+                    
+                    return
+                }
+                
+                if let image = imgView.image {
+                    
+                    
+                    if let imageData = UIImagePNGRepresentation(image) {
+                        
+                        let base64String = imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+                        dictParams["fileToPost"] = ["data": base64String,"filename": "image.png"]
+                    }
+                    
+                }
+            }
+
+            print(dictParams)
+            
+            var dictDefaultHeaders      = [String : String]()
+            
+            dictDefaultHeaders["X-IQE-Auth"] = "\(user.token)"
+            dictDefaultHeaders["content-type"] = "application/json; charset=utf-8"
+            dictDefaultHeaders["content-length"] = "264"
+            
+            Alamofire.request(.POST, "\(K_API_MAIN_URL)\(k_API_Answer)", parameters: dictParams, encoding: .JSON, headers: dictDefaultHeaders)
+                .responseJSON(completionHandler: { (response) -> Void in
+                    
+                    let apiManager              = APIManager()
+                    apiManager.handleResponse(response.response, json: response.result.value)
+                    
+                    if let error = apiManager.error {
+                        if let message = error.strMessage {
+                            KVNProgress.dismiss()
+                            
+                            let alert = Utils.okAlert("Error", message: message)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                    }
+                    else
+                        if let data = apiManager.data {
+                            print(data)
+                            
+                            // If is success go to the next question
+                            self.prepareForNewQuestion()
+                            self.drawnQuestion()
+                            
+                            
+                    }
+                    
+                })
+
+        }
+        
+        
+    }
+    
     // MARK: - Action Methods
     @IBAction func btnNextQuestionAction(sender: AnyObject) {
-        nextQuestion()
+        postQuestion_APICall()
     }
     
     @IBAction func btnImage_Action(sender: AnyObject) {
@@ -303,7 +398,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     // MARK: - UIImagePickerControllerDelegate Methods
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            imgView.image = pickedImage
+            
+            imgView.image = Utils.scaleImageDown(pickedImage)
         }
         dismissViewControllerAnimated(true, completion: nil)
     }

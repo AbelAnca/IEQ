@@ -114,4 +114,37 @@ class Utils: NSObject {
         return alert
     }
     
+    class func scaleImageDown(image: UIImage) -> UIImage {
+        let fWidth      = image.size.width
+        let fHeight     = image.size.height
+        var bounds      = CGRectZero
+        
+        if fWidth <= k_ResizeTo30PercentResolution && fHeight <= k_ResizeTo30PercentResolution {
+            return image
+        }
+        else {
+            let ratio: CGFloat          = fWidth/fHeight
+            
+            if ratio > 1 {
+                bounds.size.width       = k_ResizeTo30PercentResolution
+                bounds.size.height      = k_ResizeTo30PercentResolution / ratio
+            }
+            else {
+                bounds.size.height      = k_ResizeTo30PercentResolution
+                bounds.size.width       = k_ResizeTo30PercentResolution * ratio
+            }
+        }
+        
+        let size = CGSizeMake(bounds.size.width, bounds.size.height)
+        let hasAlpha = false
+        let scale: CGFloat = 2.0 // Automatically use scale factor of main screen
+        
+        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+        image.drawInRect(CGRect(origin: CGPointZero, size: size))
+        
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        return scaledImage
+    }
+    
 }

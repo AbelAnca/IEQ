@@ -26,26 +26,24 @@ class FinalVC: UIViewController {
     // MARK: - Action Methods
     @IBAction func btnLogot_Action(sender: AnyObject) {
         
-        // Present LoginVC
-        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
-        navigationController?.presentViewController(loginNC, animated: true, completion: nil)
+        appDelegate.curUser = nil
         
         // Remove from NSUserDefaults
         appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
         appDelegate.defaults.removeObjectForKey(k_UserDef_Index)
         appDelegate.defaults.synchronize()
+
+        // Clean realm
+        try! appDelegate.realm.write({ () -> Void in
+            appDelegate.realm.deleteAll()
+        })
         
-        // Remove from Realm
-        appDelegate.realm.beginWrite()
-        appDelegate.realm.deleteAll()
-        
-        do {
-            try appDelegate.realm.commitWrite()
-        }
-        catch {
-           // error
-        }
-        
+        // Present LoginVC
+        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+
+        })
     }
 
     override func didReceiveMemoryWarning() {

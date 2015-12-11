@@ -13,6 +13,7 @@ public class Question: Object {
     public dynamic var id = ""
     public dynamic var title = ""
     public dynamic var body = ""
+    public dynamic var sorted = 0
     public dynamic var acceptChoices = false
     public dynamic var acceptFile = false
     public dynamic var acceptText = false
@@ -55,7 +56,7 @@ extension Question {
             return follower
         }
         else {
-            //>     No question found, create new one
+            //     No question found, create new one
             let question                 = createNewQuestionWithID(strID)
             
             return question
@@ -101,6 +102,12 @@ extension Question {
                 
                 if let title = dictInfo["title"] as? String {
                     question.title      = title
+                    
+                    // Set Sort Key
+                    let myRange = Range<String.Index>(start: title.startIndex.advancedBy(1), end: title.startIndex.advancedBy(title.utf16.count))
+                    if let sort = Int(title.substringWithRange(myRange)) {
+                        question.sorted = sort
+                    }
                 }
                 
                 realm.add(question, update: true)
