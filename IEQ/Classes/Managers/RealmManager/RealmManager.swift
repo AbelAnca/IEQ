@@ -44,6 +44,21 @@ class RLMManager {
         
         return nil
     }
+    
+    /*
+    **     Method to save question locally
+    */
+    func saveQuestion(dictData: [String: AnyObject]) -> Question? {
+        if let _ = dictData["id"] as? String {
+            
+            //=>     Save question locally
+            let question = Question.addEditQuestionWithDictionary(dictData, realm: appDelegate.realm)
+            
+            return question
+        }
+        
+        return nil
+    }
 
 //    /*
 //    **     Method to save song locally

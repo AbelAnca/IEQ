@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import KVNProgress
 
-class SignUpVC: UIViewController, UITextFieldDelegate, PopoverRoleVCDelegate {
+class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
   
     @IBOutlet var txfUsername: UITextField!
     @IBOutlet var txfFirstName: UITextField!
@@ -193,7 +193,7 @@ class SignUpVC: UIViewController, UITextFieldDelegate, PopoverRoleVCDelegate {
                     if let data = apiManager.data {
                         if let user = RLMManager.sharedInstance.saveUser(data) {
                             KVNProgress.showSuccessWithStatus("Successfully logged in as \(user.username)", completion: { () -> Void in
-                                self.pushQuestionVC()
+                                self.dismissViewController(true)
                                 
                                 //=>     Call this method to set custom headers to alamofire manager
                                 //appDelegate.setupAlamofireManager()

@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import KVNProgress
 
-class LoginVC: UIViewController, UITextFieldDelegate {
+class LoginVC: BaseVC, UITextFieldDelegate {
     
     @IBOutlet var txfPhoneUseraemeOrEmail: UITextField!
     @IBOutlet var txfPassword: UITextField!
@@ -22,10 +22,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         
-        if let _ = appDelegate.curUser {
-            pushQuestionVC()
-        }
-        
         txfPhoneUseraemeOrEmail.text = "ancaabel"
         txfPassword.text = "qwerty"
         
@@ -33,12 +29,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
 
     // MARK: - Custom Methods
-    
     func setupUI() {
         btnLogin.backgroundColor              = UIColor.clearColor()
         btnLogin.layer.cornerRadius           = 8
         btnLogin.layer.borderWidth            = 0.2
-        //btnLogin.layer.borderColor            = k_UIColor_Red.CGColor
         btnLogin.layer.borderColor            = UIColor.blackColor().CGColor
         btnLogin.clipsToBounds                = true
     }
@@ -86,11 +80,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         navigationController?.pushViewController(signUpVC, animated: true)
     }
     
-    func pushQuestionVC() {
-        let questionVC = storyboard?.instantiateViewControllerWithIdentifier("QuestionVC") as! QuestionVC
-        navigationController?.pushViewController(questionVC, animated: true)
-    }
-    
     func resignAllResponders() {
         if txfPhoneUseraemeOrEmail.isFirstResponder() {
             txfPhoneUseraemeOrEmail.resignFirstResponder()
@@ -126,7 +115,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     if let data = apiManager.data {
                         if let user = RLMManager.sharedInstance.saveUser(data) {
                             KVNProgress.showSuccessWithStatus("Successfully logged in as \(user.username)", completion: { () -> Void in
-                                self.pushQuestionVC()
+                                
+                                self.dismissViewController(true)
                                 
                                 //=>     Call this method to set custom headers to alamofire manager
                                 //appDelegate.setupAlamofireManager()

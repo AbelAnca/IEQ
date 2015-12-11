@@ -25,6 +25,10 @@
 		B5C216D61C10CE86001CFA9A /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C216D51C10CE86001CFA9A /* SignUpVC.swift */; };
 		B5C31FAF1C175783009B6411 /* QuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FAE1C175783009B6411 /* QuestionVC.swift */; };
 		B5C31FB31C179644009B6411 /* PopoverRoleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FB21C179644009B6411 /* PopoverRoleVC.swift */; };
+		B5C31FBF1C19B536009B6411 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FBE1C19B536009B6411 /* Question.swift */; };
+		B5C31FC21C1A3A7A009B6411 /* FinalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC11C1A3A7A009B6411 /* FinalVC.swift */; };
+		B5C31FC41C1A3F3E009B6411 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC31C1A3F3E009B6411 /* LandingVC.swift */; };
+		B5C31FC61C1A4BF5009B6411 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC51C1A4BF5009B6411 /* BaseVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +74,10 @@
 		B5C216D51C10CE86001CFA9A /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpVC.swift; path = Classes/MVC/Controller/Login/SignUpVC.swift; sourceTree = "<group>"; };
 		B5C31FAE1C175783009B6411 /* QuestionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionVC.swift; path = Classes/MVC/Controller/Login/QuestionVC.swift; sourceTree = "<group>"; };
 		B5C31FB21C179644009B6411 /* PopoverRoleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverRoleVC.swift; path = Classes/Utils/PopoverRoleVC.swift; sourceTree = "<group>"; };
+		B5C31FBE1C19B536009B6411 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		B5C31FC11C1A3A7A009B6411 /* FinalVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FinalVC.swift; path = Classes/MVC/Controller/Login/FinalVC.swift; sourceTree = "<group>"; };
+		B5C31FC31C1A3F3E009B6411 /* LandingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
+		B5C31FC51C1A4BF5009B6411 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseVC.swift; path = Classes/MVC/Controller/BaseVC.swift; sourceTree = "<group>"; };
 		FFAA622C56D5349F40839162 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				AF2B6F851C18B67D00CE554B /* User.swift */,
+				B5C31FBE1C19B536009B6411 /* Question.swift */,
 			);
 			name = RealmModels;
 			path = Classes/MVC/RealmModels;
@@ -189,6 +198,7 @@
 			children = (
 				B5C31FA91C1728D4009B6411 /* Libs */,
 				B5C216B41C0E2A83001CFA9A /* Classes */,
+				B5C31FC31C1A3F3E009B6411 /* LandingVC.swift */,
 				B5C216831C0E2A77001CFA9A /* AppDelegate.swift */,
 				B5C216B81C0E2B46001CFA9A /* Resources */,
 				B5C216BA1C0E2B9E001CFA9A /* Supporting Files */,
@@ -227,6 +237,7 @@
 		B5C216B51C0E2ADA001CFA9A /* MVC */ = {
 			isa = PBXGroup;
 			children = (
+				B5C31FB91C198AF0009B6411 /* View */,
 				AF2B6F841C18B65600CE554B /* RealmModels */,
 				B5C216B61C0E2B1B001CFA9A /* Controller */,
 			);
@@ -236,6 +247,7 @@
 		B5C216B61C0E2B1B001CFA9A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B5C31FC51C1A4BF5009B6411 /* BaseVC.swift */,
 				B5C216B71C0E2B2E001CFA9A /* Login */,
 			);
 			name = Controller;
@@ -247,6 +259,7 @@
 				B5C216D11C0E33B9001CFA9A /* LoginVC.swift */,
 				B5C216D51C10CE86001CFA9A /* SignUpVC.swift */,
 				B5C31FAE1C175783009B6411 /* QuestionVC.swift */,
+				B5C31FC11C1A3A7A009B6411 /* FinalVC.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -283,6 +296,13 @@
 			children = (
 			);
 			name = Libs;
+			sourceTree = "<group>";
+		};
+		B5C31FB91C198AF0009B6411 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -469,13 +489,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				B58E6D961C16DBF90003C51A /* APIManager.swift in Sources */,
+				B5C31FC41C1A3F3E009B6411 /* LandingVC.swift in Sources */,
 				B58E6D981C16DC110003C51A /* APIConstants.swift in Sources */,
 				B5C31FB31C179644009B6411 /* PopoverRoleVC.swift in Sources */,
 				B58E6D9E1C16F8030003C51A /* Utils.swift in Sources */,
 				B5C216D61C10CE86001CFA9A /* SignUpVC.swift in Sources */,
+				B5C31FBF1C19B536009B6411 /* Question.swift in Sources */,
 				AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */,
+				B5C31FC21C1A3A7A009B6411 /* FinalVC.swift in Sources */,
 				B5C216841C0E2A77001CFA9A /* AppDelegate.swift in Sources */,
 				B5C216CD1C0E2CFC001CFA9A /* IEQ.xcdatamodeld in Sources */,
+				B5C31FC61C1A4BF5009B6411 /* BaseVC.swift in Sources */,
 				B5C216D21C0E33B9001CFA9A /* LoginVC.swift in Sources */,
 				B5C31FAF1C175783009B6411 /* QuestionVC.swift in Sources */,
 				B58E6D9C1C16F7F00003C51A /* Constants.swift in Sources */,
