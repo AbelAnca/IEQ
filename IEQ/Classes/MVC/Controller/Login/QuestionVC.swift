@@ -305,19 +305,18 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     return
                 }
                 
+                KVNProgress.show()
+                
                 if let image = imgView.image {
-                    
-                    
                     if let imageData = UIImagePNGRepresentation(image) {
-                        
                         let base64String = imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-                        dictParams["fileToPost"] = ["data": base64String,"filename": "image.png"]
+                        dictParams["fileToPost"] = ["data": base64String, "filename": "image.png"]
                     }
                     
                 }
             }
 
-            print("DICT PARAMS = \(dictParams)")
+            //print("DICT PARAMS = \(dictParams)")
             
             appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_Answer)", parameters: dictParams, encoding: .JSON)
             .responseJSON(completionHandler: { (response) -> Void in
@@ -326,17 +325,18 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 let apiManager              = APIManager()
                 apiManager.handleResponse(response.response, json: response.result.value)
                 
+                if KVNProgress.isVisible() {
+                    KVNProgress.dismiss()
+                }
+                
                 if let error = apiManager.error {
                     if let message = error.strMessage {
-                        KVNProgress.dismiss()
-                        
                         let alert = Utils.okAlert("Error", message: message)
                         self.presentViewController(alert, animated: true, completion: nil)
                     }
                 }
                 else
-                    if let data = apiManager.data {
-                        print(data)
+                    if let _ = apiManager.data {
                         
                         // If is success go to the next question
                         self.prepareForNewQuestion()
@@ -352,12 +352,20 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     @IBAction func btnImage_Action(sender: AnyObject) {
+        if txfAnswer.isFirstResponder() {
+            txfAnswer.resignFirstResponder()
+        }
+        
         setupImagePicker()
     }
     
     // MARK: - SegmentControl Action Methods
     
     func segmentedControlValueChanged(segment: UISegmentedControl) {
+        if txfAnswer.isFirstResponder() {
+            txfAnswer.resignFirstResponder()
+        }
+        
         if let strOfSegment = segment.titleForSegmentAtIndex(segment.selectedSegmentIndex) {
             currentStrOfSegmControl = strOfSegment
         }

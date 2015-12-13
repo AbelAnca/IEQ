@@ -10,6 +10,7 @@
 		2773C0DE297FDBE46895D55A /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37130A1C72F0781B19DDFBDA /* Pods.framework */; };
 		AF2B6F861C18B67D00CE554B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F851C18B67D00CE554B /* User.swift */; };
 		AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F881C18B73F00CE554B /* RealmManager.swift */; };
+		AFC9C78A1C1DAC7E0044DB54 /* Pods.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37130A1C72F0781B19DDFBDA /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B58E6D961C16DBF90003C51A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6D951C16DBF90003C51A /* APIManager.swift */; };
 		B58E6D981C16DC110003C51A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6D971C16DC110003C51A /* APIConstants.swift */; };
 		B58E6D9C1C16F7F00003C51A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6D9B1C16F7F00003C51A /* Constants.swift */; };
@@ -46,6 +47,19 @@
 			remoteInfo = IEQ;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AFC9C7891C1DAC700044DB54 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AFC9C78A1C1DAC7E0044DB54 /* Pods.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2694DB698EE6A313756AF7B5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -315,6 +329,7 @@
 				B5C2167E1C0E2A77001CFA9A /* Resources */,
 				A9904E79AB7520F1105B063E /* Embed Pods Frameworks */,
 				6981A7ADFD61B663FA509197 /* Copy Pods Resources */,
+				AFC9C7891C1DAC700044DB54 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -670,7 +685,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.okwi.ieq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a52bc122-cd4c-4679-8a8d-f82f50b20d2b";
 			};
 			name = Release;
 		};
