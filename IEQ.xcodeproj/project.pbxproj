@@ -20,7 +20,6 @@
 		B5C216C61C0E2CD4001CFA9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C216C21C0E2CD4001CFA9A /* LaunchScreen.storyboard */; };
 		B5C216C71C0E2CD4001CFA9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5C216C41C0E2CD4001CFA9A /* Main.storyboard */; };
 		B5C216C91C0E2CE2001CFA9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5C216C81C0E2CE2001CFA9A /* Assets.xcassets */; };
-		B5C216CD1C0E2CFC001CFA9A /* IEQ.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5C216CA1C0E2CFC001CFA9A /* IEQ.xcdatamodeld */; };
 		B5C216D21C0E33B9001CFA9A /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C216D11C0E33B9001CFA9A /* LoginVC.swift */; };
 		B5C216D61C10CE86001CFA9A /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C216D51C10CE86001CFA9A /* SignUpVC.swift */; };
 		B5C31FAF1C175783009B6411 /* QuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FAE1C175783009B6411 /* QuestionVC.swift */; };
@@ -68,7 +67,6 @@
 		B5C216C31C0E2CD4001CFA9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Resources/Storyboards/Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B5C216C51C0E2CD4001CFA9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Resources/Storyboards/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B5C216C81C0E2CE2001CFA9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
-		B5C216CB1C0E2CFC001CFA9A /* IEQ.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IEQ.xcdatamodel; sourceTree = "<group>"; };
 		B5C216CC1C0E2CFC001CFA9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		B5C216D11C0E33B9001CFA9A /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginVC.swift; path = Classes/MVC/Controller/Login/LoginVC.swift; sourceTree = "<group>"; };
 		B5C216D51C10CE86001CFA9A /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpVC.swift; path = Classes/MVC/Controller/Login/SignUpVC.swift; sourceTree = "<group>"; };
@@ -285,7 +283,6 @@
 		B5C216BA1C0E2B9E001CFA9A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B5C216CA1C0E2CFC001CFA9A /* IEQ.xcdatamodeld */,
 				B5C216CC1C0E2CFC001CFA9A /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -377,6 +374,7 @@
 				TargetAttributes = {
 					B5C2167F1C0E2A77001CFA9A = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = D7DFZE4ZDE;
 					};
 					B5C216961C0E2A78001CFA9A = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -498,7 +496,6 @@
 				AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */,
 				B5C31FC21C1A3A7A009B6411 /* FinalVC.swift in Sources */,
 				B5C216841C0E2A77001CFA9A /* AppDelegate.swift in Sources */,
-				B5C216CD1C0E2CFC001CFA9A /* IEQ.xcdatamodeld in Sources */,
 				B5C31FC61C1A4BF5009B6411 /* BaseVC.swift in Sources */,
 				B5C216D21C0E33B9001CFA9A /* LoginVC.swift in Sources */,
 				B5C31FAF1C175783009B6411 /* QuestionVC.swift in Sources */,
@@ -575,7 +572,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ken McBean (G2G3GT79MP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ken McBean (G2G3GT79MP)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -620,7 +618,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ken McBean (D7DFZE4ZDE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ken McBean (D7DFZE4ZDE)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -646,11 +645,15 @@
 			baseConfigurationReference = 2694DB698EE6A313756AF7B5 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/IEQ/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = IEQ.IEQ;
+				PRODUCT_BUNDLE_IDENTIFIER = com.okwi.ieq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -659,11 +662,15 @@
 			baseConfigurationReference = FFAA622C56D5349F40839162 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/IEQ/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = IEQ.IEQ;
+				PRODUCT_BUNDLE_IDENTIFIER = com.okwi.ieq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -755,20 +762,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		B5C216CA1C0E2CFC001CFA9A /* IEQ.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				B5C216CB1C0E2CFC001CFA9A /* IEQ.xcdatamodel */,
-			);
-			currentVersion = B5C216CB1C0E2CFC001CFA9A /* IEQ.xcdatamodel */;
-			name = IEQ.xcdatamodeld;
-			path = "Supporting Files/IEQ.xcdatamodeld";
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = B5C216781C0E2A77001CFA9A /* Project object */;
 }
