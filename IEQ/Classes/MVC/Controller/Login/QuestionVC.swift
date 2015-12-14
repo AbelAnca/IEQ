@@ -94,6 +94,11 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     func loadCurrentQuestion() {
         if let indexOfId = appDelegate.defaults.objectForKey(k_UserDef_Index) as? Int {
             index                = indexOfId
+            
+            if let noQuestion = appDelegate.defaults.objectForKey(k_UserDef_NoOfAnswer) as? Int {
+                noOfAnswer = noQuestion
+            }
+        
             drawnQuestion()
         }
     }
@@ -218,7 +223,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             else
                 if index == questions.count {
                     if let noAnswer = appDelegate.defaults.objectForKey(k_UserDef_NoOfAnswer) as? Int {
-                        if noAnswer == questions.count {
+                        if noAnswer >= questions.count {
                             let finalVC = storyboard?.instantiateViewControllerWithIdentifier("FinalVC") as! FinalVC
                             navigationController?.pushViewController(finalVC, animated: true)
                         }
