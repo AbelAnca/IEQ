@@ -30,19 +30,21 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     
     @IBOutlet var btnNextQuestion: UIButton!
     @IBOutlet var btnImage: UIButton!
+    @IBOutlet var btnBack: UIButton!
+    @IBOutlet var btnForward: UIButton!
     
     @IBOutlet var topSpaceViewText: NSLayoutConstraint!
     @IBOutlet var topSpaceViewSegment: NSLayoutConstraint!
     
-    
     var index                           = 0
+    var noOfAnswer                      = 0
     var arrQuestion: Results<(Question)>?
     
     var currentStrOfSegmControl         = ""
     
-    var isChoice                      = false
-    var isPicture                     = false
-    var isText                        = false
+    var isChoice                        = false
+    var isPicture                       = false
+    var isText                          = false
 
     let imagePicker = UIImagePickerController()
     
@@ -74,15 +76,40 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         index++
     }
     
+    func forwardAction() {
+        prepareForNewQuestion()
+        drawnQuestion()
+    }
+    
+    func backAction() {
+        prepareForNewQuestion()
+        
+        // Set index
+        index--
+        index--
+        
+        drawnQuestion()
+    }
+    
     func loadCurrentQuestion() {
         if let indexOfId = appDelegate.defaults.objectForKey(k_UserDef_Index) as? Int {
             index                = indexOfId
+            
+            if let noQuestion = appDelegate.defaults.objectForKey(k_UserDef_NoOfAnswer) as? Int {
+                noOfAnswer = noQuestion
+            }
+        
             drawnQuestion()
         }
     }
     
     func saveIndexInUserDef() {
         appDelegate.defaults.setObject(index, forKey: k_UserDef_Index)
+        appDelegate.defaults.synchronize()
+    }
+    
+    func saveNoOfAnswerInUserDef() {
+        appDelegate.defaults.setObject(noOfAnswer, forKey: k_UserDef_NoOfAnswer)
         appDelegate.defaults.synchronize()
     }
 
@@ -100,13 +127,28 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     func setLblNoOfQuestion() {
         if let questions = arrQuestion {
             lblNoOfQuestion.text = "\(index + 1) of \(questions.count)"
+            
+            // Set Back and Forward button
+            if index == 0 {
+                btnBack.hidden = true
+            }
+            else {
+                btnBack.hidden = false
+            }
+            
+            if index == questions.count - 1 {
+                btnForward.hidden = true
+            }
+            else {
+                btnForward.hidden = false
+            }
         }
     }
     
     func hideViewsAnswer() {
-        viewSegment.hidden = true
-        viewText.hidden = true
-        viewImage.hidden = true
+        viewSegment.hidden    = true
+        viewText.hidden       = true
+        viewImage.hidden      = true
     }
     
     func presentAttentionAlert() {
@@ -119,6 +161,9 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         // Save index of arr in NSUserDef
         saveIndexInUserDef()
         
+        // Save number of answer in NSUserDef
+        saveNoOfAnswerInUserDef()
+
         // Set number of question
         setLblNoOfQuestion()
         
@@ -177,8 +222,20 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             }
             else
                 if index == questions.count {
-                    let finalVC = storyboard?.instantiateViewControllerWithIdentifier("FinalVC") as! FinalVC
-                    navigationController?.pushViewController(finalVC, animated: true)
+                    if let noAnswer = appDelegate.defaults.objectForKey(k_UserDef_NoOfAnswer) as? Int {
+                        if noAnswer >= questions.count {
+                            let finalVC = storyboard?.instantiateViewControllerWithIdentifier("FinalVC") as! FinalVC
+                            navigationController?.pushViewController(finalVC, animated: true)
+                        }
+                        else {
+                            let alert = Utils.okAlert("Attention", message: "You must complete all questions!")
+                            presentViewController(alert, animated: true, completion: nil)
+                            
+                            // Set last question
+                            index--
+                            drawnQuestion()
+                        }
+                    }
             }
         }
     }
@@ -337,10 +394,13 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
                 else
                     if let _ = apiManager.data {
+                        self.noOfAnswer++
                         
                         // If is success go to the next question
                         self.prepareForNewQuestion()
                         self.drawnQuestion()
+                        
+                        
                 }
             })
         }
@@ -358,6 +418,15 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         
         setupImagePicker()
     }
+    
+    @IBAction func btnBack_Action(sender: AnyObject) {
+        backAction()
+    }
+    
+    @IBAction func btnForward_Action(sender: AnyObject) {
+        forwardAction()
+    }
+    
     
     // MARK: - SegmentControl Action Methods
     
