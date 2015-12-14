@@ -31,6 +31,7 @@ class FinalVC: UIViewController {
         // Remove from NSUserDefaults
         appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
         appDelegate.defaults.removeObjectForKey(k_UserDef_Index)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_NoOfAnswer)
         appDelegate.defaults.synchronize()
 
         // Clean realm
