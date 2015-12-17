@@ -200,7 +200,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     segmentControl.addTarget(self, action: "segmentedControlValueChanged:", forControlEvents:.ValueChanged)
                 }
                 else {
-                    topSpaceViewSegment.constant   = -50
+                    topSpaceViewSegment.constant   = -30
                 }
                 
                 
@@ -217,7 +217,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     isText                        = true
                 }
                 else {
-                    topSpaceViewText.constant     = -50
+                    topSpaceViewText.constant     = -30
                 }
             }
             else
@@ -272,6 +272,11 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         alert.popoverPresentationController?.sourceRect = CGRectMake(0, 0, self.btnImage.frame.size.width, self.btnImage.frame.size.height)
         
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func goToNextQuestionWithoutAPICall() {
+        self.prepareForNewQuestion()
+        self.drawnQuestion()
     }
     
     // MARK: - API Methods
@@ -344,23 +349,26 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             }
             
             if isText == true {
+                /*
                 if txfAnswer.text == "" {
                     presentAttentionAlert()
                     
                     return
                 }
-                
+                */
                 if let text = txfAnswer.text {
                     dictParams["text"] = text
                 }
             }
             
             if isPicture == true {
+                /*
                 if imgView.image == nil {
                     presentAttentionAlert()
                     
                     return
                 }
+                */
                 
                 KVNProgress.show()
                 
@@ -370,6 +378,49 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                         dictParams["fileToPost"] = ["data": base64String, "filename": "image.png"]
                     }
                     
+                }
+            }
+            
+            // if do not exist check box(mandatory)
+            if isChoice == false {
+                
+                // if exist textField without imageView
+                if isText == true && isPicture == false {
+                    // if textField is empty
+                    if txfAnswer.text == "" {
+                        goToNextQuestionWithoutAPICall()
+                        
+                        return
+                    }
+                }
+                
+                // if exist imageView without textField
+                if isText == false && isPicture == true {
+                    // if do not exist image in imageView
+                    if let _ = imgView.image {
+                        
+                    }
+                    else {
+                        goToNextQuestionWithoutAPICall()
+                        
+                        return
+                    }
+                }
+                
+                // if exist textField and imageView
+                if isText == true && isPicture == true {
+                    // if textField is empty
+                    if txfAnswer.text == "" {
+                        // if do not exist image in imageView
+                        if let _ = imgView.image {
+                            
+                        }
+                        else {
+                            goToNextQuestionWithoutAPICall()
+                            
+                            return
+                        }
+                    }
                 }
             }
 
