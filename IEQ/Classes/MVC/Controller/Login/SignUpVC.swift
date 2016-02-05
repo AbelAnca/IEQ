@@ -37,14 +37,6 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
         // Do any additional setup after loading the view.
         getRoles_APICall()
         
-//        txfUsername.text = "ancaabel"
-//        txfFirstName.text = "Anca"
-//        txfLastName.text = "Abel"
-//        txfEmailAddress.text = "abel.anca95@gmail.com"
-//        txfPhoneNumber.text = "0754823095"
-//        txfPassword.text = "qwerty"
-//        txfConfirmPass.text = "qwerty"
-        
         setupUI()
     }
 

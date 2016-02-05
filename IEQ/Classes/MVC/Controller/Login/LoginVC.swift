@@ -21,10 +21,7 @@ class LoginVC: BaseVC, UITextFieldDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        txfPhoneUseraemeOrEmail.text = "ancaabel"
-        txfPassword.text = "qwerty"
-        
+                
         setupUI()
     }
 
