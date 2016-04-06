@@ -11,6 +11,9 @@
 		AF2B6F861C18B67D00CE554B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F851C18B67D00CE554B /* User.swift */; };
 		AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F881C18B73F00CE554B /* RealmManager.swift */; };
 		AFC9C78A1C1DAC7E0044DB54 /* Pods.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37130A1C72F0781B19DDFBDA /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B54E256C1CB55D4600989528 /* FinalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E256A1CB55D4600989528 /* FinalVC.swift */; };
+		B54E256D1CB55D4600989528 /* QuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E256B1CB55D4600989528 /* QuestionVC.swift */; };
+		B54E256F1CB55D7300989528 /* EnableGPSVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E256E1CB55D7300989528 /* EnableGPSVC.swift */; };
 		B58E6D961C16DBF90003C51A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6D951C16DBF90003C51A /* APIManager.swift */; };
 		B58E6D981C16DC110003C51A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6D971C16DC110003C51A /* APIConstants.swift */; };
 		B58E6D9C1C16F7F00003C51A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6D9B1C16F7F00003C51A /* Constants.swift */; };
@@ -23,10 +26,8 @@
 		B5C216C91C0E2CE2001CFA9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5C216C81C0E2CE2001CFA9A /* Assets.xcassets */; };
 		B5C216D21C0E33B9001CFA9A /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C216D11C0E33B9001CFA9A /* LoginVC.swift */; };
 		B5C216D61C10CE86001CFA9A /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C216D51C10CE86001CFA9A /* SignUpVC.swift */; };
-		B5C31FAF1C175783009B6411 /* QuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FAE1C175783009B6411 /* QuestionVC.swift */; };
 		B5C31FB31C179644009B6411 /* PopoverRoleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FB21C179644009B6411 /* PopoverRoleVC.swift */; };
 		B5C31FBF1C19B536009B6411 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FBE1C19B536009B6411 /* Question.swift */; };
-		B5C31FC21C1A3A7A009B6411 /* FinalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC11C1A3A7A009B6411 /* FinalVC.swift */; };
 		B5C31FC41C1A3F3E009B6411 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC31C1A3F3E009B6411 /* LandingVC.swift */; };
 		B5C31FC61C1A4BF5009B6411 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC51C1A4BF5009B6411 /* BaseVC.swift */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,10 @@
 		37130A1C72F0781B19DDFBDA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF2B6F851C18B67D00CE554B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AF2B6F881C18B73F00CE554B /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		B54E256A1CB55D4600989528 /* FinalVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FinalVC.swift; path = Classes/MVC/Controller/Main/FinalVC.swift; sourceTree = "<group>"; };
+		B54E256B1CB55D4600989528 /* QuestionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionVC.swift; path = Classes/MVC/Controller/Main/QuestionVC.swift; sourceTree = "<group>"; };
+		B54E256E1CB55D7300989528 /* EnableGPSVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnableGPSVC.swift; path = Classes/MVC/Controller/Main/EnableGPSVC.swift; sourceTree = "<group>"; };
+		B54E25701CB5875E00989528 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B58E6D951C16DBF90003C51A /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIManager.swift; path = Classes/Managers/APIManager/APIManager.swift; sourceTree = "<group>"; };
 		B58E6D971C16DC110003C51A /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = APIConstants.swift; path = Classes/Managers/APIManager/APIConstants.swift; sourceTree = "<group>"; };
 		B58E6D9B1C16F7F00003C51A /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Classes/Utils/Constants.swift; sourceTree = "<group>"; };
@@ -84,10 +89,8 @@
 		B5C216CC1C0E2CFC001CFA9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		B5C216D11C0E33B9001CFA9A /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginVC.swift; path = Classes/MVC/Controller/Login/LoginVC.swift; sourceTree = "<group>"; };
 		B5C216D51C10CE86001CFA9A /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpVC.swift; path = Classes/MVC/Controller/Login/SignUpVC.swift; sourceTree = "<group>"; };
-		B5C31FAE1C175783009B6411 /* QuestionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuestionVC.swift; path = Classes/MVC/Controller/Login/QuestionVC.swift; sourceTree = "<group>"; };
 		B5C31FB21C179644009B6411 /* PopoverRoleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PopoverRoleVC.swift; path = Classes/Utils/PopoverRoleVC.swift; sourceTree = "<group>"; };
 		B5C31FBE1C19B536009B6411 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
-		B5C31FC11C1A3A7A009B6411 /* FinalVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FinalVC.swift; path = Classes/MVC/Controller/Login/FinalVC.swift; sourceTree = "<group>"; };
 		B5C31FC31C1A3F3E009B6411 /* LandingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingVC.swift; sourceTree = "<group>"; };
 		B5C31FC51C1A4BF5009B6411 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseVC.swift; path = Classes/MVC/Controller/BaseVC.swift; sourceTree = "<group>"; };
 		FFAA622C56D5349F40839162 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +125,7 @@
 		102F02BBEEF2689FA438FEA6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B54E25701CB5875E00989528 /* CoreLocation.framework */,
 				37130A1C72F0781B19DDFBDA /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -153,6 +157,16 @@
 			);
 			name = RealmManager;
 			path = Classes/Managers/RealmManager;
+			sourceTree = "<group>";
+		};
+		B54E25691CB55D0C00989528 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B54E256A1CB55D4600989528 /* FinalVC.swift */,
+				B54E256B1CB55D4600989528 /* QuestionVC.swift */,
+				B54E256E1CB55D7300989528 /* EnableGPSVC.swift */,
+			);
+			name = Main;
 			sourceTree = "<group>";
 		};
 		B58E6D8F1C16DB730003C51A /* Managers */ = {
@@ -260,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				B5C31FC51C1A4BF5009B6411 /* BaseVC.swift */,
+				B54E25691CB55D0C00989528 /* Main */,
 				B5C216B71C0E2B2E001CFA9A /* Login */,
 			);
 			name = Controller;
@@ -270,8 +285,6 @@
 			children = (
 				B5C216D11C0E33B9001CFA9A /* LoginVC.swift */,
 				B5C216D51C10CE86001CFA9A /* SignUpVC.swift */,
-				B5C31FAE1C175783009B6411 /* QuestionVC.swift */,
-				B5C31FC11C1A3A7A009B6411 /* FinalVC.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -507,14 +520,15 @@
 				B5C31FB31C179644009B6411 /* PopoverRoleVC.swift in Sources */,
 				B58E6D9E1C16F8030003C51A /* Utils.swift in Sources */,
 				B5C216D61C10CE86001CFA9A /* SignUpVC.swift in Sources */,
+				B54E256F1CB55D7300989528 /* EnableGPSVC.swift in Sources */,
 				B5C31FBF1C19B536009B6411 /* Question.swift in Sources */,
+				B54E256C1CB55D4600989528 /* FinalVC.swift in Sources */,
 				AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */,
-				B5C31FC21C1A3A7A009B6411 /* FinalVC.swift in Sources */,
 				B5C216841C0E2A77001CFA9A /* AppDelegate.swift in Sources */,
 				B5C31FC61C1A4BF5009B6411 /* BaseVC.swift in Sources */,
 				B5C216D21C0E33B9001CFA9A /* LoginVC.swift in Sources */,
-				B5C31FAF1C175783009B6411 /* QuestionVC.swift in Sources */,
 				B58E6D9C1C16F7F00003C51A /* Constants.swift in Sources */,
+				B54E256D1CB55D4600989528 /* QuestionVC.swift in Sources */,
 				AF2B6F861C18B67D00CE554B /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

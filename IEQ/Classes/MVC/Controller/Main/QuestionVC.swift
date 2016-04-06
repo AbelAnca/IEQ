@@ -41,6 +41,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     var arrQuestion: Results<(Question)>?
     
     var currentStrOfSegmControl         = ""
+    var schoolID                        = ""
     
     var isChoice                        = false
     var isPicture                       = false
@@ -51,12 +52,17 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     // MARK: - ViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if let _ = appDelegate.defaults.objectForKey(k_UserDef_Index) as? Int {
             self.arrQuestion     = appDelegate.realm.objects(Question).sorted("sorted", ascending: true)
             loadCurrentQuestion()
         }
         else {
             loadQuestion_APICall()
+        }
+        
+        if let schoolId = appDelegate.defaults.objectForKey(k_UserDef_SchoolID) as? String {
+            schoolID = schoolId
         }
         
         setupUI()
@@ -73,7 +79,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         currentStrOfSegmControl      = ""
         txfAnswer.text               = ""
         imgView.image                = nil
-        index++
+        index += 1
     }
     
     func forwardAction() {
@@ -85,8 +91,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         prepareForNewQuestion()
         
         // Set index
-        index--
-        index--
+        index -= 1
+        index -= 1
         
         drawnQuestion()
     }
@@ -173,7 +179,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 
                 // Set title and question
                 lblQuestion.text                  = question.body
-                lblTitle.text                     = question.title
+                //lblTitle.text                     = question.title
                 
                 // Prepare UI for question
                 hideViewsAnswer()
@@ -197,7 +203,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     }
                     
                     segmentControl.replaceSegments(arrChoices)
-                    segmentControl.addTarget(self, action: "segmentedControlValueChanged:", forControlEvents:.ValueChanged)
+                    segmentControl.addTarget(self, action: #selector(QuestionVC.segmentedControlValueChanged(_:)), forControlEvents:.ValueChanged)
                 }
                 else {
                     topSpaceViewSegment.constant   = -30
@@ -232,7 +238,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                             presentViewController(alert, animated: true, completion: nil)
                             
                             // Set last question
-                            index--
+                            index -= 1
                             drawnQuestion()
                         }
                     }
@@ -335,6 +341,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 if index < questions.count {
                     let question = questions[index]
                     dictParams["questionId"] = question.id
+                    
+                    dictParams["schoolId"] = schoolID
+                    dictParams["answeredFor"] = ["categoryId": question.categoryId, "question": question.id]
+                    dictParams["answeredBy"] = ["id": user.id, "username": user.username]
                 }
             }
             
@@ -445,7 +455,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
                 else
                     if let _ = apiManager.data {
-                        self.noOfAnswer++
+                        self.noOfAnswer += 1
                         
                         // If is success go to the next question
                         self.prepareForNewQuestion()

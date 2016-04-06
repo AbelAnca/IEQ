@@ -12,6 +12,7 @@ import RealmSwift
 public class Question: Object {
     public dynamic var id = ""
     public dynamic var title = ""
+    public dynamic var categoryId = ""
     public dynamic var body = ""
     public dynamic var sorted = 0
     public dynamic var acceptChoices = false
@@ -31,8 +32,8 @@ public class Choice: Object {
 
 extension Question {
     class func createNewQuestionWithID(strID: String) -> Question {
-        let question                 = Question()
-        question.id                  = strID
+        let question                        = Question()
+        question.id                         = strID
         
         return question
     }
@@ -40,7 +41,7 @@ extension Question {
     
     class func getQuestionWithID(strID: String, realm: Realm!) -> Question? {
         let predicate               = NSPredicate(format: "id = %@", strID)
-        let arrQuestions                = realm.objects(Question).filter(predicate)
+        let arrQuestions                    = realm.objects(Question).filter(predicate)
         
         if arrQuestions.count > 0 {
             if let question = arrQuestions.first {
@@ -57,7 +58,7 @@ extension Question {
         }
         else {
             //     No question found, create new one
-            let question                 = createNewQuestionWithID(strID)
+            let question                    = createNewQuestionWithID(strID)
             
             return question
         }
@@ -67,24 +68,24 @@ extension Question {
         var question         = Question()
         
         if let obj = dictInfo["id"] as? String {
-            question                         = self.getNewOrExistingQuestion(obj, realm: realm)
+            question                            = self.getNewOrExistingQuestion(obj, realm: realm)
             
             
             try! realm.write({ () -> Void in                
                 if let acceptChoices = dictInfo["acceptChoices"] as? Bool {
-                    question.acceptChoices   = acceptChoices
+                    question.acceptChoices      = acceptChoices
                 }
                 
                 if let acceptFile = dictInfo["acceptFile"] as? Bool {
-                    question.acceptFile      = acceptFile
+                    question.acceptFile         = acceptFile
                 }
                 
                 if let acceptText = dictInfo["acceptText"] as? Bool {
-                    question.acceptText   = acceptText
+                    question.acceptText         = acceptText
                 }
                 
                 if let body = dictInfo["body"] as? String {
-                    question.body      = body
+                    question.body               = body
                 }
                 
                 if let choices = dictInfo["choices"] as? [String] {
@@ -98,13 +99,19 @@ extension Question {
                 }
                 
                 if let title = dictInfo["title"] as? String {
-                    question.title      = title
+                    question.title              = title
                     
                     // Set Sort Key
-                    let myRange = Range<String.Index>(start: title.startIndex.advancedBy(1), end: title.startIndex.advancedBy(title.utf16.count))
+                    let myRange = Range(title.startIndex.advancedBy(1) ..< title.startIndex.advancedBy(title.utf16.count))
+                    
+                    //let myRange = Range<String.Index>(start: title.startIndex.advancedBy(1), end: title.startIndex.advancedBy(title.utf16.count))
                     if let sort = Int(title.substringWithRange(myRange)) {
-                        question.sorted = sort
+                        question.sorted         = sort
                     }
+                }
+                
+                if let categoryId = dictInfo["categoryId"] as? String {
+                    question.categoryId         = categoryId
                 }
                 
                 realm.add(question, update: true)

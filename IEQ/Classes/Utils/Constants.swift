@@ -20,5 +20,6 @@ let k_UserDef_LoggedInUserID                    = "Logged in user id"
 
 let k_UserDef_Index                             = "Index of ID"
 let k_UserDef_NoOfAnswer                        = "Number of Answer"
+let k_UserDef_SchoolID                          = "School ID"
 
 let k_ResizeTo30PercentResolution: CGFloat      = 400

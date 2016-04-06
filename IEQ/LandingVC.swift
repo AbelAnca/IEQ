@@ -23,8 +23,12 @@ class LandingVC: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if let _ = appDelegate.curUser {
-            pushToQuestionVC()
-            
+            if let _ = appDelegate.defaults.objectForKey(k_UserDef_Index) as? Int {
+                pushToQuestionVC()
+            }
+            else {
+                pushToEnableGPS()
+            }
         }
         else {
             presentLoginVC()
@@ -41,7 +45,11 @@ class LandingVC: UIViewController {
     func pushToQuestionVC() {
         let questionVC = self.storyboard?.instantiateViewControllerWithIdentifier("QuestionVC") as! QuestionVC
         self.navigationController?.pushViewController(questionVC, animated: true)
-
+    }
+    
+    func pushToEnableGPS() {
+        let enableGPSVC = self.storyboard?.instantiateViewControllerWithIdentifier("EnableGPSVC") as! EnableGPSVC
+        self.navigationController?.pushViewController(enableGPSVC, animated: true)
     }
 
     override func didReceiveMemoryWarning() {
