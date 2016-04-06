@@ -63,8 +63,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                                                 preferredStyle: .Alert)
         
         let settingsAction      = UIAlertAction(title: "Settings", style: .Default) { (alertAction) in
-            
-            if let url = NSURL(string:"prefs:root=General") {
+            if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
                 UIApplication.sharedApplication().openURL(url)
             }
         }
