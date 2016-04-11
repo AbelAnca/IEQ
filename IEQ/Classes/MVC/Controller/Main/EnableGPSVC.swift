@@ -14,9 +14,9 @@ import CoreLocation
 
 class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
     
-    @IBOutlet weak var lblName: UILabel!
-    @IBOutlet weak var lblLatitude: UILabel!
-    @IBOutlet weak var lblLongtude: UILabel!
+    @IBOutlet weak var lblName: UITextField!
+    @IBOutlet weak var lblLatitude: UITextField!
+    @IBOutlet weak var lblLongtude: UITextField!
     @IBOutlet weak var txvDescription: UITextView!
     @IBOutlet weak var btnEnableGPS: UIButton!
     
@@ -39,6 +39,12 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
         btnEnableGPS.layer.borderWidth           = 0.2
         btnEnableGPS.layer.borderColor           = UIColor.blackColor().CGColor
         btnEnableGPS.clipsToBounds               = true
+        
+        txvDescription.backgroundColor             = UIColor.clearColor()
+        txvDescription.layer.cornerRadius          = 8
+        txvDescription.layer.borderWidth           = 0.2
+        txvDescription.layer.borderColor           = UIColor.blackColor().CGColor
+        txvDescription.clipsToBounds               = true
         
         if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
             findMyLocation()
@@ -81,7 +87,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
             btnEnableGPS.setTitle("ENABLE GPS", forState: .Normal)
             
         case .AuthorizedWhenInUse:
-            btnEnableGPS.setTitle("FIND SCHOOL", forState: .Normal)
+            btnEnableGPS.setTitle("FIND ORGANIZATION", forState: .Normal)
             
         case .Denied:
             btnEnableGPS.setTitle("ACCESS DENIED", forState: .Normal)
