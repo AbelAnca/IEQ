@@ -87,7 +87,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
             btnEnableGPS.setTitle("ENABLE GPS", forState: .Normal)
             
         case .AuthorizedWhenInUse:
-            btnEnableGPS.setTitle("FIND ORGANIZATION", forState: .Normal)
+            btnEnableGPS.setTitle("FIND ORGANISATION", forState: .Normal)
             
         case .Denied:
             btnEnableGPS.setTitle("ACCESS DENIED", forState: .Normal)
@@ -140,7 +140,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                             let okAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
                             
                             let skipAction = UIAlertAction(title: "Skip", style: .Default, handler: { (action) in
-                                let skipAlert = UIAlertController(title: "Attention!", message: "To find organization please enter longitude and latitude.", preferredStyle: .Alert)
+                                let skipAlert = UIAlertController(title: "Attention!", message: "To find organisation please enter longitude and latitude:", preferredStyle: .Alert)
                                 
                                 skipAlert.addTextFieldWithConfigurationHandler({ (textField) in
                                     textField.placeholder = "Longitude"
