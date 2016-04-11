@@ -737,10 +737,10 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <state key="normal" title="LOGOUT">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleColor" red="0.086274509799999996" green="0.67843137249999996" blue="0.92941176469999998" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="btnLogot_Action:" destination="KlM-W6-eYM" eventType="touchUpInside" id="lDc-tl-mjR"/>
+                                    <action selector="btnLogout_Action:" destination="Ww5-s9-Gvt" eventType="touchUpInside" id="tOV-1W-hAf"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -99,7 +99,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - API Methods
     
-    func getSchoolByLocation() {
+    func getSchoolByLocation(longitude: String?, latitude: String?) {
         if let _ = appDelegate.curUser {
             
             // Create disctParams with question
@@ -113,8 +113,15 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
             //longitude                       = 21.300543183135066
             //latitude                        = 46.18252519561494
             
-            dictParams["longitude"]         = longitude
-            dictParams["latitude"]          = latitude
+            if let longitude = longitude,
+                let latitude = latitude {
+                dictParams["longitude"]         = longitude
+                dictParams["latitude"]          = latitude
+            }
+            else {
+                dictParams["longitude"]         = self.longitude
+                dictParams["latitude"]          = self.latitude
+            }
             
             KVNProgress.showWithStatus("Please wait...")
             
@@ -128,7 +135,45 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                         if let message = error.strMessage {
                             KVNProgress.dismiss()
                             
-                            let alert = Utils.okAlert("Error", message: message)
+                            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .Alert)
+                            
+                            let okAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                            
+                            let skipAction = UIAlertAction(title: "Skip", style: .Default, handler: { (action) in
+                                let skipAlert = UIAlertController(title: "Attention!", message: "To find organization please enter longitude and latitude.", preferredStyle: .Alert)
+                                
+                                skipAlert.addTextFieldWithConfigurationHandler({ (textField) in
+                                    textField.placeholder = "Longitude"
+                                })
+                                
+                                skipAlert.addTextFieldWithConfigurationHandler({ (textField) in
+                                    textField.placeholder = "Latitude"
+                                })
+                                
+                                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+                                
+                                let findAction = UIAlertAction(title: "Find", style: .Default, handler: { (action) in
+                                    if let textFields = skipAlert.textFields {
+                                        if let textFieldLongitude = textFields.first,
+                                            let textFieldLatitude = textFields.last {
+                                            
+                                            if let longitude = textFieldLongitude.text,
+                                                let latitude = textFieldLatitude.text {
+                                                self.getSchoolByLocation(longitude, latitude: latitude)
+                                            }
+                                        }
+                                    }
+                                })
+                                
+                                skipAlert.addAction(cancelAction)
+                                skipAlert.addAction(findAction)
+                                
+                                self.presentViewController(skipAlert, animated: true, completion: nil)
+                            })
+                            
+                            alert.addAction(okAction)
+                            alert.addAction(skipAction)
+                            
                             self.presentViewController(alert, animated: true, completion: nil)
                         }
                     }
@@ -184,7 +229,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                 findMyLocation()
                 
             case .AuthorizedWhenInUse:
-                getSchoolByLocation()
+                getSchoolByLocation(nil, latitude: nil)
                 
             case .Denied:
                 showLocationAcessDeniedAlert()
@@ -195,6 +240,22 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
             
             setupTitleBtnEnableGPS()
         }
+    }
+    
+    @IBAction func btnLogout_Action(sender: AnyObject) {
+        appDelegate.curUser = nil
+        
+        // Remove from NSUserDefaults
+        appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_SchoolID)
+        appDelegate.defaults.synchronize()
+        
+        // Present LoginVC
+        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+            
+        })
     }
     
     // MARK: - CLLocationManagerDelegate Methods
