@@ -41,7 +41,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     var arrQuestion: Results<(Question)>?
     
     var currentStrOfSegmControl         = ""
-    var schoolID                        = ""
+    var strOrganizationID                        = ""
     
     var isChoice                        = false
     var isPicture                       = false
@@ -61,8 +61,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             loadQuestion_APICall()
         }
         
-        if let schoolId = appDelegate.defaults.objectForKey(k_UserDef_SchoolID) as? String {
-            schoolID = schoolId
+        if let tempOrganizationID = appDelegate.defaults.objectForKey(k_UserDef_OrganizationID) as? String {
+            strOrganizationID = tempOrganizationID
         }
         
         setupUI()
@@ -342,7 +342,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     let question = questions[index]
                     dictParams["questionId"] = question.id
                     
-                    dictParams["schoolId"] = schoolID
+                    dictParams["organizationId"] = strOrganizationID
                     dictParams["answeredFor"] = ["categoryId": question.categoryId, "question": question.id]
                     dictParams["answeredBy"] = ["id": user.id, "username": user.username]
                 }

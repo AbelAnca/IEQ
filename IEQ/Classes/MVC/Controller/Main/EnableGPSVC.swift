@@ -99,7 +99,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - API Methods
     
-    func getSchoolByLocation(longitude: String?, latitude: String?) {
+    func getOrganizationByLocation(longitude: String?, latitude: String?) {
         if let _ = appDelegate.curUser {
             
             // Create disctParams with question
@@ -110,8 +110,8 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
             //dictParams["userId"] = user.id
             
             // FOR TEST !!!
-            //longitude                       = 21.300543183135066
-            //latitude                        = 46.18252519561494
+            //self.longitude                       = 21.300543183135066
+            //self.latitude                        = 46.18252519561494
             
             if let longitude = longitude,
                 let latitude = latitude {
@@ -125,7 +125,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
             
             KVNProgress.showWithStatus("Please wait...")
             
-            appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_School)", parameters: dictParams, encoding: .JSON)
+            appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_Organization)", parameters: dictParams, encoding: .JSON)
                 .responseJSON { (response) -> Void in
                     
                     let apiManager              = APIManager()
@@ -159,7 +159,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                                             
                                             if let longitude = textFieldLongitude.text,
                                                 let latitude = textFieldLatitude.text {
-                                                self.getSchoolByLocation(longitude, latitude: latitude)
+                                                self.getOrganizationByLocation(longitude, latitude: latitude)
                                             }
                                         }
                                     }
@@ -180,8 +180,8 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                     else
                         if let data = apiManager.data {
                             
-                            if let schoolId = data["Id"] as? String {
-                                appDelegate.defaults.setObject(schoolId, forKey: k_UserDef_SchoolID)
+                            if let strOrganizationId = data["Id"] as? String {
+                                appDelegate.defaults.setObject(strOrganizationId, forKey: k_UserDef_OrganizationID)
                                 appDelegate.defaults.synchronize()
                                 
                                 self.btnEnableGPS.setTitle("START QUESTIONS", forState: .Normal)
@@ -209,9 +209,8 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                         }
                         else {
                             KVNProgress.dismiss()
-                    }
-                    
-                    KVNProgress.dismiss()
+                            KVNProgress.showErrorWithStatus("Something wrong happened. Please contact developers quicly! \n\n\n \(response.response)")
+                        }
             }
         }
     }
@@ -229,7 +228,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                 findMyLocation()
                 
             case .AuthorizedWhenInUse:
-                getSchoolByLocation(nil, latitude: nil)
+                getOrganizationByLocation(nil, latitude: nil)
                 
             case .Denied:
                 showLocationAcessDeniedAlert()
@@ -247,7 +246,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
         
         // Remove from NSUserDefaults
         appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_SchoolID)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_OrganizationID)
         appDelegate.defaults.synchronize()
         
         // Present LoginVC

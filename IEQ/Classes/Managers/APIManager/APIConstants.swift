@@ -20,4 +20,4 @@ let k_API_Roles                                       = "route/get-system-roles"
 let k_API_Question                                    = "question/get-system-questions"
 let k_API_Answer                                      = "question/answer-question"
 
-let k_API_School                                      = "school/get-school-by-location"
+let k_API_Organization                                = "organization/get-organization-by-location"

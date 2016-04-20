@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import RealmSwift
+import KVNProgress
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,6 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loadCurrentUser()
         
         setupAlamofireManager()
+        
+        let configuration = KVNProgressConfiguration()
+        configuration.minimumErrorDisplayTime = 2.0
+        KVNProgress.setConfiguration(configuration)
         
         return true
     }
