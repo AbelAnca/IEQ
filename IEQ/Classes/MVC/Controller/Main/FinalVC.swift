@@ -10,7 +10,7 @@ import UIKit
 
 class FinalVC: UIViewController {
     
-    @IBOutlet var btnLogout: UIButton!
+    @IBOutlet weak var btnLogout: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()

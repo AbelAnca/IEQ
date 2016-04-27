@@ -13,28 +13,28 @@ import KVNProgress
 
 class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @IBOutlet var lblTitle: UILabel!
-    @IBOutlet var lblQuestion: UILabel!
-    @IBOutlet var lblNoOfQuestion: UILabel!
+    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblQuestion: UILabel!
+    @IBOutlet weak var lblNoOfQuestion: UILabel!
     
-    @IBOutlet var segmentControl: UISegmentedControl!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
-    @IBOutlet var viewText: UIView!
-    @IBOutlet var viewSegment: UIView!
-    @IBOutlet var viewQuestion: UIView!
-    @IBOutlet var viewImage: UIView!
+    @IBOutlet weak var viewText: UIView!
+    @IBOutlet weak var viewSegment: UIView!
+    @IBOutlet weak var viewQuestion: UIView!
+    @IBOutlet weak var viewImage: UIView!
     
-    @IBOutlet var imgView: UIImageView!
+    @IBOutlet weak var imgView: UIImageView!
     
-    @IBOutlet var txfAnswer: UITextField!
+    @IBOutlet weak var txfAnswer: UITextField!
     
-    @IBOutlet var btnNextQuestion: UIButton!
-    @IBOutlet var btnImage: UIButton!
-    @IBOutlet var btnBack: UIButton!
-    @IBOutlet var btnForward: UIButton!
+    @IBOutlet weak var btnNextQuestion: UIButton!
+    @IBOutlet weak var btnImage: UIButton!
+    @IBOutlet weak var btnBack: UIButton!
+    @IBOutlet weak var btnForward: UIButton!
     
-    @IBOutlet var topSpaceViewText: NSLayoutConstraint!
-    @IBOutlet var topSpaceViewSegment: NSLayoutConstraint!
+    @IBOutlet weak var topSpaceViewText: NSLayoutConstraint!
+    @IBOutlet weak var topSpaceViewSegment: NSLayoutConstraint!
     
     var index                           = 0
     var noOfAnswer                      = 0

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>AsyncSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>KVNProgress.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>18B9286D4B3817BAAB53DB94A8DB6F35</key>
+		<key>0186EE20AB4D310515B8041966DB7AEB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1974A1385701C0057904F67DA018EC95</key>
+		<key>432ECC54282C84882B482CCB4CF227FC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>77B74191956AA427A4FEFA004FE26A68</key>
+		<key>4E155FBB6070C868840C7A2BB6E75E85</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A4C3548D7B26B2D4636CB1F44180C522</key>
+		<key>7491F504157163826238DB09139286CF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A9F77B06A622CD457947CD82001D04FA</key>
+		<key>A07214E1AB47D142E0F9D4F4F5C5B9BE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B1BA4214BB3FD5B3D10C0FAED6B3BA7C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
