@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		AF2B6F861C18B67D00CE554B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F851C18B67D00CE554B /* User.swift */; };
 		AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F881C18B73F00CE554B /* RealmManager.swift */; };
-		AF61C3CC1CD1F187007F9B4B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37130A1C72F0781B19DDFBDA /* Pods.framework */; };
 		B54E256C1CB55D4600989528 /* FinalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E256A1CB55D4600989528 /* FinalVC.swift */; };
 		B54E256D1CB55D4600989528 /* QuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E256B1CB55D4600989528 /* QuestionVC.swift */; };
 		B54E256F1CB55D7300989528 /* EnableGPSVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E256E1CB55D7300989528 /* EnableGPSVC.swift */; };
@@ -29,6 +28,7 @@
 		B5C31FBF1C19B536009B6411 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FBE1C19B536009B6411 /* Question.swift */; };
 		B5C31FC41C1A3F3E009B6411 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC31C1A3F3E009B6411 /* LandingVC.swift */; };
 		B5C31FC61C1A4BF5009B6411 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC51C1A4BF5009B6411 /* BaseVC.swift */; };
+		F2F7675F122E2A3A7F8872A2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37130A1C72F0781B19DDFBDA /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF61C3CC1CD1F187007F9B4B /* Pods.framework in Frameworks */,
+				F2F7675F122E2A3A7F8872A2 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +328,7 @@
 				B5C2167E1C0E2A77001CFA9A /* Resources */,
 				A9904E79AB7520F1105B063E /* Embed Pods Frameworks */,
 				6981A7ADFD61B663FA509197 /* Copy Pods Resources */,
+				AF61C3D51CD25AB5007F9B4B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -491,6 +492,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		AF61C3D51CD25AB5007F9B4B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" f0f43f193897f13ef894731207b868d684a94080 afcbf761acb3b4887d7524ac69e1099888bcb2314c967d6caade696e10675930";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -659,7 +673,7 @@
 			baseConfigurationReference = 2694DB698EE6A313756AF7B5 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ken McBean (G2G3GT79MP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ken McBean (G2G3GT79MP)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/IEQ/Supporting Files/Info.plist";
@@ -676,7 +690,7 @@
 			baseConfigurationReference = FFAA622C56D5349F40839162 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ken McBean (D7DFZE4ZDE)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ken McBean (D7DFZE4ZDE)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/IEQ/Supporting Files/Info.plist";
@@ -684,7 +698,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.okwi.ieq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a52bc122-cd4c-4679-8a8d-f82f50b20d2b";
+				PROVISIONING_PROFILE = "eaa52174-7c9f-4db2-b0e7-055769ec966e";
 			};
 			name = Release;
 		};

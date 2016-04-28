@@ -10,6 +10,8 @@ import UIKit
 import Alamofire
 import RealmSwift
 import KVNProgress
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,6 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let configuration = KVNProgressConfiguration()
         configuration.minimumErrorDisplayTime = 2.0
         KVNProgress.setConfiguration(configuration)
+        
+        Fabric.with([Crashlytics.self])
         
         return true
     }
