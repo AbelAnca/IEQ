@@ -488,6 +488,9 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         forwardAction()
     }
     
+    @IBAction func btnBackground_Action(sender: AnyObject) {
+        view.endEditing(true)
+    }
     
     // MARK: - SegmentControl Action Methods
     

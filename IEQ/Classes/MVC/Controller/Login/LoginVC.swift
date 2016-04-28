@@ -22,8 +22,8 @@ class LoginVC: BaseVC, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         
-        //txfPhoneUseraemeOrEmail.text = "ancaabel"
-        //txfPassword.text = "qwerty"
+        txfPhoneUseraemeOrEmail.text = "ancaabel"
+        txfPassword.text = "qwerty"
                 
         setupUI()
     }
@@ -107,10 +107,14 @@ class LoginVC: BaseVC, UITextFieldDelegate {
                 apiManager.handleResponse(response.response, json: response.result.value)
                 
                 if let error = apiManager.error {
+                    KVNProgress.dismiss()
+                    
                     if let message = error.strMessage {
-                        KVNProgress.dismiss()
-                        
                         let alert = Utils.okAlert("Error", message: message)
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    else {
+                        let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
                         self.presentViewController(alert, animated: true, completion: nil)
                     }
                 }
