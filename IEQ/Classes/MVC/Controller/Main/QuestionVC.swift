@@ -492,6 +492,30 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         view.endEditing(true)
     }
     
+    @IBAction func btnLogot_Action(sender: AnyObject) {
+        
+        appDelegate.curUser = nil
+        
+        // Remove from NSUserDefaults
+        appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_Index)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_NoOfAnswer)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_OrganizationID)
+        appDelegate.defaults.synchronize()
+        
+        // Clean realm
+        try! appDelegate.realm.write({ () -> Void in
+            appDelegate.realm.deleteAll()
+        })
+        
+        // Present LoginVC
+        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+            
+        })
+    }
+    
     // MARK: - SegmentControl Action Methods
     
     func segmentedControlValueChanged(segment: UISegmentedControl) {

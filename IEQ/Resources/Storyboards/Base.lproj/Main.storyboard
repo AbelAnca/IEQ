@@ -20,6 +20,7 @@
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
             <string>HelveticaNeue</string>
+            <string>HelveticaNeue</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -648,7 +649,7 @@
                                     <action selector="btnBackground_Action:" destination="Ww5-s9-Gvt" eventType="touchUpInside" id="ndy-dT-Fit"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Organisation Info:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XEI-KH-jRh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Organization Info:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XEI-KH-jRh">
                                 <rect key="frame" x="200" y="20" width="368" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="G3S-iW-phG"/>
@@ -704,7 +705,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="bAR-eP-aiI"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="19"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zj2-42-bzO">
@@ -722,7 +723,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="aPH-fq-O1x"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TSJ-A2-tpz">
@@ -731,7 +732,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="iV7-B6-idZ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ni7-2w-hLJ">
@@ -748,7 +749,7 @@
                                     <action selector="btnLogout_Action:" destination="Ww5-s9-Gvt" eventType="touchUpInside" id="tOV-1W-hAf"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select organisation type:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j5l-B9-hcE">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j5l-B9-hcE">
                                 <rect key="frame" x="237" y="431" width="294" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="1cz-ra-Ri7"/>
@@ -758,12 +759,12 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2pR-re-KeC">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2pR-re-KeC">
                                 <rect key="frame" x="80" y="460" width="608" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="ZGk-xW-6g4"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="BHq-d8-Zkh" id="0PB-nY-ya9"/>
@@ -777,7 +778,7 @@
                                 </constraints>
                                 <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-1"/>
                                 <connections>
-                                    <action selector="btnSelectOrganisationType_Action:" destination="Ww5-s9-Gvt" eventType="touchUpInside" id="Nva-KQ-S6z"/>
+                                    <action selector="btnSelectOrganizationType_Action:" destination="Ww5-s9-Gvt" eventType="touchUpInside" id="eB3-pR-Oa3"/>
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="TFd-9e-YYQ">
@@ -836,12 +837,12 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="btnEnableGPS" destination="Tn2-jB-hfH" id="hX0-io-bKc"/>
-                        <outlet property="btnSelectOrganisation" destination="pJk-WD-PcJ" id="jEp-H0-OZ4"/>
+                        <outlet property="btnSelectOrganization" destination="pJk-WD-PcJ" id="Fmr-PA-iPg"/>
                         <outlet property="lblLatitude" destination="bVY-PY-Tvn" id="a0c-SH-VBq"/>
                         <outlet property="lblLongtude" destination="TSJ-A2-tpz" id="zFV-on-csm"/>
                         <outlet property="spinner" destination="TFd-9e-YYQ" id="I6u-RC-DEW"/>
-                        <outlet property="txfOrganisationName" destination="Zj2-42-bzO" id="loG-X1-eQM"/>
-                        <outlet property="txfOrganisationType" destination="2pR-re-KeC" id="6vj-om-rD8"/>
+                        <outlet property="txfOrganizationName" destination="Zj2-42-bzO" id="PHo-dx-oUu"/>
+                        <outlet property="txfOrganizationType" destination="2pR-re-KeC" id="Ith-f6-6T1"/>
                         <outlet property="txvDescription" destination="xn8-0A-scS" id="BZY-si-Waa"/>
                     </connections>
                 </viewController>
@@ -1032,6 +1033,17 @@
                                     <constraint firstAttribute="trailing" secondItem="wnE-9o-Cwy" secondAttribute="trailing" id="lmg-CK-Bm7"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Ac-Qt-fsU" userLabel="Button - Logout">
+                                <rect key="frame" x="600" y="952" width="148" height="52"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="148" id="UH1-3e-YBG"/>
+                                    <constraint firstAttribute="height" constant="52" id="jYP-Os-Fy7"/>
+                                </constraints>
+                                <state key="normal" image="btnLogout"/>
+                                <connections>
+                                    <action selector="btnLogot_Action:" destination="JGd-pJ-WpL" eventType="touchUpInside" id="MyH-Sc-0cS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1043,11 +1055,13 @@
                             <constraint firstAttribute="trailing" secondItem="6jc-Sc-K2I" secondAttribute="trailing" id="IOL-cn-OcY"/>
                             <constraint firstItem="e7a-Qy-nGW" firstAttribute="leading" secondItem="uMD-10-LeZ" secondAttribute="leading" constant="20" id="JeR-dk-iPc"/>
                             <constraint firstItem="3Sn-1V-T5k" firstAttribute="top" secondItem="87k-2w-Qvh" secondAttribute="bottom" id="M1v-VN-IkX"/>
+                            <constraint firstAttribute="trailing" secondItem="8Ac-Qt-fsU" secondAttribute="trailing" constant="20" id="Qx7-jk-IIZ"/>
                             <constraint firstAttribute="trailing" secondItem="2wv-8o-4ZI" secondAttribute="trailing" constant="20" id="R8S-wR-Qbn"/>
                             <constraint firstItem="Kxc-Ij-Iwp" firstAttribute="top" secondItem="3Sn-1V-T5k" secondAttribute="bottom" constant="20" id="RsA-FT-Zy6"/>
                             <constraint firstItem="hJ7-rP-cxS" firstAttribute="top" secondItem="Lbs-b6-fKQ" secondAttribute="bottom" constant="100" id="S8G-w2-YXy"/>
                             <constraint firstItem="Kxc-Ij-Iwp" firstAttribute="trailing" secondItem="uMD-10-LeZ" secondAttribute="trailingMargin" id="SUd-do-mN4"/>
                             <constraint firstItem="hJ7-rP-cxS" firstAttribute="top" secondItem="6jc-Sc-K2I" secondAttribute="bottom" id="Yzp-Rl-Ext"/>
+                            <constraint firstItem="hJ7-rP-cxS" firstAttribute="top" secondItem="8Ac-Qt-fsU" secondAttribute="bottom" constant="20" id="bqf-dQ-uFG"/>
                             <constraint firstItem="Kxc-Ij-Iwp" firstAttribute="leading" secondItem="uMD-10-LeZ" secondAttribute="leadingMargin" id="gZV-wW-b4C"/>
                             <constraint firstItem="2wv-8o-4ZI" firstAttribute="top" secondItem="Kxc-Ij-Iwp" secondAttribute="bottom" constant="20" id="jdl-eX-LV9"/>
                             <constraint firstItem="2wv-8o-4ZI" firstAttribute="leading" secondItem="uMD-10-LeZ" secondAttribute="leading" constant="20" id="kdg-oQ-pYL"/>
@@ -1156,6 +1170,7 @@
     <resources>
         <image name="IEQ" width="461" height="147"/>
         <image name="back-arrow" width="25" height="21"/>
+        <image name="btnLogout" width="250" height="85"/>
         <image name="camera-icon" width="71" height="70"/>
         <image name="done" width="128" height="128"/>
     </resources>

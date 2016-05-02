@@ -14,17 +14,17 @@ import CoreLocation
 
 class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDelegate {
     
-    @IBOutlet weak var txfOrganisationName: UITextField!
+    @IBOutlet weak var txfOrganizationName: UITextField!
     @IBOutlet weak var lblLatitude: UITextField!
     @IBOutlet weak var lblLongtude: UITextField!
     @IBOutlet weak var txvDescription: UITextView!
     @IBOutlet weak var btnEnableGPS: UIButton!
-    @IBOutlet weak var btnSelectOrganisation: UIButton!
-    @IBOutlet weak var txfOrganisationType: UITextField!
+    @IBOutlet weak var btnSelectOrganization: UIButton!
+    @IBOutlet weak var txfOrganizationType: UITextField!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
-    var arrOrganisationTypes: [[String: AnyObject]]?
-    var selectedOrganisationType : [String: AnyObject]?
+    var arrOrganizationTypes: [[String: AnyObject]]?
+    var selectedOrganizationType : [String: AnyObject]?
     
     var longitude           = Double()
     var latitude            = Double()
@@ -37,7 +37,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
         
         setupUI()
         
-        getOrganisationTypes_APICall()
+        getOrganizationTypes_APICall()
     }
 
     // MARK: - Custom Methods
@@ -96,7 +96,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
             btnEnableGPS.setTitle("ENABLE GPS", forState: .Normal)
             
         case .AuthorizedWhenInUse:
-            btnEnableGPS.setTitle("FIND ORGANISATION", forState: .Normal)
+            btnEnableGPS.setTitle("FIND ORGANIZATION", forState: .Normal)
             
         case .Denied:
             btnEnableGPS.setTitle("ACCESS DENIED", forState: .Normal)
@@ -107,7 +107,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
     }
     
     func checkIfFieldsAreFilled() -> Bool {
-        if let strName = txfOrganisationName.text {
+        if let strName = txfOrganizationName.text {
             if strName.utf16.count == 0 {
                 return false
             }
@@ -119,7 +119,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
             }
         }
         
-        if let strType = txfOrganisationType.text {
+        if let strType = txfOrganizationType.text {
             if strType.utf16.count == 0 {
                 return false
             }
@@ -130,12 +130,12 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
     
     // MARK: - API Methods
     
-    func getOrganisationTypes_APICall() {
+    func getOrganizationTypes_APICall() {
         
-        btnSelectOrganisation.hidden = true
+        btnSelectOrganization.hidden = true
         spinner.startAnimating()
         
-        appDelegate.manager.request(.GET, "\(K_API_MAIN_URL)\(k_API_OrganisationTypes)")
+        appDelegate.manager.request(.GET, "\(K_API_MAIN_URL)\(k_API_OrganizationTypes)")
             .responseJSON { (response) -> Void in
                 
                 let apiManager              = APIManager()
@@ -149,7 +149,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                     else {
                         if let message = error.strMessage {
                             self.spinner.stopAnimating()
-                            self.btnSelectOrganisation.hidden = false
+                            self.btnSelectOrganization.hidden = false
                             
                             let alert = Utils.okAlert("Error", message: message)
                             self.presentViewController(alert, animated: true, completion: nil)
@@ -159,19 +159,19 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                 else
                     if let data = apiManager.data {
                         if let items = data["items"] as? [[String: AnyObject]] {
-                            self.arrOrganisationTypes = items
+                            self.arrOrganizationTypes = items
                             
                             self.spinner.stopAnimating()
-                            self.btnSelectOrganisation.hidden = false
+                            self.btnSelectOrganization.hidden = false
                         }
                     }
                 
                 self.spinner.stopAnimating()
-                self.btnSelectOrganisation.hidden = false
+                self.btnSelectOrganization.hidden = false
         }
     }
     
-    func getOrganisationForCurrentLocation() {
+    func getOrganizationForCurrentLocation() {
         if let _ = appDelegate.curUser {
             
             var dictParams = [String : AnyObject]()
@@ -201,16 +201,16 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                         else {
                             if let message = error.strMessage {
                                 
-                                let alert = UIAlertController(title: "Error", message: "\(message). \n\nDo you want to add new organisation? \n\n (If YES, please complete all above fields!)", preferredStyle: .Alert)
+                                let alert = UIAlertController(title: "Error", message: "\(message). \n\nDo you want to add new organization? \n\n (If YES, please complete all above fields!)", preferredStyle: .Alert)
                                 
                                 let okAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
                                 let addAction = UIAlertAction(title: "Add", style: .Default, handler: { (action) in
-                                    self.txfOrganisationName.enabled = true
-                                    self.txfOrganisationName.becomeFirstResponder()
+                                    self.txfOrganizationName.enabled = true
+                                    self.txfOrganizationName.becomeFirstResponder()
                                     
                                     self.txvDescription.editable = true
                                     
-                                    self.btnEnableGPS.setTitle("ADD NEW ORGANISATION", forState: .Normal)
+                                    self.btnEnableGPS.setTitle("ADD NEW ORGANIZATION", forState: .Normal)
                                 })
                                 
                                 alert.addAction(okAction)
@@ -230,7 +230,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                             }
                             
                             if let name = data["name"] as? String {
-                                self.txfOrganisationName.text               = name
+                                self.txfOrganizationName.text               = name
                             }
                             
                             if let location = data["location"] as? [String : NSNumber] {
@@ -248,28 +248,28 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                             }
                             
                             if let type = data["type"] as? String {
-                                self.txfOrganisationType.text        = type
+                                self.txfOrganizationType.text        = type
                             }
                             
                             KVNProgress.dismiss()
                         }
                         else {
                             KVNProgress.dismiss()
-                            KVNProgress.showErrorWithStatus("Something wrong happened. Please contact developers quicly! \n\n\n \(response.response)")
+                            KVNProgress.showErrorWithStatus("Something wrong happened. Please contact developers quicly! \n\n\n \(response.response?.description)")
                         }
             }
         }
     }
     
-    func addOrganisation() {
+    func addOrganization() {
         if let _ = appDelegate.curUser {
            
             //=>    Create disctParams
             var dictParams = [String : AnyObject]()
             
-            dictParams["name"]         = txfOrganisationName.text!
+            dictParams["name"]         = txfOrganizationName.text!
             dictParams["description"]  = txvDescription.text!
-            dictParams["type"]         = txfOrganisationType.text!
+            dictParams["type"]         = txfOrganizationType.text!
             
             var dictLocation = [String : AnyObject]()
             dictLocation["longitude"]         = longitude
@@ -328,10 +328,10 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
             self.navigationController?.pushViewController(questionVC, animated: true)
         }
         else
-            if btnEnableGPS.currentTitle == "ADD NEW ORGANISATION" {
+            if btnEnableGPS.currentTitle == "ADD NEW Organization" {
                 if checkIfFieldsAreFilled() {
                     //=>    Call API
-                    addOrganisation()
+                    addOrganization()
                 }
                 else {
                     let alert = Utils.okAlert("Oops", message: "Please complete all fields!")
@@ -344,7 +344,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                     findMyLocation()
                     
                 case .AuthorizedWhenInUse:
-                    getOrganisationForCurrentLocation()
+                    getOrganizationForCurrentLocation()
                     
                 case .Denied:
                     showLocationAcessDeniedAlert()
@@ -373,14 +373,14 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
         })
     }
     
-    @IBAction func btnSelectOrganisationType_Action(sender: AnyObject) {
+    @IBAction func btnSelectOrganizationType_Action(sender: AnyObject) {
         
         let dsPopoverVC                             = self.storyboard?.instantiateViewControllerWithIdentifier("PopoverRoleVC") as! PopoverRoleVC
         dsPopoverVC.delegate                        = self
         
         var arrNames = [String]()
         
-        if let arrTypes = arrOrganisationTypes {
+        if let arrTypes = arrOrganizationTypes {
             for role in arrTypes {
                 if let name = role["name"] {
                     arrNames.append(name as! String)
@@ -392,8 +392,8 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
         
         dsPopoverVC.modalPresentationStyle   = UIModalPresentationStyle.Popover
         dsPopoverVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.Right
-        dsPopoverVC.popoverPresentationController?.sourceView = btnSelectOrganisation
-        dsPopoverVC.popoverPresentationController?.sourceRect = CGRectMake(0, 0, btnSelectOrganisation.frame.size.width, btnSelectOrganisation.frame.size.height)
+        dsPopoverVC.popoverPresentationController?.sourceView = btnSelectOrganization
+        dsPopoverVC.popoverPresentationController?.sourceRect = CGRectMake(0, 0, btnSelectOrganization.frame.size.width, btnSelectOrganization.frame.size.height)
         dsPopoverVC.preferredContentSize = CGSizeMake(250,CGFloat(44 * arrNames.count))
         
         presentViewController(dsPopoverVC, animated: true, completion: nil)
@@ -422,13 +422,13 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
     
     // MARK: - PopOverRoleVCDelegate Methods
     func didSelectDataInPopover(obj: String) {
-        txfOrganisationType.text = obj
+        txfOrganizationType.text = obj
         
-        if let arrTypes = arrOrganisationTypes {
+        if let arrTypes = arrOrganizationTypes {
             for type in arrTypes {
                 if let name = type["name"] as? String {
                     if name == obj {
-                        selectedOrganisationType = type
+                        selectedOrganizationType = type
                     }
                 }
             }
