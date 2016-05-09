@@ -328,7 +328,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
             self.navigationController?.pushViewController(questionVC, animated: true)
         }
         else
-            if btnEnableGPS.currentTitle == "ADD NEW Organization" {
+            if btnEnableGPS.currentTitle == "ADD NEW ORGANIZATION" {
                 if checkIfFieldsAreFilled() {
                     //=>    Call API
                     addOrganization()

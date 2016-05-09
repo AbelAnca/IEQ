@@ -698,7 +698,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.okwi.ieq;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "eaa52174-7c9f-4db2-b0e7-055769ec966e";
+				PROVISIONING_PROFILE = "a52bc122-cd4c-4679-8a8d-f82f50b20d2b";
 			};
 			name = Release;
 		};
