@@ -285,6 +285,21 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         self.drawnQuestion()
     }
     
+    func presentLoginScreen() {
+        appDelegate.curUser = nil
+        
+        // Remove from NSUserDefaults
+        appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
+        appDelegate.defaults.synchronize()
+        
+        // Present LoginVC
+        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+            
+        })
+    }
+    
     // MARK: - API Methods
     
     func loadQuestion_APICall() {
@@ -296,11 +311,17 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 apiManager.handleResponse(response.response, json: response.result.value)
                 
                 if let error = apiManager.error {
-                    if let message = error.strMessage {
-                        KVNProgress.dismiss()
-                        
-                        let alert = Utils.okAlert("Error", message: message)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                    KVNProgress.dismiss()
+                    
+                    if error.strErrorCode == "401" {
+                        //=>    Session expired -> force user to login again
+                        self.presentLoginScreen()
+                    }
+                    else {
+                        if let message = error.strMessage {
+                            let alert = Utils.okAlert("Error", message: message)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
                     }
                 }
                 else
@@ -316,11 +337,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                             KVNProgress.dismiss()
                             self.drawnQuestion()
                         }
-                        
                     }
                     else {
                         KVNProgress.dismiss()
-                }
+                    }
                 
                 KVNProgress.dismiss()
         }
@@ -343,7 +363,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     dictParams["questionId"] = question.id
                     
                     dictParams["organizationId"] = strOrganizationID
-                    dictParams["answeredFor"] = ["categoryId": question.categoryId, "question": question.id]
+                    dictParams["answeredFor"] = ["categoryId": question.categoryId, "question": question.body]
                     dictParams["answeredBy"] = ["id": user.id, "username": user.username]
                 }
             }
@@ -448,9 +468,15 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
                 
                 if let error = apiManager.error {
-                    if let message = error.strMessage {
-                        let alert = Utils.okAlert("Error", message: message)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                    if error.strErrorCode == "401" {
+                        //=>    Session expired -> force user to login again
+                        self.presentLoginScreen()
+                    }
+                    else {
+                        if let message = error.strMessage {
+                            let alert = Utils.okAlert("Error", message: message)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
                     }
                 }
                 else
@@ -460,8 +486,6 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                         // If is success go to the next question
                         self.prepareForNewQuestion()
                         self.drawnQuestion()
-                        
-                        
                 }
             })
         }
