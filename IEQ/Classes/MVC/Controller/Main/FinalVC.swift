@@ -10,7 +10,7 @@ import UIKit
 
 class FinalVC: UIViewController {
     
-    @IBOutlet var btnLogout: UIButton!
+    @IBOutlet weak var btnLogout: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ class FinalVC: UIViewController {
         appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
         appDelegate.defaults.removeObjectForKey(k_UserDef_Index)
         appDelegate.defaults.removeObjectForKey(k_UserDef_NoOfAnswer)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_SchoolID)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_OrganizationID)
         appDelegate.defaults.synchronize()
 
         // Clean realm

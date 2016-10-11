@@ -13,35 +13,35 @@ import KVNProgress
 
 class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @IBOutlet var lblTitle: UILabel!
-    @IBOutlet var lblQuestion: UILabel!
-    @IBOutlet var lblNoOfQuestion: UILabel!
+    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblQuestion: UILabel!
+    @IBOutlet weak var lblNoOfQuestion: UILabel!
     
-    @IBOutlet var segmentControl: UISegmentedControl!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
-    @IBOutlet var viewText: UIView!
-    @IBOutlet var viewSegment: UIView!
-    @IBOutlet var viewQuestion: UIView!
-    @IBOutlet var viewImage: UIView!
+    @IBOutlet weak var viewText: UIView!
+    @IBOutlet weak var viewSegment: UIView!
+    @IBOutlet weak var viewQuestion: UIView!
+    @IBOutlet weak var viewImage: UIView!
     
-    @IBOutlet var imgView: UIImageView!
+    @IBOutlet weak var imgView: UIImageView!
     
-    @IBOutlet var txfAnswer: UITextField!
+    @IBOutlet weak var txfAnswer: UITextField!
     
-    @IBOutlet var btnNextQuestion: UIButton!
-    @IBOutlet var btnImage: UIButton!
-    @IBOutlet var btnBack: UIButton!
-    @IBOutlet var btnForward: UIButton!
+    @IBOutlet weak var btnNextQuestion: UIButton!
+    @IBOutlet weak var btnImage: UIButton!
+    @IBOutlet weak var btnBack: UIButton!
+    @IBOutlet weak var btnForward: UIButton!
     
-    @IBOutlet var topSpaceViewText: NSLayoutConstraint!
-    @IBOutlet var topSpaceViewSegment: NSLayoutConstraint!
+    @IBOutlet weak var topSpaceViewText: NSLayoutConstraint!
+    @IBOutlet weak var topSpaceViewSegment: NSLayoutConstraint!
     
     var index                           = 0
     var noOfAnswer                      = 0
     var arrQuestion: Results<(Question)>?
     
     var currentStrOfSegmControl         = ""
-    var schoolID                        = ""
+    var strOrganizationID                        = ""
     
     var isChoice                        = false
     var isPicture                       = false
@@ -61,8 +61,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             loadQuestion_APICall()
         }
         
-        if let schoolId = appDelegate.defaults.objectForKey(k_UserDef_SchoolID) as? String {
-            schoolID = schoolId
+        if let tempOrganizationID = appDelegate.defaults.objectForKey(k_UserDef_OrganizationID) as? String {
+            strOrganizationID = tempOrganizationID
         }
         
         setupUI()
@@ -285,6 +285,21 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         self.drawnQuestion()
     }
     
+    func presentLoginScreen() {
+        appDelegate.curUser = nil
+        
+        // Remove from NSUserDefaults
+        appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
+        appDelegate.defaults.synchronize()
+        
+        // Present LoginVC
+        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+            
+        })
+    }
+    
     // MARK: - API Methods
     
     func loadQuestion_APICall() {
@@ -296,11 +311,17 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 apiManager.handleResponse(response.response, json: response.result.value)
                 
                 if let error = apiManager.error {
-                    if let message = error.strMessage {
-                        KVNProgress.dismiss()
-                        
-                        let alert = Utils.okAlert("Error", message: message)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                    KVNProgress.dismiss()
+                    
+                    if error.strErrorCode == "401" {
+                        //=>    Session expired -> force user to login again
+                        self.presentLoginScreen()
+                    }
+                    else {
+                        if let message = error.strMessage {
+                            let alert = Utils.okAlert("Error", message: message)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
                     }
                 }
                 else
@@ -316,11 +337,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                             KVNProgress.dismiss()
                             self.drawnQuestion()
                         }
-                        
                     }
                     else {
                         KVNProgress.dismiss()
-                }
+                    }
                 
                 KVNProgress.dismiss()
         }
@@ -342,8 +362,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     let question = questions[index]
                     dictParams["questionId"] = question.id
                     
-                    dictParams["schoolId"] = schoolID
-                    dictParams["answeredFor"] = ["categoryId": question.categoryId, "question": question.id]
+                    dictParams["organizationId"] = strOrganizationID
+                    dictParams["answeredFor"] = ["categoryId": question.categoryId, "question": question.body]
                     dictParams["answeredBy"] = ["id": user.id, "username": user.username]
                 }
             }
@@ -448,9 +468,15 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
                 
                 if let error = apiManager.error {
-                    if let message = error.strMessage {
-                        let alert = Utils.okAlert("Error", message: message)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                    if error.strErrorCode == "401" {
+                        //=>    Session expired -> force user to login again
+                        self.presentLoginScreen()
+                    }
+                    else {
+                        if let message = error.strMessage {
+                            let alert = Utils.okAlert("Error", message: message)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
                     }
                 }
                 else
@@ -460,8 +486,6 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                         // If is success go to the next question
                         self.prepareForNewQuestion()
                         self.drawnQuestion()
-                        
-                        
                 }
             })
         }
@@ -488,6 +512,33 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         forwardAction()
     }
     
+    @IBAction func btnBackground_Action(sender: AnyObject) {
+        view.endEditing(true)
+    }
+    
+    @IBAction func btnLogot_Action(sender: AnyObject) {
+        
+        appDelegate.curUser = nil
+        
+        // Remove from NSUserDefaults
+        appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_Index)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_NoOfAnswer)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_OrganizationID)
+        appDelegate.defaults.synchronize()
+        
+        // Clean realm
+        try! appDelegate.realm.write({ () -> Void in
+            appDelegate.realm.deleteAll()
+        })
+        
+        // Present LoginVC
+        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewControllerAnimated(true)
+        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+            
+        })
+    }
     
     // MARK: - SegmentControl Action Methods
     

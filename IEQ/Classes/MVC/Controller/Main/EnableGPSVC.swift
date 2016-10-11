@@ -12,13 +12,19 @@ import RealmSwift
 import KVNProgress
 import CoreLocation
 
-class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
+class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDelegate {
     
-    @IBOutlet weak var lblName: UITextField!
+    @IBOutlet weak var txfOrganizationName: UITextField!
     @IBOutlet weak var lblLatitude: UITextField!
     @IBOutlet weak var lblLongtude: UITextField!
     @IBOutlet weak var txvDescription: UITextView!
     @IBOutlet weak var btnEnableGPS: UIButton!
+    @IBOutlet weak var btnSelectOrganization: UIButton!
+    @IBOutlet weak var txfOrganizationType: UITextField!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
+    var arrOrganizationTypes: [[String: AnyObject]]?
+    var selectedOrganizationType : [String: AnyObject]?
     
     var longitude           = Double()
     var latitude            = Double()
@@ -28,7 +34,10 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
     // MARK: - ViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
+        
+        getOrganizationTypes_APICall()
     }
 
     // MARK: - Custom Methods
@@ -97,98 +106,130 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    func checkIfFieldsAreFilled() -> Bool {
+        if let strName = txfOrganizationName.text {
+            if strName.utf16.count == 0 {
+                return false
+            }
+        }
+        
+        if let strDesc = txvDescription.text {
+            if strDesc.utf16.count == 0 {
+                return false
+            }
+        }
+        
+        if let strType = txfOrganizationType.text {
+            if strType.utf16.count == 0 {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     // MARK: - API Methods
     
-    func getSchoolByLocation(longitude: String?, latitude: String?) {
+    func getOrganizationTypes_APICall() {
+        
+        btnSelectOrganization.hidden = true
+        spinner.startAnimating()
+        
+        appDelegate.manager.request(.GET, "\(K_API_MAIN_URL)\(k_API_OrganizationTypes)")
+            .responseJSON { (response) -> Void in
+                
+                let apiManager              = APIManager()
+                apiManager.handleResponse(response.response, json: response.result.value)
+                
+                if let error = apiManager.error {
+                    if error.strErrorCode == "401" {
+                        //=>    Session expired -> force user to login again
+                        self.btnLogout_Action(error)
+                    }
+                    else {
+                        if let message = error.strMessage {
+                            self.spinner.stopAnimating()
+                            self.btnSelectOrganization.hidden = false
+                            
+                            let alert = Utils.okAlert("Error", message: message)
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                    }
+                }
+                else
+                    if let data = apiManager.data {
+                        if let items = data["items"] as? [[String: AnyObject]] {
+                            self.arrOrganizationTypes = items
+                            
+                            self.spinner.stopAnimating()
+                            self.btnSelectOrganization.hidden = false
+                        }
+                    }
+                
+                self.spinner.stopAnimating()
+                self.btnSelectOrganization.hidden = false
+        }
+    }
+    
+    func getOrganizationForCurrentLocation() {
         if let _ = appDelegate.curUser {
             
-            // Create disctParams with question
             var dictParams = [String : AnyObject]()
-            
-            // Set current user for question
-            //dictParams["username"] = user.username
-            //dictParams["userId"] = user.id
             
             // FOR TEST !!!
             //self.longitude                       = -114.0912223288317
             //self.latitude                        = 51.05230309236315
             
-            if let longitude = longitude,
-                let latitude = latitude {
-                dictParams["longitude"]         = longitude
-                dictParams["latitude"]          = latitude
-            }
-            else {
-                dictParams["longitude"]         = self.longitude
-                dictParams["latitude"]          = self.latitude
-            }
+            dictParams["longitude"]         = self.longitude
+            dictParams["latitude"]          = self.latitude
             
             KVNProgress.showWithStatus("Please wait...")
             
-            appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_School)", parameters: dictParams, encoding: .JSON)
+            appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_GetOrganizationByLocation)", parameters: dictParams, encoding: .JSON)
                 .responseJSON { (response) -> Void in
                     
                     let apiManager              = APIManager()
                     apiManager.handleResponse(response.response, json: response.result.value)
                     
                     if let error = apiManager.error {
-                        if let message = error.strMessage {
-                            KVNProgress.dismiss()
-                            
-                            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .Alert)
-                            
-                            let okAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
-                            
-                            let skipAction = UIAlertAction(title: "Skip", style: .Default, handler: { (action) in
-                                let skipAlert = UIAlertController(title: "Attention!", message: "To find organization please enter longitude and latitude.", preferredStyle: .Alert)
+                        KVNProgress.dismiss()
+                        
+                        if error.strErrorCode == "401" {
+                            //=>    Session expired -> force user to login again
+                            self.btnLogout_Action(error)
+                        }
+                        else {
+                            if let message = error.strMessage {
                                 
-                                skipAlert.addTextFieldWithConfigurationHandler({ (textField) in
-                                    textField.placeholder = "Longitude"
+                                let alert = UIAlertController(title: "Error", message: "\(message). \n\nDo you want to add new organization? \n\n (If YES, please complete all above fields!)", preferredStyle: .Alert)
+                                
+                                let okAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+                                let addAction = UIAlertAction(title: "Add", style: .Default, handler: { (action) in
+                                    self.txfOrganizationName.enabled = true
+                                    self.txfOrganizationName.becomeFirstResponder()
+                                    
+                                    self.txvDescription.editable = true
+                                    
+                                    self.btnEnableGPS.setTitle("ADD NEW ORGANIZATION", forState: .Normal)
                                 })
                                 
-                                skipAlert.addTextFieldWithConfigurationHandler({ (textField) in
-                                    textField.placeholder = "Latitude"
-                                })
-                                
-                                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-                                
-                                let findAction = UIAlertAction(title: "Find", style: .Default, handler: { (action) in
-                                    if let textFields = skipAlert.textFields {
-                                        if let textFieldLongitude = textFields.first,
-                                            let textFieldLatitude = textFields.last {
-                                            
-                                            if let longitude = textFieldLongitude.text,
-                                                let latitude = textFieldLatitude.text {
-                                                self.getSchoolByLocation(longitude, latitude: latitude)
-                                            }
-                                        }
-                                    }
-                                })
-                                
-                                skipAlert.addAction(cancelAction)
-                                skipAlert.addAction(findAction)
-                                
-                                self.presentViewController(skipAlert, animated: true, completion: nil)
-                            })
-                            
-                            alert.addAction(okAction)
-                            alert.addAction(skipAction)
-                            
-                            self.presentViewController(alert, animated: true, completion: nil)
+                                alert.addAction(okAction)
+                                alert.addAction(addAction)
+                                self.presentViewController(alert, animated: true, completion: nil)
+                            }
                         }
                     }
                     else
                         if let data = apiManager.data {
-                            
-                            if let schoolId = data["id"] as? String {
-                                appDelegate.defaults.setObject(schoolId, forKey: k_UserDef_SchoolID)
+                            if let strOrganizationId = data["id"] as? String {
+                                appDelegate.defaults.setObject(strOrganizationId, forKey: k_UserDef_OrganizationID)
                                 appDelegate.defaults.synchronize()
                                 
                                 self.btnEnableGPS.setTitle("START QUESTIONS", forState: .Normal)
                             }
                             
                             if let name = data["name"] as? String {
-                                self.lblName.text               = name
+                                self.txfOrganizationName.text               = name
                             }
                             
                             if let location = data["location"] as? [String : NSNumber] {
@@ -205,13 +246,75 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                                 self.txvDescription.text        = description
                             }
                             
+                            if let type = data["type"] as? String {
+                                self.txfOrganizationType.text        = type
+                            }
+                            
                             KVNProgress.dismiss()
                         }
                         else {
                             KVNProgress.dismiss()
-                    }
+                            KVNProgress.showErrorWithStatus("Something wrong happened. Please contact developers quicly! \n\n\n \(response.response?.description)")
+                        }
+            }
+        }
+    }
+    
+    func addOrganization() {
+        if let _ = appDelegate.curUser {
+           
+            //=>    Create disctParams
+            var dictParams = [String : AnyObject]()
+            
+            dictParams["name"]         = txfOrganizationName.text!
+            dictParams["description"]  = txvDescription.text!
+            dictParams["type"]         = txfOrganizationType.text!
+            
+            var dictLocation = [String : AnyObject]()
+            dictLocation["longitude"]         = longitude
+            dictLocation["latitude"]          = latitude
+            
+            dictParams["location"]         = dictLocation
+            
+            debugPrint("PARAMS = \(dictParams)")
+            
+            KVNProgress.showWithStatus("Please wait...")
+            
+            appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_AddOrganization)", parameters: dictParams, encoding: .JSON)
+                .responseJSON { (response) -> Void in
                     
-                    KVNProgress.dismiss()
+                    let apiManager              = APIManager()
+                    apiManager.handleResponse(response.response, json: response.result.value)
+                    
+                    if let error = apiManager.error {
+                        KVNProgress.dismiss()
+                        
+                        if error.strErrorCode == "401" {
+                            //=>    Session expired -> force user to login again
+                            self.btnLogout_Action(error)
+                        }
+                        else {
+                            if let message = error.strMessage {
+                                let alert = Utils.okAlert("Oops", message: message)
+                                self.presentViewController(alert, animated: true, completion: nil)
+                            }
+                        }
+                    }
+                    else
+                        if let data = apiManager.data {
+                            if let strOrganizationId = data["id"] as? String {
+                                appDelegate.defaults.setObject(strOrganizationId, forKey: k_UserDef_OrganizationID)
+                                appDelegate.defaults.synchronize()
+                                
+                                self.btnEnableGPS.setTitle("START QUESTIONS", forState: .Normal)
+                            }
+                            
+                            KVNProgress.dismiss()
+                        }
+                        else {
+                            KVNProgress.dismiss()
+                            KVNProgress.showErrorWithStatus("Something wrong happened. Please contact developers quicly! \n\n\n \(response.response)")
+                        }
             }
         }
     }
@@ -223,22 +326,33 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
             let questionVC = self.storyboard?.instantiateViewControllerWithIdentifier("QuestionVC") as! QuestionVC
             self.navigationController?.pushViewController(questionVC, animated: true)
         }
-        else {
-            switch CLLocationManager.authorizationStatus() {
-            case .NotDetermined:
-                findMyLocation()
-                
-            case .AuthorizedWhenInUse:
-                getSchoolByLocation(nil, latitude: nil)
-                
-            case .Denied:
-                showLocationAcessDeniedAlert()
-                
-            default:
-                break
+        else
+            if btnEnableGPS.currentTitle == "ADD NEW ORGANIZATION" {
+                if checkIfFieldsAreFilled() {
+                    //=>    Call API
+                    addOrganization()
+                }
+                else {
+                    let alert = Utils.okAlert("Oops", message: "Please complete all fields!")
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
             }
-            
-            setupTitleBtnEnableGPS()
+            else {
+                switch CLLocationManager.authorizationStatus() {
+                case .NotDetermined:
+                    findMyLocation()
+                    
+                case .AuthorizedWhenInUse:
+                    getOrganizationForCurrentLocation()
+                    
+                case .Denied:
+                    showLocationAcessDeniedAlert()
+                    
+                default:
+                    break
+                }
+                
+                setupTitleBtnEnableGPS()
         }
     }
     
@@ -247,7 +361,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
         
         // Remove from NSUserDefaults
         appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_SchoolID)
+        appDelegate.defaults.removeObjectForKey(k_UserDef_OrganizationID)
         appDelegate.defaults.synchronize()
         
         // Present LoginVC
@@ -258,6 +372,36 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
         })
     }
     
+    @IBAction func btnSelectOrganizationType_Action(sender: AnyObject) {
+        
+        let dsPopoverVC                             = self.storyboard?.instantiateViewControllerWithIdentifier("PopoverRoleVC") as! PopoverRoleVC
+        dsPopoverVC.delegate                        = self
+        
+        var arrNames = [String]()
+        
+        if let arrTypes = arrOrganizationTypes {
+            for role in arrTypes {
+                if let name = role["name"] {
+                    arrNames.append(name as! String)
+                }
+            }
+        }
+        
+        dsPopoverVC.arrData = arrNames
+        
+        dsPopoverVC.modalPresentationStyle   = UIModalPresentationStyle.Popover
+        dsPopoverVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.Right
+        dsPopoverVC.popoverPresentationController?.sourceView = btnSelectOrganization
+        dsPopoverVC.popoverPresentationController?.sourceRect = CGRectMake(0, 0, btnSelectOrganization.frame.size.width, btnSelectOrganization.frame.size.height)
+        dsPopoverVC.preferredContentSize = CGSizeMake(250,CGFloat(44 * arrNames.count))
+        
+        presentViewController(dsPopoverVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func btnBackground_Action(sender: AnyObject) {
+        view.endEditing(true)
+    }
+    
     // MARK: - CLLocationManagerDelegate Methods
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -265,11 +409,29 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
             let coordinate = locations.coordinate
             latitude = coordinate.latitude
             longitude = coordinate.longitude
+            
+            self.lblLatitude.text        = "Latitude: \(latitude)"
+            self.lblLongtude.text        = "Longitude: \(longitude)"
         }
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         setupTitleBtnEnableGPS()
+    }
+    
+    // MARK: - PopOverRoleVCDelegate Methods
+    func didSelectDataInPopover(obj: String) {
+        txfOrganizationType.text = obj
+        
+        if let arrTypes = arrOrganizationTypes {
+            for type in arrTypes {
+                if let name = type["name"] as? String {
+                    if name == obj {
+                        selectedOrganizationType = type
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - MemoryManagement Methods

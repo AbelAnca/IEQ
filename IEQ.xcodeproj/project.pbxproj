@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2773C0DE297FDBE46895D55A /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37130A1C72F0781B19DDFBDA /* Pods.framework */; };
 		AF2B6F861C18B67D00CE554B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F851C18B67D00CE554B /* User.swift */; };
 		AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F881C18B73F00CE554B /* RealmManager.swift */; };
-		AFC9C78A1C1DAC7E0044DB54 /* Pods.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37130A1C72F0781B19DDFBDA /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B54E256C1CB55D4600989528 /* FinalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E256A1CB55D4600989528 /* FinalVC.swift */; };
 		B54E256D1CB55D4600989528 /* QuestionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E256B1CB55D4600989528 /* QuestionVC.swift */; };
 		B54E256F1CB55D7300989528 /* EnableGPSVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E256E1CB55D7300989528 /* EnableGPSVC.swift */; };
@@ -30,6 +28,7 @@
 		B5C31FBF1C19B536009B6411 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FBE1C19B536009B6411 /* Question.swift */; };
 		B5C31FC41C1A3F3E009B6411 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC31C1A3F3E009B6411 /* LandingVC.swift */; };
 		B5C31FC61C1A4BF5009B6411 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C31FC51C1A4BF5009B6411 /* BaseVC.swift */; };
+		F2F7675F122E2A3A7F8872A2 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37130A1C72F0781B19DDFBDA /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,19 +47,6 @@
 			remoteInfo = IEQ;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		AFC9C7891C1DAC700044DB54 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				AFC9C78A1C1DAC7E0044DB54 /* Pods.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2694DB698EE6A313756AF7B5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -101,7 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2773C0DE297FDBE46895D55A /* Pods.framework in Frameworks */,
+				F2F7675F122E2A3A7F8872A2 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,9 +148,9 @@
 		B54E25691CB55D0C00989528 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				B54E256A1CB55D4600989528 /* FinalVC.swift */,
-				B54E256B1CB55D4600989528 /* QuestionVC.swift */,
 				B54E256E1CB55D7300989528 /* EnableGPSVC.swift */,
+				B54E256B1CB55D4600989528 /* QuestionVC.swift */,
+				B54E256A1CB55D4600989528 /* FinalVC.swift */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -342,7 +328,7 @@
 				B5C2167E1C0E2A77001CFA9A /* Resources */,
 				A9904E79AB7520F1105B063E /* Embed Pods Frameworks */,
 				6981A7ADFD61B663FA509197 /* Copy Pods Resources */,
-				AFC9C7891C1DAC700044DB54 /* CopyFiles */,
+				AF61C3D51CD25AB5007F9B4B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -506,6 +492,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		AF61C3D51CD25AB5007F9B4B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" f0f43f193897f13ef894731207b868d684a94080 afcbf761acb3b4887d7524ac69e1099888bcb2314c967d6caade696e10675930";
 		};
 /* End PBXShellScriptBuildPhase section */
 
