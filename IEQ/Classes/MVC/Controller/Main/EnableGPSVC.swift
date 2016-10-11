@@ -110,8 +110,8 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
             //dictParams["userId"] = user.id
             
             // FOR TEST !!!
-            //longitude                       = 21.300543183135066
-            //latitude                        = 46.18252519561494
+            //self.longitude                       = -114.0912223288317
+            //self.latitude                        = 51.05230309236315
             
             if let longitude = longitude,
                 let latitude = latitude {
@@ -180,28 +180,28 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate {
                     else
                         if let data = apiManager.data {
                             
-                            if let schoolId = data["Id"] as? String {
+                            if let schoolId = data["id"] as? String {
                                 appDelegate.defaults.setObject(schoolId, forKey: k_UserDef_SchoolID)
                                 appDelegate.defaults.synchronize()
                                 
                                 self.btnEnableGPS.setTitle("START QUESTIONS", forState: .Normal)
                             }
                             
-                            if let name = data["Name"] as? String {
+                            if let name = data["name"] as? String {
                                 self.lblName.text               = name
                             }
                             
-                            if let location = data["Location"] as? [String : NSNumber] {
-                                if let latitude = location["Latitude"] {
+                            if let location = data["location"] as? [String : NSNumber] {
+                                if let latitude = location["latitude"] {
                                     self.lblLatitude.text        = "Latitude: \(latitude)"
                                 }
                                 
-                                if let longitude = location["Longitude"] {
+                                if let longitude = location["longitude"] {
                                     self.lblLongtude.text        = "Longitude: \(longitude)"
                                 }
                             }
                             
-                            if let description = data["Description"] as? String {
+                            if let description = data["description"] as? String {
                                 self.txvDescription.text        = description
                             }
                             
