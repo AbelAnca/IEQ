@@ -42,7 +42,7 @@ class FinalVC: UIViewController {
         
         // Present LoginVC
         let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
-        navigationController?.popToRootViewController(animated: true)
+        _ = navigationController?.popToRootViewController(animated: true)
         navigationController?.present(loginNC, animated: true, completion: { () -> Void in
 
         })

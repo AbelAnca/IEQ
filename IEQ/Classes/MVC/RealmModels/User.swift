@@ -30,7 +30,7 @@ extension User {
     
     class func getUserWithID(_ strID: String, realm: Realm!) -> User? {
         let predicate               = NSPredicate(format: "id = %@", strID)
-        let arrUsers                = realm.objects(User).filter(predicate)
+        let arrUsers                = realm.objects(User.self).filter(predicate)
         
         if arrUsers.count > 0 {
             if let user = arrUsers.first {

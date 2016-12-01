@@ -294,7 +294,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         
         // Present LoginVC
         let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
-        navigationController?.popToRootViewController(animated: true)
+        _ = navigationController?.popToRootViewController(animated: true)
         navigationController?.present(loginNC, animated: true, completion: { () -> Void in
             
         })
@@ -329,7 +329,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                         if let items = data["items"] as? [[String: AnyObject]] {
                             // save questions in Realm
                             for item in items {
-                                RLMManager.sharedInstance.saveQuestion(item)
+                                _ = RLMManager.sharedInstance.saveQuestion(item)
                             }
                             
                             self.arrQuestion     = appDelegate.realm.objects(Question.self).sorted(byProperty: "sorted", ascending: true)
@@ -534,7 +534,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         
         // Present LoginVC
         let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
-        navigationController?.popToRootViewController(animated: true)
+        _ = navigationController?.popToRootViewController(animated: true)
         navigationController?.present(loginNC, animated: true, completion: { () -> Void in
             
         })

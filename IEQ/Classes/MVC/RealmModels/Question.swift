@@ -41,7 +41,7 @@ extension Question {
     
     class func getQuestionWithID(_ strID: String, realm: Realm!) -> Question? {
         let predicate               = NSPredicate(format: "id = %@", strID)
-        let arrQuestions                    = realm.objects(Question).filter(predicate)
+        let arrQuestions                    = realm.objects(Question.self).filter(predicate)
         
         if arrQuestions.count > 0 {
             if let question = arrQuestions.first {
