@@ -43,19 +43,19 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
     // MARK: - Custom Methods
     
     func setupUI() {
-        btnEnableGPS.backgroundColor             = UIColor.clearColor()
+        btnEnableGPS.backgroundColor             = UIColor.clear
         btnEnableGPS.layer.cornerRadius          = 8
         btnEnableGPS.layer.borderWidth           = 0.2
-        btnEnableGPS.layer.borderColor           = UIColor.blackColor().CGColor
+        btnEnableGPS.layer.borderColor           = UIColor.black.cgColor
         btnEnableGPS.clipsToBounds               = true
         
-        txvDescription.backgroundColor             = UIColor.clearColor()
+        txvDescription.backgroundColor             = UIColor.clear
         txvDescription.layer.cornerRadius          = 8
         txvDescription.layer.borderWidth           = 0.2
-        txvDescription.layer.borderColor           = UIColor.blackColor().CGColor
+        txvDescription.layer.borderColor           = UIColor.black.cgColor
         txvDescription.clipsToBounds               = true
         
-        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
             findMyLocation()
         }
         
@@ -75,31 +75,31 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
     func showLocationAcessDeniedAlert() {
         let alertController     = UIAlertController(title: "ACCESS DENIED!",
                                                 message: "The location permission was not authorized. Please enable it in Settings to continue.",
-                                                preferredStyle: .Alert)
+                                                preferredStyle: .alert)
         
-        let settingsAction      = UIAlertAction(title: "Settings", style: .Default) { (alertAction) in
-            if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
-                UIApplication.sharedApplication().openURL(url)
+        let settingsAction      = UIAlertAction(title: "Settings", style: .default) { (alertAction) in
+            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.openURL(url)
             }
         }
         
-        let cancelAction        = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        let cancelAction        = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addAction(settingsAction)
         alertController.addAction(cancelAction)
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
     func setupTitleBtnEnableGPS() {
         switch CLLocationManager.authorizationStatus() {
-        case .NotDetermined:
-            btnEnableGPS.setTitle("ENABLE GPS", forState: .Normal)
+        case .notDetermined:
+            btnEnableGPS.setTitle("ENABLE GPS", for: UIControlState())
             
-        case .AuthorizedWhenInUse:
-            btnEnableGPS.setTitle("FIND ORGANIZATION", forState: .Normal)
+        case .authorizedWhenInUse:
+            btnEnableGPS.setTitle("FIND ORGANIZATION", for: UIControlState())
             
-        case .Denied:
-            btnEnableGPS.setTitle("ACCESS DENIED", forState: .Normal)
+        case .denied:
+            btnEnableGPS.setTitle("ACCESS DENIED", for: UIControlState())
             
         default:
             break
@@ -132,14 +132,14 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
     
     func getOrganizationTypes_APICall() {
         
-        btnSelectOrganization.hidden = true
+        btnSelectOrganization.isHidden = true
         spinner.startAnimating()
         
-        appDelegate.manager.request(.GET, "\(K_API_MAIN_URL)\(k_API_OrganizationTypes)")
+        appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_OrganizationTypes)", method: .get)
             .responseJSON { (response) -> Void in
                 
                 let apiManager              = APIManager()
-                apiManager.handleResponse(response.response, json: response.result.value)
+                apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
                 
                 if let error = apiManager.error {
                     if error.strErrorCode == "401" {
@@ -149,10 +149,10 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                     else {
                         if let message = error.strMessage {
                             self.spinner.stopAnimating()
-                            self.btnSelectOrganization.hidden = false
+                            self.btnSelectOrganization.isHidden = false
                             
                             let alert = Utils.okAlert("Error", message: message)
-                            self.presentViewController(alert, animated: true, completion: nil)
+                            self.present(alert, animated: true, completion: nil)
                         }
                     }
                 }
@@ -162,12 +162,12 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                             self.arrOrganizationTypes = items
                             
                             self.spinner.stopAnimating()
-                            self.btnSelectOrganization.hidden = false
+                            self.btnSelectOrganization.isHidden = false
                         }
                     }
                 
                 self.spinner.stopAnimating()
-                self.btnSelectOrganization.hidden = false
+                self.btnSelectOrganization.isHidden = false
         }
     }
     
@@ -180,16 +180,16 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
             //self.longitude                       = -114.0912223288317
             //self.latitude                        = 51.05230309236315
             
-            dictParams["longitude"]         = self.longitude
-            dictParams["latitude"]          = self.latitude
+            dictParams["longitude"]         = self.longitude as AnyObject?
+            dictParams["latitude"]          = self.latitude as AnyObject?
             
-            KVNProgress.showWithStatus("Please wait...")
+            KVNProgress.show(withStatus: "Please wait...")
             
-            appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_GetOrganizationByLocation)", parameters: dictParams, encoding: .JSON)
+            appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_GetOrganizationByLocation)", method: .post, parameters: dictParams)
                 .responseJSON { (response) -> Void in
                     
                     let apiManager              = APIManager()
-                    apiManager.handleResponse(response.response, json: response.result.value)
+                    apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
                     
                     if let error = apiManager.error {
                         KVNProgress.dismiss()
@@ -201,31 +201,31 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                         else {
                             if let message = error.strMessage {
                                 
-                                let alert = UIAlertController(title: "Error", message: "\(message). \n\nDo you want to add new organization? \n\n (If YES, please complete all above fields!)", preferredStyle: .Alert)
+                                let alert = UIAlertController(title: "Error", message: "\(message). \n\nDo you want to add new organization? \n\n (If YES, please complete all above fields!)", preferredStyle: .alert)
                                 
-                                let okAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-                                let addAction = UIAlertAction(title: "Add", style: .Default, handler: { (action) in
-                                    self.txfOrganizationName.enabled = true
+                                let okAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                                let addAction = UIAlertAction(title: "Add", style: .default, handler: { (action) in
+                                    self.txfOrganizationName.isEnabled = true
                                     self.txfOrganizationName.becomeFirstResponder()
                                     
-                                    self.txvDescription.editable = true
+                                    self.txvDescription.isEditable = true
                                     
-                                    self.btnEnableGPS.setTitle("ADD NEW ORGANIZATION", forState: .Normal)
+                                    self.btnEnableGPS.setTitle("ADD NEW ORGANIZATION", for: UIControlState())
                                 })
                                 
                                 alert.addAction(okAction)
                                 alert.addAction(addAction)
-                                self.presentViewController(alert, animated: true, completion: nil)
+                                self.present(alert, animated: true, completion: nil)
                             }
                         }
                     }
                     else
                         if let data = apiManager.data {
                             if let strOrganizationId = data["id"] as? String {
-                                appDelegate.defaults.setObject(strOrganizationId, forKey: k_UserDef_OrganizationID)
+                                appDelegate.defaults.set(strOrganizationId, forKey: k_UserDef_OrganizationID)
                                 appDelegate.defaults.synchronize()
                                 
-                                self.btnEnableGPS.setTitle("START QUESTIONS", forState: .Normal)
+                                self.btnEnableGPS.setTitle("START QUESTIONS", for: UIControlState())
                             }
                             
                             if let name = data["name"] as? String {
@@ -254,7 +254,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                         }
                         else {
                             KVNProgress.dismiss()
-                            KVNProgress.showErrorWithStatus("Something wrong happened. Please contact developers quicly! \n\n\n \(response.response?.description)")
+                            KVNProgress.showError(withStatus: "Something wrong happened. Please contact developers quicly! \n\n\n \(response.response?.description)")
                         }
             }
         }
@@ -266,25 +266,25 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
             //=>    Create disctParams
             var dictParams = [String : AnyObject]()
             
-            dictParams["name"]         = txfOrganizationName.text!
-            dictParams["description"]  = txvDescription.text!
-            dictParams["type"]         = txfOrganizationType.text!
+            dictParams["name"]         = txfOrganizationName.text! as AnyObject?
+            dictParams["description"]  = txvDescription.text! as AnyObject?
+            dictParams["type"]         = txfOrganizationType.text! as AnyObject?
             
             var dictLocation = [String : AnyObject]()
-            dictLocation["longitude"]         = longitude
-            dictLocation["latitude"]          = latitude
+            dictLocation["longitude"]         = longitude as AnyObject?
+            dictLocation["latitude"]          = latitude as AnyObject?
             
-            dictParams["location"]         = dictLocation
+            dictParams["location"]         = dictLocation as AnyObject?
             
             debugPrint("PARAMS = \(dictParams)")
             
-            KVNProgress.showWithStatus("Please wait...")
+            KVNProgress.show(withStatus: "Please wait...")
             
-            appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_AddOrganization)", parameters: dictParams, encoding: .JSON)
+            appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_AddOrganization)", method: .post, parameters: dictParams, headers: nil)            
                 .responseJSON { (response) -> Void in
                     
                     let apiManager              = APIManager()
-                    apiManager.handleResponse(response.response, json: response.result.value)
+                    apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
                     
                     if let error = apiManager.error {
                         KVNProgress.dismiss()
@@ -296,24 +296,24 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                         else {
                             if let message = error.strMessage {
                                 let alert = Utils.okAlert("Oops", message: message)
-                                self.presentViewController(alert, animated: true, completion: nil)
+                                self.present(alert, animated: true, completion: nil)
                             }
                         }
                     }
                     else
                         if let data = apiManager.data {
                             if let strOrganizationId = data["id"] as? String {
-                                appDelegate.defaults.setObject(strOrganizationId, forKey: k_UserDef_OrganizationID)
+                                appDelegate.defaults.set(strOrganizationId, forKey: k_UserDef_OrganizationID)
                                 appDelegate.defaults.synchronize()
                                 
-                                self.btnEnableGPS.setTitle("START QUESTIONS", forState: .Normal)
+                                self.btnEnableGPS.setTitle("START QUESTIONS", for: UIControlState())
                             }
                             
                             KVNProgress.dismiss()
                         }
                         else {
                             KVNProgress.dismiss()
-                            KVNProgress.showErrorWithStatus("Something wrong happened. Please contact developers quicly! \n\n\n \(response.response)")
+                            KVNProgress.showError(withStatus: "Something wrong happened. Please contact developers quicly! \n\n\n \(response.response)")
                         }
             }
         }
@@ -323,7 +323,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
     
     @IBAction func enableGPS_Action() {
         if btnEnableGPS.currentTitle == "START QUESTIONS" {
-            let questionVC = self.storyboard?.instantiateViewControllerWithIdentifier("QuestionVC") as! QuestionVC
+            let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionVC") as! QuestionVC
             self.navigationController?.pushViewController(questionVC, animated: true)
         }
         else
@@ -334,18 +334,18 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
                 }
                 else {
                     let alert = Utils.okAlert("Oops", message: "Please complete all fields!")
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
             else {
                 switch CLLocationManager.authorizationStatus() {
-                case .NotDetermined:
+                case .notDetermined:
                     findMyLocation()
                     
-                case .AuthorizedWhenInUse:
+                case .authorizedWhenInUse:
                     getOrganizationForCurrentLocation()
                     
-                case .Denied:
+                case .denied:
                     showLocationAcessDeniedAlert()
                     
                 default:
@@ -356,25 +356,25 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
         }
     }
     
-    @IBAction func btnLogout_Action(sender: AnyObject) {
+    @IBAction func btnLogout_Action(_ sender: AnyObject) {
         appDelegate.curUser = nil
         
         // Remove from NSUserDefaults
-        appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_OrganizationID)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_OrganizationID)
         appDelegate.defaults.synchronize()
         
         // Present LoginVC
-        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
-        navigationController?.popToRootViewControllerAnimated(true)
-        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+        let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewController(animated: true)
+        navigationController?.present(loginNC, animated: true, completion: { () -> Void in
             
         })
     }
     
-    @IBAction func btnSelectOrganizationType_Action(sender: AnyObject) {
+    @IBAction func btnSelectOrganizationType_Action(_ sender: AnyObject) {
         
-        let dsPopoverVC                             = self.storyboard?.instantiateViewControllerWithIdentifier("PopoverRoleVC") as! PopoverRoleVC
+        let dsPopoverVC                             = self.storyboard?.instantiateViewController(withIdentifier: "PopoverRoleVC") as! PopoverRoleVC
         dsPopoverVC.delegate                        = self
         
         var arrNames = [String]()
@@ -389,22 +389,22 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
         
         dsPopoverVC.arrData = arrNames
         
-        dsPopoverVC.modalPresentationStyle   = UIModalPresentationStyle.Popover
-        dsPopoverVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.Right
+        dsPopoverVC.modalPresentationStyle   = UIModalPresentationStyle.popover
+        dsPopoverVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.right
         dsPopoverVC.popoverPresentationController?.sourceView = btnSelectOrganization
-        dsPopoverVC.popoverPresentationController?.sourceRect = CGRectMake(0, 0, btnSelectOrganization.frame.size.width, btnSelectOrganization.frame.size.height)
-        dsPopoverVC.preferredContentSize = CGSizeMake(250,CGFloat(44 * arrNames.count))
+        dsPopoverVC.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: btnSelectOrganization.frame.size.width, height: btnSelectOrganization.frame.size.height)
+        dsPopoverVC.preferredContentSize = CGSize(width: 250,height: CGFloat(44 * arrNames.count))
         
-        presentViewController(dsPopoverVC, animated: true, completion: nil)
+        present(dsPopoverVC, animated: true, completion: nil)
     }
     
-    @IBAction func btnBackground_Action(sender: AnyObject) {
+    @IBAction func btnBackground_Action(_ sender: AnyObject) {
         view.endEditing(true)
     }
     
     // MARK: - CLLocationManagerDelegate Methods
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let locations = manager.location {
             let coordinate = locations.coordinate
             latitude = coordinate.latitude
@@ -415,12 +415,12 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
         }
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         setupTitleBtnEnableGPS()
     }
     
     // MARK: - PopOverRoleVCDelegate Methods
-    func didSelectDataInPopover(obj: String) {
+    func didSelectDataInPopover(_ obj: String) {
         txfOrganizationType.text = obj
         
         if let arrTypes = arrOrganizationTypes {

@@ -16,14 +16,14 @@ class LandingVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let _ = appDelegate.curUser {
-            if let _ = appDelegate.defaults.objectForKey(k_UserDef_Index) as? Int {
+            if let _ = appDelegate.defaults.object(forKey: k_UserDef_Index) as? Int {
                 pushToQuestionVC()
             }
             else {
@@ -38,17 +38,17 @@ class LandingVC: UIViewController {
     // MARK: - Custom Methods
     
     func presentLoginVC() {
-        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
-        navigationController?.presentViewController(loginNC, animated: true, completion: nil)
+        let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
+        navigationController?.present(loginNC, animated: true, completion: nil)
     }
     
     func pushToQuestionVC() {
-        let questionVC = self.storyboard?.instantiateViewControllerWithIdentifier("QuestionVC") as! QuestionVC
+        let questionVC = self.storyboard?.instantiateViewController(withIdentifier: "QuestionVC") as! QuestionVC
         self.navigationController?.pushViewController(questionVC, animated: true)
     }
     
     func pushToEnableGPS() {
-        let enableGPSVC = self.storyboard?.instantiateViewControllerWithIdentifier("EnableGPSVC") as! EnableGPSVC
+        let enableGPSVC = self.storyboard?.instantiateViewController(withIdentifier: "EnableGPSVC") as! EnableGPSVC
         self.navigationController?.pushViewController(enableGPSVC, animated: true)
     }
 

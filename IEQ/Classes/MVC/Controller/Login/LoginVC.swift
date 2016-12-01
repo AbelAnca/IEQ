@@ -22,18 +22,18 @@ class LoginVC: BaseVC, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         
-        //txfPhoneUseraemeOrEmail.text = "ancaabel"
-        //txfPassword.text = "qwerty"
+        txfPhoneUseraemeOrEmail.text = "ancaabel"
+        txfPassword.text = "qwerty"
                 
         setupUI()
     }
 
     // MARK: - Custom Methods
     func setupUI() {
-        btnLogin.backgroundColor              = UIColor.clearColor()
+        btnLogin.backgroundColor              = UIColor.clear
         btnLogin.layer.cornerRadius           = 8
         btnLogin.layer.borderWidth            = 0.2
-        btnLogin.layer.borderColor            = UIColor.blackColor().CGColor
+        btnLogin.layer.borderColor            = UIColor.black.cgColor
         btnLogin.clipsToBounds                = true
     }
     
@@ -71,21 +71,21 @@ class LoginVC: BaseVC, UITextFieldDelegate {
         }
         else {
             let alert = Utils.okAlert("Attention", message: "Please enter username and password")
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
     }
     
     func pushSignUpVC() {
-        let signUpVC = storyboard?.instantiateViewControllerWithIdentifier("SignUpVC") as! SignUpVC
+        let signUpVC = storyboard?.instantiateViewController(withIdentifier: "SignUpVC") as! SignUpVC
         navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     func resignAllResponders() {
-        if txfPhoneUseraemeOrEmail.isFirstResponder() {
+        if txfPhoneUseraemeOrEmail.isFirstResponder {
             txfPhoneUseraemeOrEmail.resignFirstResponder()
         }
         
-        if txfPassword.isFirstResponder() {
+        if txfPassword.isFirstResponder {
             txfPassword.resignFirstResponder()
         }
     }
@@ -95,33 +95,33 @@ class LoginVC: BaseVC, UITextFieldDelegate {
     func login_APICall() {
         
         var dictParams = [String : AnyObject]()
-        dictParams["username"] = txfPhoneUseraemeOrEmail.text!
-        dictParams["password"] = txfPassword.text!
+        dictParams["username"] = txfPhoneUseraemeOrEmail.text! as AnyObject?
+        dictParams["password"] = txfPassword.text! as AnyObject?
         
-        KVNProgress.showWithStatus("Please wait...")
+        KVNProgress.show(withStatus: "Please wait...")
         
-        Alamofire.request(.POST, "\(K_API_MAIN_URL)\(k_API_User_Login)", parameters: dictParams, encoding: .JSON)
+        Alamofire.request("\(K_API_MAIN_URL)\(k_API_User_Login)", method: .post, parameters: dictParams, encoding: URLEncoding.default)
             .responseJSON { (response) -> Void in
                 
                 let apiManager              = APIManager()
-                apiManager.handleResponse(response.response, json: response.result.value)
+                apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
                 
                 if let error = apiManager.error {
                     KVNProgress.dismiss()
                     
                     if let message = error.strMessage {
                         let alert = Utils.okAlert("Error", message: message)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                     else {
                         let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
                 else
                     if let data = apiManager.data {
                         if let user = RLMManager.sharedInstance.saveUser(data) {
-                            KVNProgress.showSuccessWithStatus("Successfully logged in as \(user.username)", completion: { () -> Void in
+                            KVNProgress.showSuccess(withStatus: "Successfully logged in as \(user.username)", completion: { () -> Void in
                                 
                                 self.dismissViewController(true)
                                 
@@ -132,27 +132,27 @@ class LoginVC: BaseVC, UITextFieldDelegate {
                             return
                         }
                         else {
-                            KVNProgress.showErrorWithStatus("Failed to save user locally. Please try again!")
+                            KVNProgress.showError(withStatus: "Failed to save user locally. Please try again!")
                         }
                     }
                     else {
-                        KVNProgress.showErrorWithStatus("Failed to LOGIN. Please try again!")
+                        KVNProgress.showError(withStatus: "Failed to LOGIN. Please try again!")
                     }
         }
     }
     
     // MARK: - Action Methods
-    @IBAction func btnSignUp_Action(sender: AnyObject) {
+    @IBAction func btnSignUp_Action(_ sender: AnyObject) {
         pushSignUpVC()
     }
     
-    @IBAction func btnLogin_Action(sender: AnyObject) {
+    @IBAction func btnLogin_Action(_ sender: AnyObject) {
         login()
     }
     
     // MARK: - UITextFieldDelegate Methods
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField == txfPhoneUseraemeOrEmail {
             txfPhoneUseraemeOrEmail.resignFirstResponder()

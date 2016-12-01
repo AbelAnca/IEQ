@@ -43,10 +43,10 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
     // MARK: - Custom Methods
     
     func setupUI() {
-        btnEnterTheApp.backgroundColor              = UIColor.clearColor()
+        btnEnterTheApp.backgroundColor              = UIColor.clear
         btnEnterTheApp.layer.cornerRadius           = 8
         btnEnterTheApp.layer.borderWidth            = 0.2
-        btnEnterTheApp.layer.borderColor            = UIColor.blackColor().CGColor
+        btnEnterTheApp.layer.borderColor            = UIColor.black.cgColor
         btnEnterTheApp.clipsToBounds                = true
         
         btnBack.layer.cornerRadius                  = btnBack.frame.size.height / 2
@@ -55,7 +55,7 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
     }
     
     func pushQuestionVC() {
-        let questionVC = storyboard?.instantiateViewControllerWithIdentifier("QuestionVC") as! QuestionVC
+        let questionVC = storyboard?.instantiateViewController(withIdentifier: "QuestionVC") as! QuestionVC
         navigationController?.pushViewController(questionVC, animated: true)
     }
     
@@ -71,36 +71,36 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
         }
         else {
             let alert = Utils.okAlert("Attention", message: "Please complete all the fields")
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
     }
     
     func resignAllResponders() {
-        if txfUsername.isFirstResponder() {
+        if txfUsername.isFirstResponder {
             txfUsername.resignFirstResponder()
         }
         
-        if txfFirstName.isFirstResponder() {
+        if txfFirstName.isFirstResponder {
             txfFirstName.resignFirstResponder()
         }
         
-        if txfLastName.isFirstResponder() {
+        if txfLastName.isFirstResponder {
             txfLastName.resignFirstResponder()
         }
         
-        if txfEmailAddress.isFirstResponder() {
+        if txfEmailAddress.isFirstResponder {
             txfEmailAddress.resignFirstResponder()
         }
         
-        if txfPhoneNumber.isFirstResponder() {
+        if txfPhoneNumber.isFirstResponder {
             txfPhoneNumber.resignFirstResponder()
         }
         
-        if txfPassword.isFirstResponder() {
+        if txfPassword.isFirstResponder {
             txfPassword.resignFirstResponder()
         }
         
-        if txfConfirmPass.isFirstResponder(){
+        if txfConfirmPass.isFirstResponder{
             txfConfirmPass.resignFirstResponder()
         }
     }
@@ -132,7 +132,7 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
         }
         
         if let phone = txfPhoneNumber.text {
-            if !Utils.isValidPhoneNumber(phone) {
+            if !Utils.isValidPhoneNumber(phoneNumber: phone) {
                 return false
             }
         }
@@ -162,29 +162,35 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
     
     func registerAccount_APICall() {
         
-        let dictParams : [String : AnyObject]      = ["username": "\(txfUsername.text!)" , "firstName": "\(txfFirstName.text!)", "lastName": "\(txfLastName.text!)", "email": "\(txfEmailAddress.text!)", "phone": "\(txfPhoneNumber.text!)", "password": "\(txfPassword.text!)", "selectedRoles": [selectedRole!] ]
+        let dictParams : [String : Any]             = ["username": "\(txfUsername.text!)" as AnyObject ,
+                                                      "firstName": "\(txfFirstName.text!)" as AnyObject,
+                                                      "lastName": "\(txfLastName.text!)" as AnyObject,
+                                                      "email": "\(txfEmailAddress.text!)" as AnyObject,
+                                                      "phone": "\(txfPhoneNumber.text!)" as AnyObject,
+                                                      "password": "\(txfPassword.text!)" as AnyObject,
+                                                      "selectedRoles": [selectedRole!]]
         print(dictParams)
         
-        KVNProgress.showWithStatus("Please wait...")
+        KVNProgress.show(withStatus: "Please wait...")
         
-        Alamofire.request(.POST, "\(K_API_MAIN_URL)\(k_API_User_Register)", parameters: dictParams, encoding: .JSON)
+        Alamofire.request("\(K_API_MAIN_URL)\(k_API_User_Register)", method: .post, parameters: dictParams, encoding: URLEncoding.default)
             .responseJSON { (response) -> Void in
                 
                 let apiManager              = APIManager()
-                apiManager.handleResponse(response.response, json: response.result.value)
+                apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
                 
                 if let error = apiManager.error {
                     if let message = error.strMessage {
                         KVNProgress.dismiss()
                         
                         let alert = Utils.okAlert("Error", message: message)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
                 else
                     if let data = apiManager.data {
                         if let user = RLMManager.sharedInstance.saveUser(data) {
-                            KVNProgress.showSuccessWithStatus("Successfully logged in as \(user.username)", completion: { () -> Void in
+                            KVNProgress.showSuccess(withStatus: "Successfully logged in as \(user.username)", completion: { () -> Void in
                                 self.dismissViewController(true)
                                 
                                 //=>     Call this method to set custom headers to alamofire manager
@@ -194,11 +200,11 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
                             return
                         }
                         else {
-                            KVNProgress.showErrorWithStatus("Failed to save user locally. Please try again!")
+                            KVNProgress.showError(withStatus: "Failed to save user locally. Please try again!")
                         }
                     }
                     else {
-                        KVNProgress.showErrorWithStatus("Failed to LOGIN. Please try again!")
+                        KVNProgress.showError(withStatus: "Failed to LOGIN. Please try again!")
                     }
         }
         
@@ -206,22 +212,22 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
     
     func getRoles_APICall() {
         
-        btnSelectRole.hidden = true
+        btnSelectRole.isHidden = true
         spinner.startAnimating()
         
-        Alamofire.request(.GET, "\(K_API_MAIN_URL)\(k_API_Roles)")
-            .responseJSON { (response) -> Void in
+        Alamofire.request("\(K_API_MAIN_URL)\(k_API_Roles)")
+            .responseJSON { response in // method defaults to `.get`
                 
                 let apiManager              = APIManager()
-                apiManager.handleResponse(response.response, json: response.result.value)
+                apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
                 
                 if let error = apiManager.error {
                     if let message = error.strMessage {
                         self.spinner.stopAnimating()
-                        self.btnSelectRole.hidden = false
+                        self.btnSelectRole.isHidden = false
                         
                         let alert = Utils.okAlert("Error", message: message)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
                 else
@@ -229,28 +235,28 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
                         if let items = data["items"] as? [[String: AnyObject]] {
                             self.arrRoles = items
                             self.spinner.stopAnimating()
-                            self.btnSelectRole.hidden = false
+                            self.btnSelectRole.isHidden = false
                         }
                 }
                 self.spinner.stopAnimating()
-                self.btnSelectRole.hidden = false
+                self.btnSelectRole.isHidden = false
         }
     }
     
     // MARK: - Action Methods
     
     
-    @IBAction func btnSignUp_Action(sender: AnyObject) {
+    @IBAction func btnSignUp_Action(_ sender: AnyObject) {
         register()
     }
     
-    @IBAction func btnBack_Action(sender: AnyObject) {
-        navigationController?.popViewControllerAnimated(true)
+    @IBAction func btnBack_Action(_ sender: AnyObject) {
+        _ = navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func btnSelectRole_Action(sender: AnyObject) {
+    @IBAction func btnSelectRole_Action(_ sender: AnyObject) {
 
-        let dsPopoverVC                             = self.storyboard?.instantiateViewControllerWithIdentifier("PopoverRoleVC") as! PopoverRoleVC
+        let dsPopoverVC                             = self.storyboard?.instantiateViewController(withIdentifier: "PopoverRoleVC") as! PopoverRoleVC
         dsPopoverVC.delegate                        = self
         
         var arrNames = [String]()
@@ -265,18 +271,18 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
         
         dsPopoverVC.arrData = arrNames
 
-        dsPopoverVC.modalPresentationStyle   = UIModalPresentationStyle.Popover
-        dsPopoverVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.Right
+        dsPopoverVC.modalPresentationStyle   = UIModalPresentationStyle.popover
+        dsPopoverVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.right
         dsPopoverVC.popoverPresentationController?.sourceView = btnSelectRole
-        dsPopoverVC.popoverPresentationController?.sourceRect = CGRectMake(0, 0, btnSelectRole.frame.size.width, btnSelectRole.frame.size.height)
-        dsPopoverVC.preferredContentSize = CGSizeMake(250,CGFloat(44 * arrNames.count))
+        dsPopoverVC.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: btnSelectRole.frame.size.width, height: btnSelectRole.frame.size.height)
+        dsPopoverVC.preferredContentSize = CGSize(width: 250,height: CGFloat(44 * arrNames.count))
         
-        presentViewController(dsPopoverVC, animated: true, completion: nil)
+        present(dsPopoverVC, animated: true, completion: nil)
     }
     
     // MARK: - UITextFieldDelegate Methods
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField == txfUsername {
             txfUsername.resignFirstResponder()
@@ -316,7 +322,7 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
     }
     
     // MARK: - PopOverRoleVCDelegate Methods
-    func didSelectDataInPopover(obj: String) {
+    func didSelectDataInPopover(_ obj: String) {
         txfRole.text = obj
         
         if let arrRoles = arrRoles {

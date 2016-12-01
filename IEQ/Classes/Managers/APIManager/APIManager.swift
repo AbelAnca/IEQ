@@ -12,7 +12,7 @@ class APIError {
     var strMessage : String?
     var strErrorCode: String?
     
-    func initWithDictionary(dictResult : NSDictionary) {
+    func initWithDictionary(_ dictResult : NSDictionary) {
         if let strMessage = dictResult["messages"] as? [String] {
             self.strMessage = strMessage[0]
         }
@@ -33,7 +33,7 @@ class APIManager {
         
     }
     
-    func handleResponse(response: NSHTTPURLResponse?, json: AnyObject?) {
+    func handleResponse(_ response: HTTPURLResponse?, json: AnyObject?) {
         if let dictJSON = json as? [String:AnyObject] {
             if let dictResult = dictJSON["result"] as? [String:AnyObject] {
                 if let bStatus = dictResult["rstatus"] as? Bool {
@@ -42,7 +42,7 @@ class APIManager {
                     }
                     else {
                         let apiError = APIError()
-                        apiError.initWithDictionary(dictResult)
+                        apiError.initWithDictionary(dictResult as NSDictionary)
                         
                         self.error = apiError
                     }

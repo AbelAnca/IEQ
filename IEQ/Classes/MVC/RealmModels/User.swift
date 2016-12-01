@@ -9,18 +9,18 @@
 import Foundation
 import RealmSwift
 
-public class User: Object {
-    public dynamic var id = ""
-    public dynamic var token = ""
-    public dynamic var username = ""
+open class User: Object {
+    open dynamic var id = ""
+    open dynamic var token = ""
+    open dynamic var username = ""
     
-    public override static func primaryKey() -> String? {
+    open override static func primaryKey() -> String? {
             return "id"
     }
 }
 
 extension User {
-    class func createNewUserWithID(strID: String) -> User {
+    class func createNewUserWithID(_ strID: String) -> User {
         let user                 = User()
         user.id               = strID
         
@@ -28,7 +28,7 @@ extension User {
     }
     
     
-    class func getUserWithID(strID: String, realm: Realm!) -> User? {
+    class func getUserWithID(_ strID: String, realm: Realm!) -> User? {
         let predicate               = NSPredicate(format: "id = %@", strID)
         let arrUsers                = realm.objects(User).filter(predicate)
         
@@ -41,7 +41,7 @@ extension User {
         return nil
     }
     
-    class func getNewOrExistingUser(strID: String, realm: Realm!) -> User {
+    class func getNewOrExistingUser(_ strID: String, realm: Realm!) -> User {
         if let follower = getUserWithID(strID, realm: realm) {
             return follower
         }
@@ -53,7 +53,7 @@ extension User {
         }
     }
     
-    class func addEditUserWithDictionary(dictInfo: [String: AnyObject], realm: Realm!) -> User {
+    class func addEditUserWithDictionary(_ dictInfo: [String: AnyObject], realm: Realm!) -> User {
         var user         = User()
         
         if let obj = dictInfo["id"] as? String {

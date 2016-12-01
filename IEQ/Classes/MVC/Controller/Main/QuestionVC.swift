@@ -53,22 +53,22 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let _ = appDelegate.defaults.objectForKey(k_UserDef_Index) as? Int {
-            self.arrQuestion     = appDelegate.realm.objects(Question).sorted("sorted", ascending: true)
+        if let _ = appDelegate.defaults.object(forKey: k_UserDef_Index) as? Int {
+            self.arrQuestion     = appDelegate.realm.objects(Question.self).sorted(byProperty: "sorted", ascending: true)
             loadCurrentQuestion()
         }
         else {
             loadQuestion_APICall()
         }
         
-        if let tempOrganizationID = appDelegate.defaults.objectForKey(k_UserDef_OrganizationID) as? String {
+        if let tempOrganizationID = appDelegate.defaults.object(forKey: k_UserDef_OrganizationID) as? String {
             strOrganizationID = tempOrganizationID
         }
         
         setupUI()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
     }
@@ -98,10 +98,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     func loadCurrentQuestion() {
-        if let indexOfId = appDelegate.defaults.objectForKey(k_UserDef_Index) as? Int {
+        if let indexOfId = appDelegate.defaults.object(forKey: k_UserDef_Index) as? Int {
             index                = indexOfId
             
-            if let noQuestion = appDelegate.defaults.objectForKey(k_UserDef_NoOfAnswer) as? Int {
+            if let noQuestion = appDelegate.defaults.object(forKey: k_UserDef_NoOfAnswer) as? Int {
                 noOfAnswer = noQuestion
             }
         
@@ -110,20 +110,20 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     func saveIndexInUserDef() {
-        appDelegate.defaults.setObject(index, forKey: k_UserDef_Index)
+        appDelegate.defaults.set(index, forKey: k_UserDef_Index)
         appDelegate.defaults.synchronize()
     }
     
     func saveNoOfAnswerInUserDef() {
-        appDelegate.defaults.setObject(noOfAnswer, forKey: k_UserDef_NoOfAnswer)
+        appDelegate.defaults.set(noOfAnswer, forKey: k_UserDef_NoOfAnswer)
         appDelegate.defaults.synchronize()
     }
 
     func setupUI() {
-        btnNextQuestion.backgroundColor             = UIColor.clearColor()
+        btnNextQuestion.backgroundColor             = UIColor.clear
         btnNextQuestion.layer.cornerRadius          = 8
         btnNextQuestion.layer.borderWidth           = 0.2
-        btnNextQuestion.layer.borderColor           = UIColor.blackColor().CGColor
+        btnNextQuestion.layer.borderColor           = UIColor.black.cgColor
         btnNextQuestion.clipsToBounds               = true
         
         imagePicker.delegate                        = self
@@ -136,30 +136,30 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             
             // Set Back and Forward button
             if index == 0 {
-                btnBack.hidden = true
+                btnBack.isHidden = true
             }
             else {
-                btnBack.hidden = false
+                btnBack.isHidden = false
             }
             
             if index == questions.count - 1 {
-                btnForward.hidden = true
+                btnForward.isHidden = true
             }
             else {
-                btnForward.hidden = false
+                btnForward.isHidden = false
             }
         }
     }
     
     func hideViewsAnswer() {
-        viewSegment.hidden    = true
-        viewText.hidden       = true
-        viewImage.hidden      = true
+        viewSegment.isHidden    = true
+        viewText.isHidden       = true
+        viewImage.isHidden      = true
     }
     
     func presentAttentionAlert() {
         let alert = Utils.okAlert("Attention", message: "Please complete all the fields")
-        presentViewController(alert, animated: false, completion: nil)
+        present(alert, animated: false, completion: nil)
     }
     
     func drawnQuestion() {
@@ -193,7 +193,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 if question.acceptChoices == true {
                     
                     topSpaceViewSegment.constant  = 20
-                    viewSegment.hidden            = false
+                    viewSegment.isHidden            = false
                     isChoice                      = true
                     
                     var arrChoices                = Array<String>()
@@ -203,7 +203,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     }
                     
                     segmentControl.replaceSegments(arrChoices)
-                    segmentControl.addTarget(self, action: #selector(QuestionVC.segmentedControlValueChanged(_:)), forControlEvents:.ValueChanged)
+                    segmentControl.addTarget(self, action: #selector(QuestionVC.segmentedControlValueChanged(_:)), for:.valueChanged)
                 }
                 else {
                     topSpaceViewSegment.constant   = -30
@@ -212,14 +212,14 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 
                 // Upload a picture
                 if question.acceptFile == true {
-                    viewImage.hidden              = false
+                    viewImage.isHidden              = false
                     isPicture                     = true
                 }
                 
                 // Write an answer
                 if question.acceptText == true {
                     topSpaceViewText.constant     = 20
-                    viewText.hidden               = false
+                    viewText.isHidden               = false
                     isText                        = true
                 }
                 else {
@@ -228,14 +228,14 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             }
             else
                 if index == questions.count {
-                    if let noAnswer = appDelegate.defaults.objectForKey(k_UserDef_NoOfAnswer) as? Int {
+                    if let noAnswer = appDelegate.defaults.object(forKey: k_UserDef_NoOfAnswer) as? Int {
                         if noAnswer >= questions.count {
-                            let finalVC = storyboard?.instantiateViewControllerWithIdentifier("FinalVC") as! FinalVC
+                            let finalVC = storyboard?.instantiateViewController(withIdentifier: "FinalVC") as! FinalVC
                             navigationController?.pushViewController(finalVC, animated: true)
                         }
                         else {
                             let alert = Utils.okAlert("Attention", message: "You must complete all questions!")
-                            presentViewController(alert, animated: true, completion: nil)
+                            present(alert, animated: true, completion: nil)
                             
                             // Set last question
                             index -= 1
@@ -249,35 +249,35 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     
     func setupImagePicker() {
         
-        let alert = UIAlertController(title: "Upload a picture", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let alert = UIAlertController(title: "Upload a picture", message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-            if (UIImagePickerController.isSourceTypeAvailable(.Camera))  {
+        alert.addAction(UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.default, handler: { (action) -> Void in
+            if (UIImagePickerController.isSourceTypeAvailable(.camera))  {
                 self.imagePicker.allowsEditing               = false
-                self.imagePicker.sourceType                  = .Camera
+                self.imagePicker.sourceType                  = .camera
                 
-                self.presentViewController(self.imagePicker, animated: true, completion: nil)
+                self.present(self.imagePicker, animated: true, completion: nil)
             }
             else {
                 let alert = Utils.okAlert("Attention", message: "The Camera is not available")
-                self.presentViewController(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             }
             
         }))
         
-        alert.addAction(UIAlertAction(title: "Choose from Library", style: .Default, handler: { (action) -> Void in
-            if (UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary)) {
+        alert.addAction(UIAlertAction(title: "Choose from Library", style: .default, handler: { (action) -> Void in
+            if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
                 self.imagePicker.allowsEditing               = false
-                self.imagePicker.sourceType                  = .PhotoLibrary
+                self.imagePicker.sourceType                  = .photoLibrary
                 
-                self.presentViewController(self.imagePicker, animated: true, completion: nil)
+                self.present(self.imagePicker, animated: true, completion: nil)
             }
         }))
         
         alert.popoverPresentationController?.sourceView = self.btnImage
-        alert.popoverPresentationController?.sourceRect = CGRectMake(0, 0, self.btnImage.frame.size.width, self.btnImage.frame.size.height)
+        alert.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: self.btnImage.frame.size.width, height: self.btnImage.frame.size.height)
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func goToNextQuestionWithoutAPICall() {
@@ -289,13 +289,13 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         appDelegate.curUser = nil
         
         // Remove from NSUserDefaults
-        appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
         appDelegate.defaults.synchronize()
         
         // Present LoginVC
-        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
-        navigationController?.popToRootViewControllerAnimated(true)
-        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+        let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewController(animated: true)
+        navigationController?.present(loginNC, animated: true, completion: { () -> Void in
             
         })
     }
@@ -303,12 +303,12 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     // MARK: - API Methods
     
     func loadQuestion_APICall() {
-        KVNProgress.showWithStatus("Please wait...")
+        KVNProgress.show(withStatus: "Please wait...")
         
-        appDelegate.manager.request(.GET, "\(K_API_MAIN_URL)\(k_API_Question)", parameters: nil, encoding: .JSON)
+        appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Question)", method: .get)
             .responseJSON { (response) -> Void in
                 let apiManager              = APIManager()
-                apiManager.handleResponse(response.response, json: response.result.value)
+                apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
                 
                 if let error = apiManager.error {
                     KVNProgress.dismiss()
@@ -320,7 +320,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     else {
                         if let message = error.strMessage {
                             let alert = Utils.okAlert("Error", message: message)
-                            self.presentViewController(alert, animated: true, completion: nil)
+                            self.present(alert, animated: true, completion: nil)
                         }
                     }
                 }
@@ -332,7 +332,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                                 RLMManager.sharedInstance.saveQuestion(item)
                             }
                             
-                            self.arrQuestion     = appDelegate.realm.objects(Question).sorted("sorted", ascending: true)
+                            self.arrQuestion     = appDelegate.realm.objects(Question.self).sorted(byProperty: "sorted", ascending: true)
                             
                             KVNProgress.dismiss()
                             self.drawnQuestion()
@@ -350,19 +350,19 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         if let user = appDelegate.curUser {
             
             // Create disctParams with question
-            var dictParams = [String : AnyObject]()
+            var dictParams = [String : Any]()
             
             // Set current user for question
-            dictParams["username"] = user.username
-            dictParams["userId"] = user.id
+            dictParams["username"] = user.username as AnyObject?
+            dictParams["userId"] = user.id as AnyObject?
             
             // Set ID for question
             if let questions = arrQuestion {
                 if index < questions.count {
                     let question = questions[index]
-                    dictParams["questionId"] = question.id
+                    dictParams["questionId"] = question.id as AnyObject?
                     
-                    dictParams["organizationId"] = strOrganizationID
+                    dictParams["organizationId"] = strOrganizationID as AnyObject?
                     dictParams["answeredFor"] = ["categoryId": question.categoryId, "question": question.body]
                     dictParams["answeredBy"] = ["id": user.id, "username": user.username]
                 }
@@ -387,7 +387,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
                 */
                 if let text = txfAnswer.text {
-                    dictParams["text"] = text
+                    dictParams["text"] = text as AnyObject?
                 }
             }
             
@@ -404,7 +404,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 
                 if let image = imgView.image {
                     if let imageData = UIImagePNGRepresentation(image) {
-                        let base64String = imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+                        let base64String = imageData.base64EncodedString(options: NSData.Base64EncodingOptions.lineLength64Characters)
                         dictParams["fileToPost"] = ["data": base64String, "filename": "image.png"]
                     }
                     
@@ -456,12 +456,12 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
 
             //print("DICT PARAMS = \(dictParams)")
             
-            appDelegate.manager.request(.POST, "\(K_API_MAIN_URL)\(k_API_Answer)", parameters: dictParams, encoding: .JSON)
-            .responseJSON(completionHandler: { (response) -> Void in
+            Alamofire.request("\(K_API_MAIN_URL)\(k_API_Answer)", method: .post, parameters: dictParams)
+                .responseJSON(completionHandler: { (response) -> Void in
                 print(response)
                 
                 let apiManager              = APIManager()
-                apiManager.handleResponse(response.response, json: response.result.value)
+                apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
                 
                 if KVNProgress.isVisible() {
                     KVNProgress.dismiss()
@@ -475,7 +475,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     else {
                         if let message = error.strMessage {
                             let alert = Utils.okAlert("Error", message: message)
-                            self.presentViewController(alert, animated: true, completion: nil)
+                            self.present(alert, animated: true, completion: nil)
                         }
                     }
                 }
@@ -492,39 +492,39 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     // MARK: - Action Methods
-    @IBAction func btnNextQuestionAction(sender: AnyObject) {
+    @IBAction func btnNextQuestionAction(_ sender: AnyObject) {
         postQuestion_APICall()
     }
     
-    @IBAction func btnImage_Action(sender: AnyObject) {
-        if txfAnswer.isFirstResponder() {
+    @IBAction func btnImage_Action(_ sender: AnyObject) {
+        if txfAnswer.isFirstResponder {
             txfAnswer.resignFirstResponder()
         }
         
         setupImagePicker()
     }
     
-    @IBAction func btnBack_Action(sender: AnyObject) {
+    @IBAction func btnBack_Action(_ sender: AnyObject) {
         backAction()
     }
     
-    @IBAction func btnForward_Action(sender: AnyObject) {
+    @IBAction func btnForward_Action(_ sender: AnyObject) {
         forwardAction()
     }
     
-    @IBAction func btnBackground_Action(sender: AnyObject) {
+    @IBAction func btnBackground_Action(_ sender: AnyObject) {
         view.endEditing(true)
     }
     
-    @IBAction func btnLogot_Action(sender: AnyObject) {
+    @IBAction func btnLogot_Action(_ sender: AnyObject) {
         
         appDelegate.curUser = nil
         
         // Remove from NSUserDefaults
-        appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_Index)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_NoOfAnswer)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_OrganizationID)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_Index)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_NoOfAnswer)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_OrganizationID)
         appDelegate.defaults.synchronize()
         
         // Clean realm
@@ -533,28 +533,28 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         })
         
         // Present LoginVC
-        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
-        navigationController?.popToRootViewControllerAnimated(true)
-        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+        let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewController(animated: true)
+        navigationController?.present(loginNC, animated: true, completion: { () -> Void in
             
         })
     }
     
     // MARK: - SegmentControl Action Methods
     
-    func segmentedControlValueChanged(segment: UISegmentedControl) {
-        if txfAnswer.isFirstResponder() {
+    func segmentedControlValueChanged(_ segment: UISegmentedControl) {
+        if txfAnswer.isFirstResponder {
             txfAnswer.resignFirstResponder()
         }
         
-        if let strOfSegment = segment.titleForSegmentAtIndex(segment.selectedSegmentIndex) {
+        if let strOfSegment = segment.titleForSegment(at: segment.selectedSegmentIndex) {
             currentStrOfSegmControl = strOfSegment
         }
     }
     
     // MARK: - UITextFieldDelegate Methods
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField == txfAnswer {
             txfAnswer.resignFirstResponder()
@@ -564,16 +564,16 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     // MARK: - UIImagePickerControllerDelegate Methods
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
             imgView.image = Utils.scaleImageDown(pickedImage)
         }
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - MemoryManagement Methods
@@ -596,10 +596,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
 }
 
 extension UISegmentedControl {
-    func replaceSegments(segments: Array<String>) {
+    func replaceSegments(_ segments: Array<String>) {
         self.removeAllSegments()
         for segment in segments {
-            self.insertSegmentWithTitle(segment, atIndex: self.numberOfSegments, animated: false)
+            self.insertSegment(withTitle: segment, at: self.numberOfSegments, animated: false)
         }
     }
 }

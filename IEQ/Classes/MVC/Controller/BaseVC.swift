@@ -18,8 +18,8 @@ class BaseVC: UIViewController {
     
     // MARK: - Public Methods
     
-    func dismissViewController(animated: Bool) {
-        navigationController?.dismissViewControllerAnimated(animated, completion: { () -> Void in
+    func dismissViewController(_ animated: Bool) {
+        navigationController?.dismiss(animated: animated, completion: { () -> Void in
             
         })
     }

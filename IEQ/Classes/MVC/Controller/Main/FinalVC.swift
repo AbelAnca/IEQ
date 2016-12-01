@@ -20,19 +20,19 @@ class FinalVC: UIViewController {
         // Setup UI
         btnLogout.layer.cornerRadius           = 8
         btnLogout.layer.borderWidth            = 1
-        btnLogout.layer.borderColor            = UIColor.whiteColor().CGColor
+        btnLogout.layer.borderColor            = UIColor.white.cgColor
     }
     
     // MARK: - Action Methods
-    @IBAction func btnLogot_Action(sender: AnyObject) {
+    @IBAction func btnLogot_Action(_ sender: AnyObject) {
         
         appDelegate.curUser = nil
         
         // Remove from NSUserDefaults
-        appDelegate.defaults.removeObjectForKey(k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_Index)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_NoOfAnswer)
-        appDelegate.defaults.removeObjectForKey(k_UserDef_OrganizationID)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_Index)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_NoOfAnswer)
+        appDelegate.defaults.removeObject(forKey: k_UserDef_OrganizationID)
         appDelegate.defaults.synchronize()
 
         // Clean realm
@@ -41,9 +41,9 @@ class FinalVC: UIViewController {
         })
         
         // Present LoginVC
-        let loginNC = storyboard?.instantiateViewControllerWithIdentifier("LoginVC_NC") as! UINavigationController
-        navigationController?.popToRootViewControllerAnimated(true)
-        navigationController?.presentViewController(loginNC, animated: true, completion: { () -> Void in
+        let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
+        navigationController?.popToRootViewController(animated: true)
+        navigationController?.present(loginNC, animated: true, completion: { () -> Void in
 
         })
     }

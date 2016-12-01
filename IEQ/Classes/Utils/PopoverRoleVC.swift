@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PopoverRoleVCDelegate {
-    func didSelectDataInPopover(obj: String)
+    func didSelectDataInPopover(_ obj: String)
 }
 
 class PopoverRoleVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -28,15 +28,15 @@ class PopoverRoleVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     // MARK: - UITableViewDelegate Methods
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let arrData = arrData {
             return arrData.count
         }
         return 0
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") 
         
         if let arrData = arrData {
             let name = arrData[indexPath.row]
@@ -47,12 +47,12 @@ class PopoverRoleVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     // MARK: - UITableViewDelegate Methods
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let arrData = arrData {
             let name             = arrData[indexPath.row]
             self.delegate?.didSelectDataInPopover(name)
         }
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
     // MARK: - MemoryManagement Methods

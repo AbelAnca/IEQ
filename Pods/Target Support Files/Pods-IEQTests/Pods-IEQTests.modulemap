@@ -1,0 +1,6 @@
+framework module Pods_IEQTests {
+  umbrella header "Pods-IEQTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

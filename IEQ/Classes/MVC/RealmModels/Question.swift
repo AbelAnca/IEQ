@@ -9,29 +9,29 @@
 import Foundation
 import RealmSwift
 
-public class Question: Object {
-    public dynamic var id = ""
-    public dynamic var title = ""
-    public dynamic var categoryId = ""
-    public dynamic var body = ""
-    public dynamic var sorted = 0
-    public dynamic var acceptChoices = false
-    public dynamic var acceptFile = false
-    public dynamic var acceptText = false
+open class Question: Object {
+    open dynamic var id = ""
+    open dynamic var title = ""
+    open dynamic var categoryId = ""
+    open dynamic var body = ""
+    open dynamic var sorted = 0
+    open dynamic var acceptChoices = false
+    open dynamic var acceptFile = false
+    open dynamic var acceptText = false
     var choises = List<Choice>()
     
-    public override static func primaryKey() -> String? {
+    open override static func primaryKey() -> String? {
         return "id"
     }
 }
 
-public class Choice: Object {
+open class Choice: Object {
     dynamic var name = ""
 }
 
 
 extension Question {
-    class func createNewQuestionWithID(strID: String) -> Question {
+    class func createNewQuestionWithID(_ strID: String) -> Question {
         let question                        = Question()
         question.id                         = strID
         
@@ -39,7 +39,7 @@ extension Question {
     }
     
     
-    class func getQuestionWithID(strID: String, realm: Realm!) -> Question? {
+    class func getQuestionWithID(_ strID: String, realm: Realm!) -> Question? {
         let predicate               = NSPredicate(format: "id = %@", strID)
         let arrQuestions                    = realm.objects(Question).filter(predicate)
         
@@ -52,7 +52,7 @@ extension Question {
         return nil
     }
     
-    class func getNewOrExistingQuestion(strID: String, realm: Realm!) -> Question {
+    class func getNewOrExistingQuestion(_ strID: String, realm: Realm!) -> Question {
         if let follower = getQuestionWithID(strID, realm: realm) {
             return follower
         }
@@ -64,7 +64,7 @@ extension Question {
         }
     }
     
-    class func addEditQuestionWithDictionary(dictInfo: [String: AnyObject], realm: Realm!) -> Question {
+    class func addEditQuestionWithDictionary(_ dictInfo: [String: AnyObject], realm: Realm!) -> Question {
         var question         = Question()
         
         if let obj = dictInfo["id"] as? String {
@@ -102,12 +102,21 @@ extension Question {
                     question.title              = title
                     
                     // Set Sort Key
-                    let myRange = Range(title.startIndex.advancedBy(1) ..< title.startIndex.advancedBy(title.utf16.count))
+                    
+                    let myRange = title.index(title.startIndex, offsetBy: 1) ..< title.index(title.startIndex, offsetBy: title.utf16.count)
+                    
+                    //let myRange = Range(title.startIndex.advancedBy(1) ..< title.startIndex.advancedBy(title.utf16.count))
                     
                     //let myRange = Range<String.Index>(start: title.startIndex.advancedBy(1), end: title.startIndex.advancedBy(title.utf16.count))
-                    if let sort = Int(title.substringWithRange(myRange)) {
-                        question.sorted         = sort
+                    
+                    if let sort = Int(title.substring(with: myRange)) {
+                        question.sorted = sort
                     }
+                    
+                    
+                    //if let sort = Int(title.substringWithRange(myRange)) {
+                    //    question.sorted         = sort
+                    //}
                 }
                 
                 if let categoryId = dictInfo["categoryId"] as? String {

@@ -12,27 +12,35 @@ import UIKit
 class Utils: NSObject {
     
     // MARK: - Custom Methods
-    class func isValidEmail(testStr:String) -> Bool {
+    class func isValidEmail(_ testStr:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
         
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        let result = emailTest.evaluateWithObject(testStr)
+        let result = emailTest.evaluate(with: testStr)
         return result
     }
     
-    class func isValidPhoneNumber(value: String) -> Bool {
+    class func isValidPhoneNumber(phoneNumber: String) -> Bool {
+        let charcterSet  = NSCharacterSet(charactersIn: "+0123456789").inverted
+        let inputString = phoneNumber.components(separatedBy: charcterSet)
+        let filtered = inputString.joined(separator: "")
+        return  phoneNumber == filtered
+    }
+    /*
+    class func isValidPhoneNumber(_ value: String) -> Bool {
         if value.utf16.count < 10 && value.utf16.count > 0 {
             return false
         }
         
-        let charcter  = NSCharacterSet(charactersInString: "+0123456789").invertedSet
-        var filtered:NSString!
-        let inputString:NSArray = value.componentsSeparatedByCharactersInSet(charcter)
-        filtered = inputString.componentsJoinedByString("")
+        let charcter  = CharacterSet(charactersIn: "+0123456789").inverted
+        var filtered: String!
+        let inputString = value.components(separatedBy: charcter)
+        filtered = (inputString.joined(separator: "") as NSString!) as String!
+        //filtered = inputString.componentsJoined(by: "") as NSString!
         return  value == filtered
     }
-    
-    class func isValidUsername(testStr:String) -> Bool {
+    */
+    class func isValidUsername(_ testStr:String) -> Bool {
         if testStr.utf16.count == 0 {
             return false
         }
@@ -40,7 +48,7 @@ class Utils: NSObject {
         return true
     }
     
-    class func isValidPassword(testStr:String) -> Bool {
+    class func isValidPassword(_ testStr:String) -> Bool {
         if testStr.utf16.count == 0 {
             return false
         }
@@ -48,7 +56,7 @@ class Utils: NSObject {
         return true
     }
     
-    class func isValidFirstName(testStr:String) -> Bool {
+    class func isValidFirstName(_ testStr:String) -> Bool {
         if testStr.utf16.count == 0 {
             return false
         }
@@ -56,7 +64,7 @@ class Utils: NSObject {
         return true
     }
     
-    class func isValidLastName(testStr:String) -> Bool {
+    class func isValidLastName(_ testStr:String) -> Bool {
         if testStr.utf16.count == 0 {
             return false
         }
@@ -64,7 +72,7 @@ class Utils: NSObject {
         return true
     }
     
-    class func isValidRole(testStr:String) -> Bool {
+    class func isValidRole(_ testStr:String) -> Bool {
         if testStr.utf16.count == 0 {
             return false
         }
@@ -72,7 +80,7 @@ class Utils: NSObject {
         return true
     }
     
-    class func isPasswordValid(strPasswordText : NSString) -> Bool {
+    class func isPasswordValid(_ strPasswordText : NSString) -> Bool {
         // too long or too short
         if strPasswordText.length < 1 || strPasswordText.length > 32 {
             return false
@@ -107,17 +115,17 @@ class Utils: NSObject {
         return true
     }
     
-    class func okAlert(title: String?, message: String?) -> UIAlertController {
-        let alert = UIAlertController(title: title, message: message, preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+    class func okAlert(_ title: String?, message: String?) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle:.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         return alert
     }
     
-    class func scaleImageDown(image: UIImage) -> UIImage {
+    class func scaleImageDown(_ image: UIImage) -> UIImage {
         let fWidth      = image.size.width
         let fHeight     = image.size.height
-        var bounds      = CGRectZero
+        var bounds      = CGRect.zero
         
         if fWidth <= k_ResizeTo30PercentResolution && fHeight <= k_ResizeTo30PercentResolution {
             return image
@@ -135,16 +143,16 @@ class Utils: NSObject {
             }
         }
         
-        let size = CGSizeMake(bounds.size.width, bounds.size.height)
+        let size = CGSize(width: bounds.size.width, height: bounds.size.height)
         let hasAlpha = false
         let scale: CGFloat = 2.0 // Automatically use scale factor of main screen
         
         UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-        image.drawInRect(CGRect(origin: CGPointZero, size: size))
+        image.draw(in: CGRect(origin: CGPoint.zero, size: size))
         
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
         
-        return scaledImage
+        return scaledImage!
     }
     
 }

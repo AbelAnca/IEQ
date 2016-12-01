@@ -10,23 +10,30 @@ import Foundation
 import RealmSwift
 
 class RLMManager {
+    /*
+    private static var __once: () = {
+            Static.instance = RLMManager()
+        }()
+    
     class var sharedInstance: RLMManager {
         struct Static {
             static var instance: RLMManager?
-            static var token: dispatch_once_t = 0
+            static var token: Int = 0
         }
         
-        dispatch_once(&Static.token) {
-            Static.instance = RLMManager()
-        }
+        _ = RLMManager.__once
         
         return Static.instance!
     }
+    */
+    private init() {}
+    
+    static let sharedInstance = RLMManager()
     
     /*
     **     Method to save user locally
     */
-    func saveUser(dictData: [String: AnyObject]) -> User? {
+    func saveUser(_ dictData: [String: AnyObject]) -> User? {
         if let _ = dictData["id"] as? String {
             //=>     Save user locally
             let user = User.addEditUserWithDictionary(dictData, realm: appDelegate.realm)
@@ -35,7 +42,7 @@ class RLMManager {
             appDelegate.curUser     = user
             
             //=>     Save user's ID locally, to know which user is logged in
-            appDelegate.defaults.setObject(user.id, forKey: k_UserDef_LoggedInUserID)
+            appDelegate.defaults.set(user.id, forKey: k_UserDef_LoggedInUserID)
             appDelegate.defaults.synchronize()
             
             return user
@@ -48,7 +55,7 @@ class RLMManager {
     /*
     **     Method to save question locally
     */
-    func saveQuestion(dictData: [String: AnyObject]) -> Question? {
+    func saveQuestion(_ dictData: [String: AnyObject]) -> Question? {
         if let _ = dictData["id"] as? String {
             
             //=>     Save question locally
