@@ -111,13 +111,11 @@ public:
         }
     }
 
-    void did_change(std::vector<ObserverState> const& observed, std::vector<void*> const& invalidated, bool version_changed) override {
+    void did_change(std::vector<ObserverState> const& observed, std::vector<void*> const& invalidated) override {
         try {
             @autoreleasepool {
                 RLMDidChange(observed, invalidated);
-                if (version_changed) {
-                    [_realm sendNotifications:RLMRealmDidChangeNotification];
-                }
+                [_realm sendNotifications:RLMRealmDidChangeNotification];
             }
         }
         catch (...) {

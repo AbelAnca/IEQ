@@ -94,13 +94,18 @@ class LoginVC: BaseVC, UITextFieldDelegate {
     
     func login_APICall() {
         
-        var dictParams = [String : AnyObject]()
-        dictParams["username"] = txfPhoneUseraemeOrEmail.text! as AnyObject?
-        dictParams["password"] = txfPassword.text! as AnyObject?
-        
         KVNProgress.show(withStatus: "Please wait...")
         
-        Alamofire.request("\(K_API_MAIN_URL)\(k_API_User_Login)", method: .post, parameters: dictParams, encoding: URLEncoding.default)
+        let parameters: Parameters = [
+            "username": txfPhoneUseraemeOrEmail.text!,
+            "password": txfPassword.text!
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Content-Type": "application/json; charset=utf-8"
+        ]
+        
+        Alamofire.request("\(K_API_MAIN_URL)\(k_API_User_Login)", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { (response) -> Void in
                 
                 let apiManager              = APIManager()

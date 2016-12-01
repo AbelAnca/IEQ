@@ -278,8 +278,8 @@
 			isa = PBXGroup;
 			children = (
 				B5C31FC51C1A4BF5009B6411 /* BaseVC.swift */,
-				B54E25691CB55D0C00989528 /* Main */,
 				B5C216B71C0E2B2E001CFA9A /* Login */,
+				B54E25691CB55D0C00989528 /* Main */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

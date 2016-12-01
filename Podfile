@@ -6,7 +6,7 @@ target 'IEQ' do
   use_frameworks!
 
   # Pods for IEQ
-    pod 'Alamofire', '~> 4.0'
+    pod 'Alamofire'
     pod 'KVNProgress', '~> 2.2.1'
     pod 'RealmSwift'
     pod 'AsyncSwift'
