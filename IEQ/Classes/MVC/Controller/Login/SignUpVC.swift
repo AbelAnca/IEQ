@@ -162,18 +162,18 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
     
     func registerAccount_APICall() {
         
-        let dictParams : [String : Any]             = ["username": "\(txfUsername.text!)" as AnyObject ,
-                                                      "firstName": "\(txfFirstName.text!)" as AnyObject,
-                                                      "lastName": "\(txfLastName.text!)" as AnyObject,
-                                                      "email": "\(txfEmailAddress.text!)" as AnyObject,
-                                                      "phone": "\(txfPhoneNumber.text!)" as AnyObject,
-                                                      "password": "\(txfPassword.text!)" as AnyObject,
+        let dictParams : Parameters             = ["username": "\(txfUsername.text!)",
+                                                      "firstName": "\(txfFirstName.text!)",
+                                                      "lastName": "\(txfLastName.text!)",
+                                                      "email": "\(txfEmailAddress.text!)",
+                                                      "phone": "\(txfPhoneNumber.text!)",
+                                                      "password": "\(txfPassword.text!)",
                                                       "selectedRoles": [selectedRole!]]
         print(dictParams)
         
         KVNProgress.show(withStatus: "Please wait...")
         
-        Alamofire.request("\(K_API_MAIN_URL)\(k_API_User_Register)", method: .post, parameters: dictParams, encoding: URLEncoding.default)
+        Alamofire.request("\(K_API_MAIN_URL)\(k_API_User_Register)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
             .responseJSON { (response) -> Void in
                 
                 let apiManager              = APIManager()
@@ -215,7 +215,7 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
         btnSelectRole.isHidden = true
         spinner.startAnimating()
         
-        Alamofire.request("\(K_API_MAIN_URL)\(k_API_Roles)")
+        Alamofire.request("\(K_API_MAIN_URL)\(k_API_Roles)", encoding: JSONEncoding.default, headers: appDelegate.headers)
             .responseJSON { response in // method defaults to `.get`
                 
                 let apiManager              = APIManager()

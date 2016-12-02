@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7F45F2F21482C3777494ACE42307212D"
-               BuildableName = "Async.framework"
-               BlueprintName = "AsyncSwift"
-               ReferencedContainer = "container:Pods.xcodeproj">
+               BlueprintIdentifier = "B5C2167F1C0E2A77001CFA9A"
+               BuildableName = "IEQ.app"
+               BlueprintName = "IEQ"
+               ReferencedContainer = "container:IEQ.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,7 +28,36 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B5C216961C0E2A78001CFA9A"
+               BuildableName = "IEQTests.xctest"
+               BlueprintName = "IEQTests"
+               ReferencedContainer = "container:IEQ.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B5C216A11C0E2A78001CFA9A"
+               BuildableName = "IEQUITests.xctest"
+               BlueprintName = "IEQUITests"
+               ReferencedContainer = "container:IEQ.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B5C2167F1C0E2A77001CFA9A"
+            BuildableName = "IEQ.app"
+            BlueprintName = "IEQ"
+            ReferencedContainer = "container:IEQ.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -42,15 +71,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7F45F2F21482C3777494ACE42307212D"
-            BuildableName = "Async.framework"
-            BlueprintName = "AsyncSwift"
-            ReferencedContainer = "container:Pods.xcodeproj">
+            BlueprintIdentifier = "B5C2167F1C0E2A77001CFA9A"
+            BuildableName = "IEQ.app"
+            BlueprintName = "IEQ"
+            ReferencedContainer = "container:IEQ.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -60,15 +90,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7F45F2F21482C3777494ACE42307212D"
-            BuildableName = "Async.framework"
-            BlueprintName = "AsyncSwift"
-            ReferencedContainer = "container:Pods.xcodeproj">
+            BlueprintIdentifier = "B5C2167F1C0E2A77001CFA9A"
+            BuildableName = "IEQ.app"
+            BlueprintName = "IEQ"
+            ReferencedContainer = "container:IEQ.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

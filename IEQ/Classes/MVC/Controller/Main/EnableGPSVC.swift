@@ -135,7 +135,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
         btnSelectOrganization.isHidden = true
         spinner.startAnimating()
         
-        appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_OrganizationTypes)", method: .get)
+        appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_OrganizationTypes)", method: .get, encoding: JSONEncoding.default, headers: appDelegate.headers)
             .responseJSON { (response) -> Void in
                 
                 let apiManager              = APIManager()
@@ -174,18 +174,18 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
     func getOrganizationForCurrentLocation() {
         if let _ = appDelegate.curUser {
             
-            var dictParams = [String : AnyObject]()
-            
             // FOR TEST !!!
             //self.longitude                       = -114.0912223288317
             //self.latitude                        = 51.05230309236315
-            
-            dictParams["longitude"]         = self.longitude as AnyObject?
-            dictParams["latitude"]          = self.latitude as AnyObject?
+
+            let dictParams : Parameters = [
+                "longitude"       : self.longitude,
+                "latitude"        : self.latitude
+                ]
             
             KVNProgress.show(withStatus: "Please wait...")
             
-            appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_GetOrganizationByLocation)", method: .post, parameters: dictParams)
+            appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_GetOrganizationByLocation)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
                 .responseJSON { (response) -> Void in
                     
                     let apiManager              = APIManager()
@@ -264,23 +264,23 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
         if let _ = appDelegate.curUser {
            
             //=>    Create disctParams
-            var dictParams = [String : AnyObject]()
+            var dictParams : Parameters = [
+                "name"        : txfOrganizationName.text!,
+                "description"  : txvDescription.text!,
+                "type"         : txfOrganizationType.text!
+            ]
             
-            dictParams["name"]         = txfOrganizationName.text! as AnyObject?
-            dictParams["description"]  = txvDescription.text! as AnyObject?
-            dictParams["type"]         = txfOrganizationType.text! as AnyObject?
+            var dictLocation = Parameters()
+            dictLocation["longitude"]         = longitude
+            dictLocation["latitude"]          = latitude
             
-            var dictLocation = [String : AnyObject]()
-            dictLocation["longitude"]         = longitude as AnyObject?
-            dictLocation["latitude"]          = latitude as AnyObject?
-            
-            dictParams["location"]         = dictLocation as AnyObject?
+            dictParams["location"]         = dictLocation
             
             debugPrint("PARAMS = \(dictParams)")
             
             KVNProgress.show(withStatus: "Please wait...")
             
-            appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_AddOrganization)", method: .post, parameters: dictParams, headers: nil)            
+            appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_AddOrganization)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
                 .responseJSON { (response) -> Void in
                     
                     let apiManager              = APIManager()

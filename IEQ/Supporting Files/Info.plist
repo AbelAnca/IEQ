@@ -4,7 +4,7 @@
 <dict>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Required to listen to your words</string>
-	<key>NSCameraUsageDescription</key>
+	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Required to see you</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>

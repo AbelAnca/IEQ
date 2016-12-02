@@ -305,7 +305,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     func loadQuestion_APICall() {
         KVNProgress.show(withStatus: "Please wait...")
         
-        appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Question)", method: .get)
+        appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Question)", method: .get, encoding: JSONEncoding.default, headers: appDelegate.headers)
             .responseJSON { (response) -> Void in
                 let apiManager              = APIManager()
                 apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
@@ -350,19 +350,19 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         if let user = appDelegate.curUser {
             
             // Create disctParams with question
-            var dictParams = [String : Any]()
+            var dictParams = Parameters()
             
             // Set current user for question
-            dictParams["username"] = user.username as AnyObject?
-            dictParams["userId"] = user.id as AnyObject?
+            dictParams["username"] = user.username
+            dictParams["userId"] = user.id
             
             // Set ID for question
             if let questions = arrQuestion {
                 if index < questions.count {
                     let question = questions[index]
-                    dictParams["questionId"] = question.id as AnyObject?
+                    dictParams["questionId"] = question.id
                     
-                    dictParams["organizationId"] = strOrganizationID as AnyObject?
+                    dictParams["organizationId"] = strOrganizationID
                     dictParams["answeredFor"] = ["categoryId": question.categoryId, "question": question.body]
                     dictParams["answeredBy"] = ["id": user.id, "username": user.username]
                 }
@@ -387,7 +387,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
                 */
                 if let text = txfAnswer.text {
-                    dictParams["text"] = text as AnyObject?
+                    dictParams["text"] = text
                 }
             }
             
@@ -456,7 +456,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
 
             //print("DICT PARAMS = \(dictParams)")
             
-            Alamofire.request("\(K_API_MAIN_URL)\(k_API_Answer)", method: .post, parameters: dictParams)
+            appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Answer)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
                 .responseJSON(completionHandler: { (response) -> Void in
                 print(response)
                 

@@ -101,11 +101,7 @@ class LoginVC: BaseVC, UITextFieldDelegate {
             "password": txfPassword.text!
         ]
         
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json; charset=utf-8"
-        ]
-        
-        Alamofire.request("\(K_API_MAIN_URL)\(k_API_User_Login)", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        Alamofire.request("\(K_API_MAIN_URL)\(k_API_User_Login)", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: appDelegate.headers)
             .responseJSON { (response) -> Void in
                 
                 let apiManager              = APIManager()

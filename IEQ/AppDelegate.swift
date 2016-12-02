@@ -22,6 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var realm: Realm!
     
+    let headers: HTTPHeaders = [
+        "Content-Type": "application/json; charset=utf-8"
+    ]
+
+    
     //>     Creating an Instance of the Alamofire Manager
     var manager = SessionManager.default
     
