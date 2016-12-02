@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3BD363BBBDD62AF6DAAD523C /* Pods_IEQTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 172B01A2DC82EF2EB89B948A /* Pods_IEQTests.framework */; };
+		9A1DFFC31DF1940A0076B228 /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1DFFC21DF1940A0076B228 /* Answer.swift */; };
 		AD79745B5403825C650E36B4 /* Pods_IEQUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC596049D299C4C7343DC495 /* Pods_IEQUITests.framework */; };
 		AF2B6F861C18B67D00CE554B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F851C18B67D00CE554B /* User.swift */; };
 		AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2B6F881C18B73F00CE554B /* RealmManager.swift */; };
@@ -56,6 +57,7 @@
 		365CA38436BEB4F5C5446EA5 /* Pods-IEQ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IEQ.release.xcconfig"; path = "Pods/Target Support Files/Pods-IEQ/Pods-IEQ.release.xcconfig"; sourceTree = "<group>"; };
 		37130A1C72F0781B19DDFBDA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		852AF6A3B6ECA11C5A1376E9 /* Pods-IEQUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IEQUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IEQUITests/Pods-IEQUITests.release.xcconfig"; sourceTree = "<group>"; };
+		9A1DFFC21DF1940A0076B228 /* Answer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		9D121B1F5FD927F468BB234B /* Pods-IEQ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IEQ.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IEQ/Pods-IEQ.debug.xcconfig"; sourceTree = "<group>"; };
 		AF2B6F851C18B67D00CE554B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AF2B6F881C18B73F00CE554B /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				AF2B6F851C18B67D00CE554B /* User.swift */,
 				B5C31FBE1C19B536009B6411 /* Question.swift */,
+				9A1DFFC21DF1940A0076B228 /* Answer.swift */,
 			);
 			name = RealmModels;
 			path = Classes/MVC/RealmModels;
@@ -637,6 +640,7 @@
 				B58E6D9E1C16F8030003C51A /* Utils.swift in Sources */,
 				B5C216D61C10CE86001CFA9A /* SignUpVC.swift in Sources */,
 				B54E256F1CB55D7300989528 /* EnableGPSVC.swift in Sources */,
+				9A1DFFC31DF1940A0076B228 /* Answer.swift in Sources */,
 				B5C31FBF1C19B536009B6411 /* Question.swift in Sources */,
 				B54E256C1CB55D4600989528 /* FinalVC.swift in Sources */,
 				AF2B6F891C18B73F00CE554B /* RealmManager.swift in Sources */,

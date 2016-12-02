@@ -38,7 +38,6 @@ extension Question {
         return question
     }
     
-    
     class func getQuestionWithID(_ strID: String, realm: Realm!) -> Question? {
         let predicate               = NSPredicate(format: "id = %@", strID)
         let arrQuestions                    = realm.objects(Question.self).filter(predicate)
