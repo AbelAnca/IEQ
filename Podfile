@@ -12,6 +12,7 @@ target 'IEQ' do
     pod 'AsyncSwift'
     pod 'Fabric'
     pod 'Crashlytics'
+    pod 'ReachabilitySwift', '~> 3'
 
   target 'IEQTests' do
     inherit! :search_paths

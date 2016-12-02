@@ -2,3 +2,7 @@
 *.xcuserstate
 
 IEQ.xcworkspace/xcuserdata/AndyBoariu.xcuserdatad/UserInterfaceState.xcuserstate
+
+*.xcbkptlist
+ 
+*./Pods

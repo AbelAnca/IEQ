@@ -12,6 +12,8 @@ import RealmSwift
 import KVNProgress
 import Fabric
 import Crashlytics
+import ReachabilitySwift
+import Async
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -46,6 +48,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KVNProgress.setConfiguration(configuration)
         
         Fabric.with([Crashlytics.self])
+        
+        //=>    Init reachablity
+        checkInternetReachability()
         
         return true
     }
@@ -100,6 +105,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let user = User.getUserWithID(strID, realm: appDelegate.realm) {
                 curUser = user
             }
+        }
+    }
+    
+    func checkInternetReachability() {
+        //declare this property where it won't go out of scope relative to your listener
+        let reachability = Reachability()!
+        
+        reachability.whenReachable = { reachability in
+            // this is called on a background thread, but UI updates must
+            // be on the main thread, like this:
+            
+            Async.main({
+                if reachability.isReachableViaWiFi {
+                    print("Reachable via WiFi")
+                } else {
+                    print("Reachable via Cellular")
+                }
+            })
+        }
+        reachability.whenUnreachable = { reachability in
+            // this is called on a background thread, but UI updates must
+            // be on the main thread, like this:
+            
+            Async.main({
+                print("Not reachable")
+            })
+        }
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier")
         }
     }
 }
