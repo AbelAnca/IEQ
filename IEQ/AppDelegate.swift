@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var realm: Realm!
     
+    var bIsInternetReachable = false
+    
     let headers: HTTPHeaders = [
         "Content-Type": "application/json; charset=utf-8"
     ]
@@ -123,7 +125,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("Reachable via Cellular")
                 }
             })
+            self.bIsInternetReachable = true
         }
+        
         reachability.whenUnreachable = { reachability in
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
@@ -131,6 +135,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Async.main({
                 print("Not reachable")
             })
+            
+            self.bIsInternetReachable = false
         }
         
         do {
