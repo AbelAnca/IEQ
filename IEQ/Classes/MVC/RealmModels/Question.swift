@@ -10,14 +10,14 @@ import Foundation
 import RealmSwift
 
 open class Question: Object {
-    open dynamic var id = ""
-    open dynamic var title = ""
-    open dynamic var categoryId = ""
-    open dynamic var body = ""
-    open dynamic var sorted = 0
-    open dynamic var acceptChoices = false
-    open dynamic var acceptFile = false
-    open dynamic var acceptText = false
+    open dynamic var id                 = ""
+    open dynamic var title              = ""
+    open dynamic var categoryId         = ""
+    open dynamic var body               = ""
+    open dynamic var sorted             = 0
+    open dynamic var acceptChoices      = false
+    open dynamic var acceptFile         = false
+    open dynamic var acceptText         = false
     var choises = List<Choice>()
     
     open override static func primaryKey() -> String? {

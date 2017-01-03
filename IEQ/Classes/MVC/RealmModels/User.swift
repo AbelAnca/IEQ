@@ -10,9 +10,9 @@ import Foundation
 import RealmSwift
 
 open class User: Object {
-    open dynamic var id = ""
-    open dynamic var token = ""
-    open dynamic var username = ""
+    open dynamic var id         = ""
+    open dynamic var token      = ""
+    open dynamic var username   = ""
     
     open override static func primaryKey() -> String? {
             return "id"
@@ -21,8 +21,8 @@ open class User: Object {
 
 extension User {
     class func createNewUserWithID(_ strID: String) -> User {
-        let user                 = User()
-        user.id               = strID
+        let user                    = User()
+        user.id                     = strID
         
         return user
     }
@@ -57,7 +57,7 @@ extension User {
         var user         = User()
         
         if let obj = dictInfo["id"] as? String {
-            user                         = self.getNewOrExistingUser(obj, realm: realm)
+            user                            = self.getNewOrExistingUser(obj, realm: realm)
             
             
             try! realm.write({ () -> Void in
@@ -65,11 +65,11 @@ extension User {
                 print(dictInfo)
                 
                 if let strUsername = dictInfo["username"] as? String {
-                    user.username   = strUsername
+                    user.username           = strUsername
                 }
                 
                 if let strToken = dictInfo["authorization"] as? String {
-                    user.token      = strToken
+                    user.token              = strToken
                 }
                 
                 realm.add(user, update: true)

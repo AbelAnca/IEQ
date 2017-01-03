@@ -410,7 +410,7 @@
 			attributes = {
 				CLASSPREFIX = IEQ;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = IEQ;
 				TargetAttributes = {
 					B5C2167F1C0E2A77001CFA9A = {

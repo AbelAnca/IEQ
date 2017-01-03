@@ -10,16 +10,16 @@ import Foundation
 import RealmSwift
 
 open class Answer: Object {
-    open dynamic var id = ""
-    open dynamic var loggedInUsername = ""
-    open dynamic var loggedInUserId = ""
-    open dynamic var questionId = ""
-    open dynamic var organizationId = ""
-    open dynamic var categoryId = ""
-    open dynamic var questionBody = ""
-    open dynamic var answerSelectedChoice = ""
-    open dynamic var answerText = ""
-    open dynamic var answerImgUrl = ""
+    open dynamic var id                     = ""
+    open dynamic var loggedInUsername       = ""
+    open dynamic var loggedInUserId         = ""
+    open dynamic var questionId             = ""
+    open dynamic var organizationId         = ""
+    open dynamic var categoryId             = ""
+    open dynamic var questionBody           = ""
+    open dynamic var answerSelectedChoice   = ""
+    open dynamic var answerText             = ""
+    open dynamic var answerImgUrl           = ""
     
     open override static func primaryKey() -> String? {
         return "id"
@@ -63,7 +63,7 @@ extension Answer {
         var answer         = Answer()
         
         if let obj = dictInfo["id"] as? String {
-            answer                            = self.getNewOrExistingAnswer(obj, realm: realm)
+            answer                                      = self.getNewOrExistingAnswer(obj, realm: realm)
             
             
             try! realm.write({ () -> Void in
@@ -72,15 +72,15 @@ extension Answer {
                 }
                 
                 if let loggedInUsername = dictInfo["loggedInUsername"] as? String {
-                    answer.loggedInUsername         = loggedInUsername
+                    answer.loggedInUsername             = loggedInUsername
                 }
                 
                 if let loggedInUserId = dictInfo["loggedInUserId"] as? String {
-                    answer.loggedInUserId         = loggedInUserId
+                    answer.loggedInUserId               = loggedInUserId
                 }
                 
                 if let questionId = dictInfo["questionId"] as? String {
-                    answer.questionId               = questionId
+                    answer.questionId                   = questionId
                 }
                 
                 if let organizationId = dictInfo["organizationId"] as? String {
@@ -88,19 +88,19 @@ extension Answer {
                 }
                 
                 if let categoryId = dictInfo["categoryId"] as? String {
-                    answer.categoryId               = categoryId
+                    answer.categoryId                   = categoryId
                 }
                 
                 if let answerSelectedChoice = dictInfo["answerSelectedChoice"] as? String {
-                    answer.answerSelectedChoice               = answerSelectedChoice
+                    answer.answerSelectedChoice         = answerSelectedChoice
                 }
                 
                 if let answerText = dictInfo["answerText"] as? String {
-                    answer.answerText               = answerText
+                    answer.answerText                   = answerText
                 }
                 
                 if let answerImgUrl = dictInfo["answerImgUrl"] as? String {
-                    answer.answerImgUrl               = answerImgUrl
+                    answer.answerImgUrl                 = answerImgUrl
                 }
                 
                 realm.add(answer, update: true)

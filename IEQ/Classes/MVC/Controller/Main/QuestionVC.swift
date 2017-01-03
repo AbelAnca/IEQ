@@ -41,7 +41,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     var arrQuestion: Results<(Question)>?
     
     var currentStrOfSegmControl         = ""
-    var strOrganizationID                        = ""
+    var strOrganizationID               = ""
     
     var isChoice                        = false
     var isPicture                       = false
@@ -192,11 +192,11 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 
                 if question.acceptChoices == true {
                     
-                    topSpaceViewSegment.constant  = 20
+                    topSpaceViewSegment.constant    = 20
                     viewSegment.isHidden            = false
-                    isChoice                      = true
+                    isChoice                        = true
                     
-                    var arrChoices                = Array<String>()
+                    var arrChoices                  = Array<String>()
                     
                     for choise in question.choises {
                         arrChoices.append(choise.name)
@@ -206,24 +206,24 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     segmentControl.addTarget(self, action: #selector(QuestionVC.segmentedControlValueChanged(_:)), for:.valueChanged)
                 }
                 else {
-                    topSpaceViewSegment.constant   = -30
+                    topSpaceViewSegment.constant    = -30
                 }
                 
                 
                 // Upload a picture
                 if question.acceptFile == true {
                     viewImage.isHidden              = false
-                    isPicture                     = true
+                    isPicture                       = true
                 }
                 
                 // Write an answer
                 if question.acceptText == true {
-                    topSpaceViewText.constant     = 20
+                    topSpaceViewText.constant       = 20
                     viewText.isHidden               = false
-                    isText                        = true
+                    isText                          = true
                 }
                 else {
-                    topSpaceViewText.constant     = -30
+                    topSpaceViewText.constant       = -30
                 }
             }
             else
@@ -350,21 +350,21 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         if let user = appDelegate.curUser {
             
             // Create disctParams with question
-            var dictParams = Parameters()
+            var dictParams              = Parameters()
             
             // Set current user for question
-            dictParams["username"] = user.username
-            dictParams["userId"] = user.id
+            dictParams["username"]      = user.username
+            dictParams["userId"]        = user.id
             
             // Set ID for question
             if let questions = arrQuestion {
                 if index < questions.count {
-                    let question = questions[index]
-                    dictParams["questionId"] = question.id
+                    let question                    = questions[index]
+                    dictParams["questionId"]        = question.id
                     
-                    dictParams["organizationId"] = strOrganizationID
-                    dictParams["answeredFor"] = ["categoryId": question.categoryId, "question": question.body]
-                    dictParams["answeredBy"] = ["id": user.id, "username": user.username]
+                    dictParams["organizationId"]    = strOrganizationID
+                    dictParams["answeredFor"]       = ["categoryId": question.categoryId, "question": question.body]
+                    dictParams["answeredBy"]        = ["id": user.id, "username": user.username]
                 }
             }
             
@@ -375,6 +375,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     
                     return
                 }
+                
                 dictParams["choices"] = [currentStrOfSegmControl]
             }
             
@@ -454,7 +455,9 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
             }
 
-            //print("DICT PARAMS = \(dictParams)")
+            print("DICT PARAMS = \(dictParams)")
+            
+            print(appDelegate.bIsInternetReachable)
             
             appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Answer)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
                 .responseJSON(completionHandler: { (response) -> Void in
@@ -488,6 +491,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                         self.drawnQuestion()
                 }
             })
+                
+                
         }
     }
     
