@@ -156,3 +156,9 @@ class Utils: NSObject {
     }
     
 }
+
+extension String {
+    var length : Int {
+        return self.characters.count
+    }
+}

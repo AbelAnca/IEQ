@@ -10,6 +10,8 @@ import UIKit
 import Alamofire
 import RealmSwift
 import KVNProgress
+import ReachabilitySwift
+import Async
 
 class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -48,6 +50,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     var isText                          = false
 
     let imagePicker = UIImagePickerController()
+    let reachability = Reachability()!
     
     // MARK: - ViewController Methods
     override func viewDidLoad() {
@@ -70,8 +73,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
     }
+    
+    // MARK: - Notification Methods
     
     // MARK: - Custom Methods
     
@@ -209,7 +214,6 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     topSpaceViewSegment.constant    = -30
                 }
                 
-                
                 // Upload a picture
                 if question.acceptFile == true {
                     viewImage.isHidden              = false
@@ -230,8 +234,20 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 if index == questions.count {
                     if let noAnswer = appDelegate.defaults.object(forKey: k_UserDef_NoOfAnswer) as? Int {
                         if noAnswer >= questions.count {
-                            let finalVC = storyboard?.instantiateViewController(withIdentifier: "FinalVC") as! FinalVC
-                            navigationController?.pushViewController(finalVC, animated: true)
+                            
+                            //|     Check if exist answers in database
+                            let answers = appDelegate.realm.objects(Answer.self)
+                                
+                            if answers.count > 0 {
+                                //|     Show UploadAnswerVC because NOT every answer was upload
+                                let uploadAnswerVC          = storyboard?.instantiateViewController(withIdentifier: "UploadAnswerVC") as! UploadAnswerVC
+                                navigationController?.pushViewController(uploadAnswerVC, animated: true)
+                            }
+                            else {
+                                //|     Show FinalVC because every answer was upload
+                                let finalVC = storyboard?.instantiateViewController(withIdentifier: "FinalVC") as! FinalVC
+                                navigationController?.pushViewController(finalVC, animated: true)
+                            }
                         }
                         else {
                             let alert = Utils.okAlert("Attention", message: "You must complete all questions!")
@@ -298,6 +314,14 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         navigationController?.present(loginNC, animated: true, completion: { () -> Void in
             
         })
+    }
+    
+    func setupNewQuestion() {
+        self.noOfAnswer += 1
+        
+        //|     Go to the next question
+        self.prepareForNewQuestion()
+        self.drawnQuestion()
     }
     
     // MARK: - API Methods
@@ -457,42 +481,52 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
 
             print("DICT PARAMS = \(dictParams)")
             
-            print(appDelegate.bIsInternetReachable)
-            
-            appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Answer)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
-                .responseJSON(completionHandler: { (response) -> Void in
-                print(response)
+            if appDelegate.bIsInternetReachable {
                 
-                let apiManager              = APIManager()
-                apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
-                
-                if KVNProgress.isVisible() {
-                    KVNProgress.dismiss()
-                }
-                
-                if let error = apiManager.error {
-                    if error.strErrorCode == "401" {
-                        //=>    Session expired -> force user to login again
-                        self.presentLoginScreen()
+                Async.main(after: 0.1, {
+                    
+                    //|     Hide spinner
+                    if KVNProgress.isVisible() {
+                        KVNProgress.dismiss()
                     }
-                    else {
-                        if let message = error.strMessage {
-                            let alert = Utils.okAlert("Error", message: message)
-                            self.present(alert, animated: true, completion: nil)
-                        }
-                    }
-                }
-                else
-                    if let _ = apiManager.data {
-                        self.noOfAnswer += 1
+                })
+                
+                //|     Save answer
+                _ = RLMManager.sharedInstance.saveAnswer(dictParams as [String : AnyObject])
+                
+                //|     Setup New Question
+                setupNewQuestion()
+            }
+            else {
+                appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Answer)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
+                    .responseJSON(completionHandler: { (response) -> Void in
+                        print(response)
                         
-                        // If is success go to the next question
-                        self.prepareForNewQuestion()
-                        self.drawnQuestion()
-                }
-            })
-                
-                
+                        let apiManager              = APIManager()
+                        apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
+                        
+                        if KVNProgress.isVisible() {
+                            KVNProgress.dismiss()
+                        }
+                        
+                        if let error = apiManager.error {
+                            if error.strErrorCode == "401" {
+                                //=>    Session expired -> force user to login again
+                                self.presentLoginScreen()
+                            }
+                            else {
+                                if let message = error.strMessage {
+                                    let alert = Utils.okAlert("Error", message: message)
+                                    self.present(alert, animated: true, completion: nil)
+                                }
+                            }
+                        }
+                        else
+                            if let _ = apiManager.data {
+                                self.setupNewQuestion()
+                        }
+                    })
+            }
         }
     }
     
@@ -584,20 +618,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     // MARK: - MemoryManagement Methods
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-    
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-    }
-    */
-    
 }
 
 extension UISegmentedControl {

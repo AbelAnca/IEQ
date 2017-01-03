@@ -18,7 +18,7 @@ open class Question: Object {
     open dynamic var acceptChoices      = false
     open dynamic var acceptFile         = false
     open dynamic var acceptText         = false
-    var choises = List<Choice>()
+    var choises                         = List<Choice>()
     
     open override static func primaryKey() -> String? {
         return "id"

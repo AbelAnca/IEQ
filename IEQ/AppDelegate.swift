@@ -138,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             self.bIsInternetReachable = false
         }
-        
+
         do {
             try reachability.startNotifier()
         } catch {

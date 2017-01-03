@@ -11,15 +11,17 @@ import RealmSwift
 
 open class Answer: Object {
     open dynamic var id                     = ""
-    open dynamic var loggedInUsername       = ""
-    open dynamic var loggedInUserId         = ""
+    open dynamic var username               = ""
+    open dynamic var userId                 = ""
     open dynamic var questionId             = ""
     open dynamic var organizationId         = ""
     open dynamic var categoryId             = ""
     open dynamic var questionBody           = ""
-    open dynamic var answerSelectedChoice   = ""
-    open dynamic var answerText             = ""
-    open dynamic var answerImgUrl           = ""
+    open dynamic var text                   = ""
+    open dynamic var data                   = ""
+    open dynamic var filename               = ""
+    
+    var choises                             = List<StringObject>()
     
     open override static func primaryKey() -> String? {
         return "id"
@@ -27,9 +29,11 @@ open class Answer: Object {
 }
 
 extension Answer {
-    class func createNewAnswerWithID(_ strID: String) -> Answer {
+    class func createNewAnswerWithID() -> Answer {
         let answer                        = Answer()
-        answer.id                         = strID
+        
+        //|     Generate id for new answer
+        answer.id                         = UUID().uuidString
         
         return answer
     }
@@ -53,30 +57,27 @@ extension Answer {
         }
         else {
             //     No answer found, create new one
-            let answer                    = createNewAnswerWithID(strID)
+            let answer                    = createNewAnswerWithID()
             
             return answer
         }
     }
     
     class func addEditAnswerWithDictionary(_ dictInfo: [String: AnyObject], realm: Realm!) -> Answer {
-        var answer         = Answer()
+        var answer                                      = Answer()
         
-        if let obj = dictInfo["id"] as? String {
-            answer                                      = self.getNewOrExistingAnswer(obj, realm: realm)
-            
+        if let dictAnswerBy = dictInfo["answeredBy"],
+            let id = dictAnswerBy["id"] as? String {
+
+            answer                                      = self.getNewOrExistingAnswer(id, realm: realm)
             
             try! realm.write({ () -> Void in
-                if let id = dictInfo["id"] as? String {
-                    answer.id      = id
+                if let username = dictInfo["username"] as? String {
+                    answer.username                     = username
                 }
                 
-                if let loggedInUsername = dictInfo["loggedInUsername"] as? String {
-                    answer.loggedInUsername             = loggedInUsername
-                }
-                
-                if let loggedInUserId = dictInfo["loggedInUserId"] as? String {
-                    answer.loggedInUserId               = loggedInUserId
+                if let userId = dictInfo["userId"] as? String {
+                    answer.userId                       = userId
                 }
                 
                 if let questionId = dictInfo["questionId"] as? String {
@@ -87,20 +88,39 @@ extension Answer {
                     answer.organizationId               = organizationId
                 }
                 
-                if let categoryId = dictInfo["categoryId"] as? String {
-                    answer.categoryId                   = categoryId
+                if let dictAnswerBy = dictInfo["answeredFor"] as? [String: AnyObject] {
+                    if let categoryId = dictAnswerBy["categoryId"] as? String {
+                        answer.categoryId               = categoryId
+                    }
+                    
+                    if let questionBody = dictAnswerBy["question"] as? String {
+                        answer.questionBody             = questionBody
+                    }
                 }
                 
-                if let answerSelectedChoice = dictInfo["answerSelectedChoice"] as? String {
-                    answer.answerSelectedChoice         = answerSelectedChoice
+                if let choices = dictInfo["choices"] as? [String] {
+                    for choice in choices {
+                        let newChoices                  = StringObject()
+                        newChoices.string               = choice
+                        
+                        if !answer.choises.contains(newChoices) {
+                            answer.choises.append(newChoices)
+                        }
+                    }
                 }
                 
-                if let answerText = dictInfo["answerText"] as? String {
-                    answer.answerText                   = answerText
+                if let text = dictInfo["text"] as? String {
+                    answer.text                         = text
                 }
-                
-                if let answerImgUrl = dictInfo["answerImgUrl"] as? String {
-                    answer.answerImgUrl                 = answerImgUrl
+
+                if let dictAnswerBy = dictInfo["fileToPost"] as? [String: AnyObject] {
+                    if let filename = dictAnswerBy["filename"] as? String {
+                        answer.filename                 = filename
+                    }
+                    
+                    if let data = dictAnswerBy["data"] as? String {
+                        answer.data                     = data
+                    }
                 }
                 
                 realm.add(answer, update: true)

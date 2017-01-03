@@ -66,66 +66,20 @@ class RLMManager {
         
         return nil
     }
-
-//    /*
-//    **     Method to save song locally
-//    */
-//    func saveSong(dictData: [String: AnyObject]) -> Song? {
-//        if let _ = dictData["mnetId"] as? Int {
-//            //>     Save song locally
-//            let song = Song.addEditSongWithDictionary(dictData, realm: appDelegate.realm)
-//            return song
-//        }
-//        
-//        return nil
-//    }
-//    
-//    /*
-//    **     Method to save moment locally
-//    */
-//    func saveMoment(dictData: [String: AnyObject]) -> Moment? {
-//        if let _ = dictData["_id"] as? String {
-//            //>     Save moment locally
-//            let moment = Moment.addEditMomentWithDictionary(dictData, realm: appDelegate.realm)
-//            return moment
-//        }
-//        
-//        return nil
-//    }
-//    
-//    /*
-//    **     Method to delete moment locally
-//    */
-//    func deleteMoment(dictData: [String: AnyObject]){
-//        if let _ = dictData["_id"] as? String {
-//            //=>     Delete moment locally
-//            Moment.deleteMomentWithDictionary(dictData, realm: appDelegate.realm)
-//        }
-//    }
-//    
-//    /*
-//    **     Method to save follower locally
-//    */
-//    func saveFollower(dictData: [String: AnyObject]) -> Follower? {
-//        if let _ = dictData["_id"] as? String {
-//            //>     Save follower locally
-//            let follower = Follower.addEditFollowerWithDictionary(dictData, realm: appDelegate.realm)
-//            return follower
-//        }
-//        
-//        return nil
-//    }
-//    
-//    /*
-//    **     Method to save following locally
-//    */
-//    func saveFollowing(dictData: [String: AnyObject]) -> Following? {
-//        if let _ = dictData["_id"] as? String {
-//            //>     Save following locally
-//            let following = Following.addEditFollowingWithDictionary(dictData, realm: appDelegate.realm)
-//            return following
-//        }
-//        
-//        return nil
-//    }
+    
+    /*
+     **     Method to save answer locally
+     */
+    func saveAnswer(_ dictData: [String: AnyObject]) -> Answer? {
+        if let dictAnswerBy = dictData["answeredBy"],
+            let _ = dictAnswerBy["id"] as? String {
+            
+            //|     Save answer locally
+            let answer = Answer.addEditAnswerWithDictionary(dictData, realm: appDelegate.realm)
+            
+            return answer
+        }
+        
+        return nil
+    }
 }
