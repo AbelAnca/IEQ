@@ -70,16 +70,9 @@ class RLMManager {
     /*
      **     Method to save answer locally
      */
-    func saveAnswer(_ dictData: [String: AnyObject]) -> Answer? {
-        if let dictAnswerBy = dictData["answeredBy"],
-            let _ = dictAnswerBy["id"] as? String {
+    func saveAnswer(_ dictData: [String: AnyObject]) {
             
-            //|     Save answer locally
-            let answer = Answer.addEditAnswerWithDictionary(dictData, realm: appDelegate.realm)
-            
-            return answer
-        }
-        
-        return nil
+        //|     Save answer locally
+        Answer.addEditAnswerWithDictionary(dictData, realm: appDelegate.realm)
     }
 }

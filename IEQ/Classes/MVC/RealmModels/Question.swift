@@ -39,7 +39,7 @@ extension Question {
     }
     
     class func getQuestionWithID(_ strID: String, realm: Realm!) -> Question? {
-        let predicate               = NSPredicate(format: "id = %@", strID)
+        let predicate                       = NSPredicate(format: "id = %@", strID)
         let arrQuestions                    = realm.objects(Question.self).filter(predicate)
         
         if arrQuestions.count > 0 {
@@ -128,4 +128,20 @@ extension Question {
         
         return question
     }
+    
+    class func removeQuestion(_ id: String) -> Void {
+        let realm = appDelegate.realm
+        
+        do {
+            try realm?.write {
+                if let question = getQuestionWithID(id, realm: realm) {
+                   realm?.delete(question)
+                }
+            }
+        }
+        catch {
+            debugPrint("unable to delete question")
+        }
+    }
+
 }

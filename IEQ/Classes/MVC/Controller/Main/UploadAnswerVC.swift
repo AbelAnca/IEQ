@@ -60,7 +60,7 @@ class UploadAnswerVC: UIViewController {
         
         //|     Set username and userId
         parameters["username"]              = answer.username
-        parameters["userId"]                = answer.id
+        parameters["userId"]                = answer.userId
         
         //|     Set questionId and organizationId
         parameters["questionId"]            = answer.questionId
@@ -70,7 +70,7 @@ class UploadAnswerVC: UIViewController {
         parameters["answeredFor"]           = ["categoryId": answer.categoryId, "question": answer.questionBody]
         
         //|     Set answeredBy
-        parameters["answeredBy"]            = ["id": answer.id, "username": answer.username]
+        parameters["answeredBy"]            = ["id": answer.userId, "username": answer.username]
         
         //|     Set Choice
         if answer.choises.count > 0 {
@@ -89,8 +89,7 @@ class UploadAnswerVC: UIViewController {
         
         //|     Set Image
         if answer.filename.length > 0 {
-            parameters["filename"]          = answer.filename
-            parameters["data"]              = answer.data
+            parameters["fileToPost"]        = ["data": answer.data, "filename": answer.filename]
         }
         
         return parameters
@@ -144,6 +143,10 @@ class UploadAnswerVC: UIViewController {
                 apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
 
                 if let error = apiManager.error {
+                    if KVNProgress.isVisible() {
+                        KVNProgress.dismiss()
+                    }
+                    
                     if error.strErrorCode == "401" {
                         //=>    Session expired -> force user to login again
                         self.presentLoginScreen()

@@ -38,9 +38,9 @@ extension Answer {
         return answer
     }
     
-    class func getAnswerWithID(_ strID: String, realm: Realm!) -> Answer? {
-        let predicate               = NSPredicate(format: "id = %@", strID)
-        let arrAnswer                    = realm.objects(Answer.self).filter(predicate)
+    class func getAnswerWithQuestionID(_ strQuestionID: String, realm: Realm!) -> Answer? {
+        let predicate                       = NSPredicate(format: "questionId = %@", strQuestionID)
+        let arrAnswer                       = realm.objects(Answer.self).filter(predicate)
         
         if arrAnswer.count > 0 {
             if let answer = arrAnswer.first {
@@ -51,9 +51,9 @@ extension Answer {
         return nil
     }
     
-    class func getNewOrExistingAnswer(_ strID: String, realm: Realm!) -> Answer {
-        if let follower = getAnswerWithID(strID, realm: realm) {
-            return follower
+    class func getNewOrExistingAnswer(_ strQuestionID: String, realm: Realm!) -> Answer {
+        if let answer = getAnswerWithQuestionID(strQuestionID, realm: realm) {
+            return answer
         }
         else {
             //     No answer found, create new one
@@ -63,13 +63,12 @@ extension Answer {
         }
     }
     
-    class func addEditAnswerWithDictionary(_ dictInfo: [String: AnyObject], realm: Realm!) -> Answer {
+    class func addEditAnswerWithDictionary(_ dictInfo: [String: AnyObject], realm: Realm!) {
         var answer                                      = Answer()
         
-        if let dictAnswerBy = dictInfo["answeredBy"],
-            let id = dictAnswerBy["id"] as? String {
-
-            answer                                      = self.getNewOrExistingAnswer(id, realm: realm)
+        if let questionId = dictInfo["questionId"] as? String {
+            
+            answer                                      = self.getNewOrExistingAnswer(questionId, realm: realm)
             
             try! realm.write({ () -> Void in
                 if let username = dictInfo["username"] as? String {
@@ -80,9 +79,7 @@ extension Answer {
                     answer.userId                       = userId
                 }
                 
-                if let questionId = dictInfo["questionId"] as? String {
-                    answer.questionId                   = questionId
-                }
+                answer.questionId                       = questionId
                 
                 if let organizationId = dictInfo["organizationId"] as? String {
                     answer.organizationId               = organizationId
@@ -112,7 +109,7 @@ extension Answer {
                 if let text = dictInfo["text"] as? String {
                     answer.text                         = text
                 }
-
+                
                 if let dictAnswerBy = dictInfo["fileToPost"] as? [String: AnyObject] {
                     if let filename = dictAnswerBy["filename"] as? String {
                         answer.filename                 = filename
@@ -126,7 +123,5 @@ extension Answer {
                 realm.add(answer, update: true)
             })
         }
-        
-        return answer
     }
 }

@@ -22,3 +22,38 @@ class StringObject: Object {
     }
 }
 
+extension Array where Element: Equatable {
+    mutating func removeObject(_ object: Element) {
+        if let index = self.index(of: object) {
+            self.remove(at: index)
+        }
+    }
+    
+    mutating func removeObjectsInArray(_ array: [Element]) {
+        for object in array {
+            self.removeObject(object)
+        }
+    }
+    
+    func containsObject<T>(_ obj: T) -> Bool where T : Equatable {
+        return self.filter({$0 as? T == obj}).count > 0
+    }
+    
+    mutating func removeObject<T>(obj: T) where T : Equatable {
+        self = self.filter({$0 as? T != obj})
+    }
+}
+
+extension Results {
+    func toArray<T>(_ ofType: T.Type) -> [T] {
+        var array = [T]()
+        for i in 0 ..< count {
+            if let result = self[i] as? T {
+                array.append(result)
+            }
+        }
+        
+        return array
+    }
+}
+

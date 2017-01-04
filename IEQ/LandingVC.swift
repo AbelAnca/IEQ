@@ -23,7 +23,7 @@ class LandingVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let _ = appDelegate.curUser {
-            if let _ = appDelegate.defaults.object(forKey: k_UserDef_Index) as? Int {
+            if let _ = appDelegate.defaults.object(forKey: k_UserDef_NoOfAnswer) as? Int {
                 pushToQuestionVC()
             }
             else {

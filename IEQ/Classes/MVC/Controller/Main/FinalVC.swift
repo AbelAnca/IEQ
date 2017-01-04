@@ -30,7 +30,6 @@ class FinalVC: UIViewController {
         
         // Remove from NSUserDefaults
         appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObject(forKey: k_UserDef_Index)
         appDelegate.defaults.removeObject(forKey: k_UserDef_NoOfAnswer)
         appDelegate.defaults.removeObject(forKey: k_UserDef_OrganizationID)
         appDelegate.defaults.synchronize()

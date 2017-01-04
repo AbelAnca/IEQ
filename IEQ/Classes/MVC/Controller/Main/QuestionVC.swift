@@ -39,8 +39,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     @IBOutlet weak var topSpaceViewSegment: NSLayoutConstraint!
     
     var index                           = 0
-    var noOfAnswer                      = 0
-    var arrQuestion: Results<(Question)>?
+    var noOfAnsweredQuestions           = 0
+    var arrQuestion: [Question]?
     
     var currentStrOfSegmControl         = ""
     var strOrganizationID               = ""
@@ -56,8 +56,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let _ = appDelegate.defaults.object(forKey: k_UserDef_Index) as? Int {
-            self.arrQuestion     = appDelegate.realm.objects(Question.self).sorted(byProperty: "sorted", ascending: true)
+        if let _ = appDelegate.defaults.object(forKey: k_UserDef_NoOfAnswer) as? Int {
+            self.arrQuestion     = (appDelegate.realm.objects(Question.self).sorted(byProperty: "sorted", ascending: true)).toArray(Question.self)
             loadCurrentQuestion()
         }
         else {
@@ -84,43 +84,32 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         currentStrOfSegmControl      = ""
         txfAnswer.text               = ""
         imgView.image                = nil
-        index += 1
     }
     
     func forwardAction() {
+        index += 1
+        
         prepareForNewQuestion()
         drawnQuestion()
     }
     
     func backAction() {
+        index -= 1
+        
         prepareForNewQuestion()
-        
-        // Set index
-        index -= 1
-        index -= 1
-        
         drawnQuestion()
     }
     
     func loadCurrentQuestion() {
-        if let indexOfId = appDelegate.defaults.object(forKey: k_UserDef_Index) as? Int {
-            index                = indexOfId
+        if let noQuestion = appDelegate.defaults.object(forKey: k_UserDef_NoOfAnswer) as? Int {
+            noOfAnsweredQuestions = noQuestion
             
-            if let noQuestion = appDelegate.defaults.object(forKey: k_UserDef_NoOfAnswer) as? Int {
-                noOfAnswer = noQuestion
-            }
-        
             drawnQuestion()
         }
     }
     
-    func saveIndexInUserDef() {
-        appDelegate.defaults.set(index, forKey: k_UserDef_Index)
-        appDelegate.defaults.synchronize()
-    }
-    
-    func saveNoOfAnswerInUserDef() {
-        appDelegate.defaults.set(noOfAnswer, forKey: k_UserDef_NoOfAnswer)
+    func saveNoOfAnsweredQuestionsInUserDef() {
+        appDelegate.defaults.set(noOfAnsweredQuestions, forKey: k_UserDef_NoOfAnswer)
         appDelegate.defaults.synchronize()
     }
 
@@ -136,8 +125,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     func setLblNoOfQuestion() {
-        if let questions = arrQuestion {
-            lblNoOfQuestion.text = "\(index + 1) of \(questions.count)"
+        if let arrQuestion = arrQuestion {
+            let questions = appDelegate.realm.objects(Question.self)
+            
+            lblNoOfQuestion.text = "\(noOfAnsweredQuestions) of \(questions.count)"
             
             // Set Back and Forward button
             if index == 0 {
@@ -147,7 +138,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 btnBack.isHidden = false
             }
             
-            if index == questions.count - 1 {
+            if index == arrQuestion.count - 1 {
                 btnForward.isHidden = true
             }
             else {
@@ -169,12 +160,6 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     
     func drawnQuestion() {
         
-        // Save index of arr in NSUserDef
-        saveIndexInUserDef()
-        
-        // Save number of answer in NSUserDef
-        saveNoOfAnswerInUserDef()
-
         // Set number of question
         setLblNoOfQuestion()
         
@@ -184,7 +169,6 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 
                 // Set title and question
                 lblQuestion.text                  = question.body
-                //lblTitle.text                     = question.title
                 
                 // Prepare UI for question
                 hideViewsAnswer()
@@ -317,7 +301,18 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     func setupNewQuestion() {
-        self.noOfAnswer += 1
+        noOfAnsweredQuestions += 1
+        
+        // Save number of answer in NSUserDef
+        saveNoOfAnsweredQuestionsInUserDef()
+        
+        //|     Remove this question from database
+        if let arrQuestion = arrQuestion {
+            Question.removeQuestion(arrQuestion[index].id)
+        }
+        
+        //|     Remove this question from arrQuestion
+        arrQuestion?.remove(at: index)
         
         //|     Go to the next question
         self.prepareForNewQuestion()
@@ -356,7 +351,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                                 _ = RLMManager.sharedInstance.saveQuestion(item)
                             }
                             
-                            self.arrQuestion     = appDelegate.realm.objects(Question.self).sorted(byProperty: "sorted", ascending: true)
+                            self.arrQuestion     = (appDelegate.realm.objects(Question.self).sorted(byProperty: "sorted", ascending: true)).toArray(Question.self)
                             
                             KVNProgress.dismiss()
                             self.drawnQuestion()
@@ -425,7 +420,9 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
                 */
                 
-                KVNProgress.show()
+                if !appDelegate.bIsInternetReachable {
+                    KVNProgress.show()
+                }
                 
                 if let image = imgView.image {
                     if let imageData = UIImagePNGRepresentation(image) {
@@ -482,14 +479,6 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             print("DICT PARAMS = \(dictParams)")
             
             if appDelegate.bIsInternetReachable {
-                
-                Async.main(after: 0.1, {
-                    
-                    //|     Hide spinner
-                    if KVNProgress.isVisible() {
-                        KVNProgress.dismiss()
-                    }
-                })
                 
                 //|     Save answer
                 _ = RLMManager.sharedInstance.saveAnswer(dictParams as [String : AnyObject])
@@ -561,7 +550,6 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         
         // Remove from NSUserDefaults
         appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObject(forKey: k_UserDef_Index)
         appDelegate.defaults.removeObject(forKey: k_UserDef_NoOfAnswer)
         appDelegate.defaults.removeObject(forKey: k_UserDef_OrganizationID)
         appDelegate.defaults.synchronize()
