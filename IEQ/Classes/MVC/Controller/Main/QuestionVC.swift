@@ -11,7 +11,6 @@ import Alamofire
 import RealmSwift
 import KVNProgress
 import ReachabilitySwift
-import Async
 
 class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -74,9 +73,27 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        //|     Setup reachability
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChanged),name: ReachabilityChangedNotification,object: reachability)
+        
+        do{
+            try reachability.startNotifier()
+        }catch{
+            print("could not start reachability notifier")
+        }
     }
     
     // MARK: - Notification Methods
+    
+    func reachabilityChanged(note: NSNotification) {
+        let reachability = note.object as! Reachability
+        
+        if reachability.isReachable {
+            appDelegate.bIsInternetReachable = true
+        } else {
+            appDelegate.bIsInternetReachable = false
+        }
+    }
     
     // MARK: - Custom Methods
     
@@ -188,7 +205,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     var arrChoices                  = Array<String>()
                     
                     for choise in question.choises {
-                        arrChoices.append(choise.name)
+                        arrChoices.append(choise.string)
                     }
                     
                     segmentControl.replaceSegments(arrChoices)
@@ -286,18 +303,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     func presentLoginScreen() {
-        appDelegate.curUser = nil
-        
-        // Remove from NSUserDefaults
-        appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
-        appDelegate.defaults.synchronize()
-        
-        // Present LoginVC
-        let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
-        _ = navigationController?.popToRootViewController(animated: true)
-        navigationController?.present(loginNC, animated: true, completion: { () -> Void in
-            
-        })
+        UserDefManager.logout()
     }
     
     func setupNewQuestion() {
@@ -545,26 +551,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     @IBAction func btnLogot_Action(_ sender: AnyObject) {
-        
-        appDelegate.curUser = nil
-        
-        // Remove from NSUserDefaults
-        appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObject(forKey: k_UserDef_NoOfAnswer)
-        appDelegate.defaults.removeObject(forKey: k_UserDef_OrganizationID)
-        appDelegate.defaults.synchronize()
-        
-        // Clean realm
-        try! appDelegate.realm.write({ () -> Void in
-            appDelegate.realm.deleteAll()
-        })
-        
-        // Present LoginVC
-        let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
-        _ = navigationController?.popToRootViewController(animated: true)
-        navigationController?.present(loginNC, animated: true, completion: { () -> Void in
-            
-        })
+        UserDefManager.logout()
     }
     
     // MARK: - SegmentControl Action Methods

@@ -154,7 +154,6 @@ class Utils: NSObject {
         
         return scaledImage!
     }
-    
 }
 
 extension String {

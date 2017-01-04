@@ -18,17 +18,12 @@ open class Question: Object {
     open dynamic var acceptChoices      = false
     open dynamic var acceptFile         = false
     open dynamic var acceptText         = false
-    var choises                         = List<Choice>()
+    var choises                         = List<StringObject>()
     
     open override static func primaryKey() -> String? {
         return "id"
     }
 }
-
-open class Choice: Object {
-    dynamic var name = ""
-}
-
 
 extension Question {
     class func createNewQuestionWithID(_ strID: String) -> Question {
@@ -88,12 +83,11 @@ extension Question {
                 }
                 
                 if let choices = dictInfo["choices"] as? [String] {
-                    for c in choices {
+                    for choice in choices {
+                        let obj = StringObject()
+                        obj.string = choice
                         
-                        let choice = Choice()
-                        choice.name = c
-                        question.choises.append(choice)
-
+                        question.choises.append(obj)
                     }
                 }
                 
@@ -104,18 +98,9 @@ extension Question {
                     
                     let myRange = title.index(title.startIndex, offsetBy: 1) ..< title.index(title.startIndex, offsetBy: title.utf16.count)
                     
-                    //let myRange = Range(title.startIndex.advancedBy(1) ..< title.startIndex.advancedBy(title.utf16.count))
-                    
-                    //let myRange = Range<String.Index>(start: title.startIndex.advancedBy(1), end: title.startIndex.advancedBy(title.utf16.count))
-                    
                     if let sort = Int(title.substring(with: myRange)) {
                         question.sorted = sort
                     }
-                    
-                    
-                    //if let sort = Int(title.substringWithRange(myRange)) {
-                    //    question.sorted         = sort
-                    //}
                 }
                 
                 if let categoryId = dictInfo["categoryId"] as? String {

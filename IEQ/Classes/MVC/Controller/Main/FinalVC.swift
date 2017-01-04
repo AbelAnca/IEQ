@@ -12,11 +12,16 @@ class FinalVC: UIViewController {
     
     @IBOutlet weak var btnLogout: UIButton!
 
+    // MARK: - ViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
+        setupUI()
+    }
+    
+    // MARK: - Custom Methods
+    
+    func setupUI() {
         // Setup UI
         btnLogout.layer.cornerRadius           = 8
         btnLogout.layer.borderWidth            = 1
@@ -25,42 +30,11 @@ class FinalVC: UIViewController {
     
     // MARK: - Action Methods
     @IBAction func btnLogot_Action(_ sender: AnyObject) {
-        
-        appDelegate.curUser = nil
-        
-        // Remove from NSUserDefaults
-        appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObject(forKey: k_UserDef_NoOfAnswer)
-        appDelegate.defaults.removeObject(forKey: k_UserDef_OrganizationID)
-        appDelegate.defaults.synchronize()
-
-        // Clean realm
-        try! appDelegate.realm.write({ () -> Void in
-            appDelegate.realm.deleteAll()
-        })
-        
-        // Present LoginVC
-        let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
-        _ = navigationController?.popToRootViewController(animated: true)
-        navigationController?.present(loginNC, animated: true, completion: { () -> Void in
-
-        })
+       UserDefManager.logout()
     }
 
+    // MARK: - MemoryManagement Methods
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

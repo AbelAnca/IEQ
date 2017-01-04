@@ -357,19 +357,7 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
     }
     
     @IBAction func btnLogout_Action(_ sender: AnyObject) {
-        appDelegate.curUser = nil
-        
-        // Remove from NSUserDefaults
-        appDelegate.defaults.removeObject(forKey: k_UserDef_LoggedInUserID)
-        appDelegate.defaults.removeObject(forKey: k_UserDef_OrganizationID)
-        appDelegate.defaults.synchronize()
-        
-        // Present LoginVC
-        let loginNC = storyboard?.instantiateViewController(withIdentifier: "LoginVC_NC") as! UINavigationController
-        _ = navigationController?.popToRootViewController(animated: true)
-        navigationController?.present(loginNC, animated: true, completion: { () -> Void in
-            
-        })
+        UserDefManager.logout()
     }
     
     @IBAction func btnSelectOrganizationType_Action(_ sender: AnyObject) {
@@ -439,16 +427,4 @@ class EnableGPSVC: UIViewController, CLLocationManagerDelegate, PopoverRoleVCDel
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
