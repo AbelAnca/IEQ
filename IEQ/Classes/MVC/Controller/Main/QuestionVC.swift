@@ -56,7 +56,9 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         super.viewDidLoad()
         
         if let _ = appDelegate.defaults.object(forKey: k_UserDef_NoOfAnswer) as? Int {
-            self.arrQuestion     = (appDelegate.realm.objects(Question.self).sorted(byProperty: "sorted", ascending: true)).toArray(Question.self)
+            let predicate                       = NSPredicate(format: "bAnswered = false")
+            self.arrQuestion     = (appDelegate.realm.objects(Question.self).filter(predicate)).toArray(Question.self)
+            
             loadCurrentQuestion()
         }
         else {
@@ -312,9 +314,9 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         // Save number of answer in NSUserDef
         saveNoOfAnsweredQuestionsInUserDef()
         
-        //|     Remove this question from database
+        //|     Setup question
         if let arrQuestion = arrQuestion {
-            Question.removeQuestion(arrQuestion[index].id)
+            Question.answeredToQuestion(arrQuestion[index].id)
         }
         
         //|     Remove this question from arrQuestion
@@ -357,7 +359,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                                 _ = RLMManager.sharedInstance.saveQuestion(item)
                             }
                             
-                            self.arrQuestion     = (appDelegate.realm.objects(Question.self).sorted(byProperty: "sorted", ascending: true)).toArray(Question.self)
+                            self.arrQuestion     = (appDelegate.realm.objects(Question.self)).toArray(Question.self)
                             
                             KVNProgress.dismiss()
                             self.drawnQuestion()

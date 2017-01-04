@@ -1235,6 +1235,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnUpload" destination="XIC-Lu-5OZ" id="TRW-9R-OSm"/>
                         <outlet property="lblError" destination="Lfb-WL-xgj" id="Zhn-Dd-oqZ"/>
                     </connections>
                 </viewController>

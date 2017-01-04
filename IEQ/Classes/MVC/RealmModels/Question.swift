@@ -18,6 +18,7 @@ open class Question: Object {
     open dynamic var acceptChoices      = false
     open dynamic var acceptFile         = false
     open dynamic var acceptText         = false
+    open dynamic var bAnswered          = false
     var choises                         = List<StringObject>()
     
     open override static func primaryKey() -> String? {
@@ -87,20 +88,22 @@ extension Question {
                         let obj = StringObject()
                         obj.string = choice
                         
-                        question.choises.append(obj)
+                        if !question.choises.contains(obj) {
+                            question.choises.append(obj)
+                        }
                     }
                 }
                 
                 if let title = dictInfo["title"] as? String {
                     question.title              = title
                     
-                    // Set Sort Key
-                    
+                    /*
                     let myRange = title.index(title.startIndex, offsetBy: 1) ..< title.index(title.startIndex, offsetBy: title.utf16.count)
                     
                     if let sort = Int(title.substring(with: myRange)) {
                         question.sorted = sort
                     }
+                    */
                 }
                 
                 if let categoryId = dictInfo["categoryId"] as? String {
@@ -114,13 +117,15 @@ extension Question {
         return question
     }
     
-    class func removeQuestion(_ id: String) -> Void {
+    class func answeredToQuestion(_ id: String) -> Void {
         let realm = appDelegate.realm
         
         do {
             try realm?.write {
                 if let question = getQuestionWithID(id, realm: realm) {
-                   realm?.delete(question)
+                   question.bAnswered = true
+                    
+                    realm?.add(question, update: true)
                 }
             }
         }

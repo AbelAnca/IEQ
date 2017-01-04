@@ -14,6 +14,7 @@ import ReachabilitySwift
 
 class UploadAnswerVC: UIViewController {
     @IBOutlet weak var lblError: UILabel!
+    @IBOutlet weak var btnUpload: UIButton!
     
     var arrAnswer: [Answer]?
     let reachability = Reachability()!
@@ -65,6 +66,12 @@ class UploadAnswerVC: UIViewController {
                 lblError.text = "You have \(arrAnswer.count) answers that were not uploaded to the server"
             }
         }
+        
+        btnUpload.backgroundColor             = UIColor.clear
+        btnUpload.layer.cornerRadius          = 8
+        btnUpload.layer.borderWidth           = 0.2
+        btnUpload.layer.borderColor           = UIColor.black.cgColor
+        btnUpload.clipsToBounds               = true
     }
 
     func presentLoginScreen() {
@@ -116,7 +123,7 @@ class UploadAnswerVC: UIViewController {
             if arrAnswer.count > 0 {
                 
                 //|     Show progress spinner
-                KVNProgress.show()
+                KVNProgress.show(withStatus: "Uploading...")
                 
                 //|     Start uploading with first answer
                 postAnswer(parametersFromAnswer(arrAnswer[index]))
@@ -134,8 +141,6 @@ class UploadAnswerVC: UIViewController {
                 postAnswer(parametersFromAnswer(arrAnswer[index]))
             }
             else {
-                //|     Remove all answers from database
-                
                 
                 //|     All answers were uploaded -> hide spinner and show FinalVC
                 if KVNProgress.isVisible() {
