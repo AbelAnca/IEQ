@@ -428,7 +428,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
                 */
                 
-                if !appDelegate.bIsInternetReachable {
+                if appDelegate.bIsInternetReachable {
                     KVNProgress.show()
                 }
                 
@@ -486,7 +486,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
 
             print("DICT PARAMS = \(dictParams)")
             
-            if appDelegate.bIsInternetReachable {
+            if !appDelegate.bIsInternetReachable {
                 
                 //|     Save answer
                 _ = RLMManager.sharedInstance.saveAnswer(dictParams as [String : AnyObject])

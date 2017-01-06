@@ -120,14 +120,8 @@ class UploadAnswerVC: UIViewController {
     
     func uploadArrAnswer() {
         if let arrAnswer = arrAnswer {
-            if arrAnswer.count > 0 {
-                
-                //|     Show progress spinner
-                KVNProgress.show(withStatus: "Uploading...")
-                
-                //|     Start uploading with first answer
-                postAnswer(parametersFromAnswer(arrAnswer[index]))
-            }
+            //|     Start uploading with first answer
+            postAnswerAPI(parametersFromAnswer(arrAnswer[index]))
         }
     }
     
@@ -135,10 +129,13 @@ class UploadAnswerVC: UIViewController {
         index += 1
         
         if let arrAnswer = self.arrAnswer {
-            if index < arrAnswer.count - 1 {
+            //|     After upload remove answer from database
+            Answer.removeAnswer(arrAnswer[index - 1].id)
+            
+            if index < arrAnswer.count {
                 
                 //|     Upload next answer
-                postAnswer(parametersFromAnswer(arrAnswer[index]))
+                postAnswerAPI(parametersFromAnswer(arrAnswer[index]))
             }
             else {
                 
@@ -155,7 +152,7 @@ class UploadAnswerVC: UIViewController {
     
     // MARK: - API Methods
     
-    func postAnswer(_ dictParams: Parameters) {
+    func postAnswerAPI(_ dictParams: Parameters) {
         appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Answer)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
             .responseJSON(completionHandler: { (response) -> Void in
                 print(response)
@@ -168,15 +165,13 @@ class UploadAnswerVC: UIViewController {
                         KVNProgress.dismiss()
                     }
                     
-                    if error.strErrorCode == "401" {
-                        //=>    Session expired -> force user to login again
-                        self.presentLoginScreen()
+                    if let message = error.strMessage {
+                        let alert = Utils.okAlert("Error", message: message)
+                        self.present(alert, animated: true, completion: nil)
                     }
                     else {
-                        if let message = error.strMessage {
-                            let alert = Utils.okAlert("Error", message: message)
-                            self.present(alert, animated: true, completion: nil)
-                        }
+                        let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
                 else
@@ -186,9 +181,62 @@ class UploadAnswerVC: UIViewController {
             })
     }
     
+    func refreshTokenAPI() {
+        if let user = appDelegate.curUser {
+            
+            //|     Show progress spinner
+            KVNProgress.show(withStatus: "Uploading...")
+            
+            //|     Create disctParams with userId and authorization
+            var dictParams              = Parameters()
+            
+            dictParams["userId"]                = user.id
+            dictParams["authorization"]         = user.token
+            
+            Alamofire.request("\(K_API_MAIN_URL)\(k_API_User_RefreshToken)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.offlineHeaders)
+                .responseJSON { (response) -> Void in
+                    
+                    let apiManager              = APIManager()
+                    apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
+                    
+                    if let error = apiManager.error {
+                        if KVNProgress.isVisible() {
+                            KVNProgress.dismiss()
+                        }
+                        
+                        if let message = error.strMessage {
+                            let alert = Utils.okAlert("Error", message: message)
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                        else {
+                            let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                    }
+                    else
+                        if let data = apiManager.data {
+                            //|     Setup the new token to current user
+                            User.setNewTokenToUser(data, realm: appDelegate.realm)
+                            
+                            //=>     Call this method to set custom headers to alamofire manager
+                            appDelegate.setupAlamofireManager()
+                            
+                            //|     Start uploading @arrAnswer
+                            self.uploadArrAnswer()
+                    }
+            }
+        }
+    }
+    
     // MARK: - Action Methods
     @IBAction func btnUpload(_ sender: Any) {
-        uploadArrAnswer()
+        if appDelegate.bIsInternetReachable {
+            refreshTokenAPI()
+        }
+        else {
+            let alert = Utils.okAlert("Error", message: "Please connect your device to the internet!")
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
     // MARK: - MemoryManagement Methods

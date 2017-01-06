@@ -29,7 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let headers: HTTPHeaders = [
         "Content-Type": "application/json; charset=utf-8"
     ]
-
+    
+    let offlineHeaders: HTTPHeaders = [
+        "Content-Type": "application/json; charset=utf-8",
+        "X-IEQ-OfflineAuth": "Npb5UrHj"
+    ]
     
     //>     Creating an Instance of the Alamofire Manager
     var manager = SessionManager.default
@@ -79,20 +83,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
     }
-
     
     // MARK: - Custom Methods
     
     
-    func setupAlamofireManager() {
-        
+    func setupAlamofireManager() {   
         var dictDefaultHeaders      = manager.session.configuration.httpAdditionalHeaders ?? [:]
         
         //>     Specifying the Headers we need
         if let currentUser = curUser {
             dictDefaultHeaders["X-IQE-Auth"]        = "\(currentUser.token)"
             dictDefaultHeaders["content-type"]      = "application/json; charset=utf-8"
-            //dictDefaultHeaders["content-length"]    = "264"
         }
         
         let configuration       = URLSessionConfiguration.default

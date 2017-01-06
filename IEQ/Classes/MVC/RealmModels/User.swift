@@ -78,4 +78,20 @@ extension User {
         
         return user
     }
+    
+    class func setNewTokenToUser(_ dictInfo: [String: AnyObject], realm: Realm!) {
+        if let userId = dictInfo["userId"] as? String {
+            if let user = getUserWithID(userId, realm: realm) {
+                
+                try! realm.write({ () -> Void in
+                    
+                    if let strToken = dictInfo["authorization"] as? String {
+                        user.token              = strToken
+                    }
+                    
+                    realm.add(user, update: true)
+                })
+            }
+        }
+    }
 }
