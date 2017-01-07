@@ -133,9 +133,9 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
 
     func setupUI() {
-        btnNextQuestion.backgroundColor             = UIColor.clear
+        btnNextQuestion.backgroundColor             = UIColor(cgColor: k_UIColor_Blue.cgColor)
         btnNextQuestion.layer.cornerRadius          = 8
-        btnNextQuestion.layer.borderWidth           = 0.2
+        btnNextQuestion.layer.borderWidth           = 0
         btnNextQuestion.layer.borderColor           = UIColor.black.cgColor
         btnNextQuestion.clipsToBounds               = true
         
@@ -476,6 +476,8 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                             
                         }
                         else {
+                            KVNProgress.dismiss()
+                            
                             goToNextQuestionWithoutAPICall()
                             
                             return
