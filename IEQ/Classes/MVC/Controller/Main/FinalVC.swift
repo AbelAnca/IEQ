@@ -12,6 +12,7 @@ import MessageUI
 class FinalVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var btnLogout: UIButton!
+    @IBOutlet weak var btnContactUs: UIButton!
 
     // MARK: - ViewController Methods
     override func viewDidLoad() {
@@ -24,9 +25,13 @@ class FinalVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     func setupUI() {
         // Setup UI
-        btnLogout.layer.cornerRadius           = 8
-        btnLogout.layer.borderWidth            = 1
-        btnLogout.layer.borderColor            = UIColor.white.cgColor
+        btnLogout.layer.cornerRadius                = 8
+        btnLogout.layer.borderWidth                 = 1
+        btnLogout.layer.borderColor                 = UIColor.white.cgColor
+        
+        btnContactUs.layer.cornerRadius             = 8
+        btnContactUs.layer.borderWidth              = 1
+        btnContactUs.layer.borderColor              = UIColor.white.cgColor
     }
     
     // MARK: - Action Methods
