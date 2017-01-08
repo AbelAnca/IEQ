@@ -484,9 +484,9 @@
                                     <constraint firstAttribute="width" constant="133" id="ZPE-wo-obH"/>
                                     <constraint firstAttribute="height" constant="160" id="nyL-By-0Io"/>
                                 </constraints>
-                                <string key="text">All questions have been completed and answered will be transmitted.     
-   
-     If you have any concerns or questions, please contact IEQ support@rweducate.com.</string>
+                                <string key="text">All answers have been transmitted.  
+
+If you have any concerns or questions, please contact IEQ support@rweducate.com.</string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="26"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
