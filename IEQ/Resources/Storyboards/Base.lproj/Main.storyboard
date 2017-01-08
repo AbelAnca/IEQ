@@ -484,7 +484,7 @@
                                     <constraint firstAttribute="width" constant="133" id="ZPE-wo-obH"/>
                                     <constraint firstAttribute="height" constant="160" id="nyL-By-0Io"/>
                                 </constraints>
-                                <string key="text">All questions have been completed and answered will be transmitted. If you have any concerns or questions, please contact IEQ support @ ##-###-####.</string>
+                                <string key="text">All questions have been completed and answered will be transmitted. If you have any concerns or questions, please contact IEQ support@rweducate.com.</string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="26"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -498,32 +498,6 @@
                                     <mask key="constraints">
                                         <include reference="9JV-ge-JQH"/>
                                         <include reference="ZPE-wo-obH"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="You are done! " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nmc-Vz-Ouq">
-                                <rect key="frame" x="178" y="300" width="412" height="48"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="412" id="HIS-d2-9nF"/>
-                                    <constraint firstAttribute="height" constant="21" id="LPD-Cq-lvL">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="91"/>
-                                    </constraint>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="48" id="k50-X9-gFD"/>
-                                    <constraint firstAttribute="width" constant="280" id="mpM-6O-tob"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="23"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="LPD-Cq-lvL"/>
-                                        <exclude reference="mpM-6O-tob"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="LPD-Cq-lvL"/>
-                                        <include reference="mpM-6O-tob"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -548,18 +522,32 @@
                                     <action selector="btnLogot_Action:" destination="KlM-W6-eYM" eventType="touchUpInside" id="lt6-6v-Hcj"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upP-wm-GdC">
+                                <rect key="frame" x="255" y="321" width="258" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="258" id="997-5Z-F6x"/>
+                                    <constraint firstAttribute="height" constant="50" id="CRG-KE-Qjv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <state key="normal" title="Contact Us">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnContactUs:" destination="KlM-W6-eYM" eventType="touchUpInside" id="r0R-aD-fWf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.086274509799999996" green="0.67843137249999996" blue="0.92941176469999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="JP4-h1-Qk4" secondAttribute="trailing" constant="20" id="1rh-CC-h3C"/>
                             <constraint firstAttribute="trailing" secondItem="UgO-dJ-Qc3" secondAttribute="trailing" constant="40" id="6xH-Ek-TdC"/>
+                            <constraint firstItem="upP-wm-GdC" firstAttribute="top" secondItem="UgO-dJ-Qc3" secondAttribute="bottom" constant="33" id="KUg-kZ-AU9"/>
                             <constraint firstItem="Z2J-Eu-EdX" firstAttribute="top" secondItem="3VK-7e-K4q" secondAttribute="bottom" constant="200" id="aDq-bZ-efr"/>
-                            <constraint firstItem="Nmc-Vz-Ouq" firstAttribute="top" secondItem="UgO-dJ-Qc3" secondAttribute="bottom" constant="12" id="eEK-D9-xnz"/>
                             <constraint firstItem="UgO-dJ-Qc3" firstAttribute="centerX" secondItem="KIQ-hp-SS4" secondAttribute="centerX" id="epv-ek-6jh"/>
                             <constraint firstItem="UgO-dJ-Qc3" firstAttribute="top" secondItem="7Hc-o5-Zrg" secondAttribute="bottom" constant="108" id="fON-KU-UpP"/>
                             <constraint firstItem="3VK-7e-K4q" firstAttribute="centerX" secondItem="KIQ-hp-SS4" secondAttribute="centerX" id="gLg-Mg-C5n"/>
-                            <constraint firstItem="Nmc-Vz-Ouq" firstAttribute="centerX" secondItem="KIQ-hp-SS4" secondAttribute="centerX" id="pa4-9w-WJn"/>
                             <constraint firstItem="UgO-dJ-Qc3" firstAttribute="leading" secondItem="KIQ-hp-SS4" secondAttribute="leading" constant="40" id="ur6-aB-4bl"/>
+                            <constraint firstItem="upP-wm-GdC" firstAttribute="centerX" secondItem="KIQ-hp-SS4" secondAttribute="centerX" id="v6c-Fb-Ry9"/>
                             <constraint firstItem="JP4-h1-Qk4" firstAttribute="top" secondItem="7Hc-o5-Zrg" secondAttribute="bottom" constant="20" id="w2F-4O-Uwt"/>
                         </constraints>
                     </view>
@@ -569,7 +557,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FM0-OP-Nlp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5547" y="647"/>
+            <point key="canvasLocation" x="5546.875" y="646.875"/>
         </scene>
         <!--Popover RoleVC-->
         <scene sceneID="lwf-lc-bnY">

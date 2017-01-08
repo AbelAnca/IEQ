@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class FinalVC: UIViewController {
+class FinalVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var btnLogout: UIButton!
 
@@ -33,6 +34,56 @@ class FinalVC: UIViewController {
        UserDefManager.logout()
     }
 
+    @IBAction func btnContactUs(_ sender: Any) {
+        showEmailError()
+    }
+    
+    // MARK: - Email Methods
+    
+    func showEmailError() {
+        if MFMailComposeViewController.canSendMail() {
+            let mailComposeViewController       = configuredMailComposeViewController()
+            
+            self.present(mailComposeViewController, animated: true, completion: nil)
+        } else {
+            showSendMailErrorAlert()
+        }
+    }
+    
+    fileprivate func configuredMailComposeViewController() -> MFMailComposeViewController {
+        let mailComposerVC                  = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate  = self
+        
+        let subject             = "Contact"
+        let messageBody         = "Hey IEQ, \n"
+        
+        mailComposerVC.setToRecipients(["support@rweducate.com"])
+        mailComposerVC.setSubject(subject)
+        mailComposerVC.setMessageBody(messageBody, isHTML: false)
+        
+        print("MessageBody: \(messageBody)")
+        
+        return mailComposerVC
+    }
+    
+    fileprivate func showSendMailErrorAlert() {
+        let alert = Utils.okAlert("Error", message: "Your device doesn't support the composer sheet")
+        present(alert, animated: true, completion: nil)
+    }
+    
+    internal func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch result {
+        case .sent:
+            controller.dismiss(animated: true, completion: {
+            })
+            
+        default:
+            controller.dismiss(animated: true, completion: {
+                self.dismiss(animated: true, completion: nil)
+            })
+        }
+    }
+    
     // MARK: - MemoryManagement Methods
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
