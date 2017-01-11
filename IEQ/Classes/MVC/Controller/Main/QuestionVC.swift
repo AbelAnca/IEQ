@@ -518,6 +518,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                                     let alert = Utils.okAlert("Error", message: message)
                                     self.present(alert, animated: true, completion: nil)
                                 }
+                                else {
+                                    let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
+                                    self.present(alert, animated: true, completion: nil)
+                                }
                             }
                         }
                         else

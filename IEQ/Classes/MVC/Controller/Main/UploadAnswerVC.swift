@@ -163,7 +163,7 @@ class UploadAnswerVC: UIViewController {
                     
                     //|     When the question was deleted from server
                     if let errorCode = error.strErrorCode,
-                        errorCode == "404" {
+                        errorCode == "410" {
                         self.uploadNextAnswer()
                     }
                     else {
