@@ -24,9 +24,7 @@ class UploadAnswerVC: UIViewController {
     // MARK: - ViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        arrAnswer = appDelegate.realm.objects(Answer.self).toArray(Answer.self)
-        
+
         setupUI()
     }
     
@@ -58,6 +56,8 @@ class UploadAnswerVC: UIViewController {
     // MARK: - Custom Methods
     
     func setupUI() {
+        arrAnswer = appDelegate.realm.objects(Answer.self).toArray(Answer.self)
+        
         if let arrAnswer = arrAnswer {
             if arrAnswer.count == 1 {
                 lblError.text = "You have one answer that was not uploaded to the server"
@@ -155,23 +155,33 @@ class UploadAnswerVC: UIViewController {
     func postAnswerAPI(_ dictParams: Parameters) {
         appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Answer)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
             .responseJSON(completionHandler: { (response) -> Void in
-                print(response)
                 
                 let apiManager              = APIManager()
                 apiManager.handleResponse(response.response, json: response.result.value as AnyObject?)
 
                 if let error = apiManager.error {
-                    if KVNProgress.isVisible() {
-                        KVNProgress.dismiss()
-                    }
                     
-                    if let message = error.strMessage {
-                        let alert = Utils.okAlert("Error", message: message)
-                        self.present(alert, animated: true, completion: nil)
+                    //|     When the question was deleted from server
+                    if let errorCode = error.strErrorCode,
+                        errorCode == "404" {
+                        self.uploadNextAnswer()
                     }
                     else {
-                        let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
-                        self.present(alert, animated: true, completion: nil)
+                        //|     Hide spinner and updateUI
+                        if KVNProgress.isVisible() {
+                            KVNProgress.dismiss()
+                        }
+                        
+                        self.setupUI()
+                        
+                        if let message = error.strMessage {
+                            let alert = Utils.okAlert("Error", message: message)
+                            self.present(alert, animated: true, completion: nil)
+                        }
+                        else {
+                            let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
+                            self.present(alert, animated: true, completion: nil)
+                        }
                     }
                 }
                 else
