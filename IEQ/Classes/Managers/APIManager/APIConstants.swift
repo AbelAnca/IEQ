@@ -9,7 +9,8 @@
 import Foundation
 
 // Development URL
-let K_API_MAIN_URL                                      = "http://ieq-poc.cloudapp.net/api/"
+//let K_API_MAIN_URL                                      = "http://ieq-poc.cloudapp.net/api/"
+let k_API_MAIN_URL                                      = "http://23bc18a0.ngrok.io/"
 
 // API Constants
 let k_API_User_Login                                    = "user/login"
