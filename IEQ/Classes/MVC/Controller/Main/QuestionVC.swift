@@ -406,10 +406,12 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             
             // Verify and set
             if isChoice == true {
+                /*
                 if currentStrOfSegmControl == "" {
                     presentAttentionAlert()
                     return
                 }
+                */
                 
                 dictParams["choices"] = [currentStrOfSegmControl]
             }
@@ -426,11 +428,13 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             }
             
             if isPicture == true {
+                /*
                 if imgView.image == nil {
                     presentAttentionAlert()
                     
                     return
                 }
+                */
                 
                 if appDelegate.bIsInternetReachable {
                     KVNProgress.show()
@@ -441,7 +445,6 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                         let base64String = imageData.base64EncodedString(options: NSData.Base64EncodingOptions.lineLength64Characters)
                         dictParams["fileToPost"] = ["data": base64String, "filename": "image.png"]
                     }
-                    
                 }
             }
             
