@@ -524,6 +524,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                             else
                                 if error.strErrorCode == "410" {
                                     //=>    Question no longer exists - its a BAD CASE if we get this code here
+                                    
+                                    let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
+                                    self.present(alert, animated: true, completion: nil)
+                                    
                                     self.setupNewQuestion()
                                 }
                                 else {

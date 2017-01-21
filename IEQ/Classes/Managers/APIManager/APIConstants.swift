@@ -9,8 +9,12 @@
 import Foundation
 
 // Development URL
-//let K_API_MAIN_URL                                      = "http://ieq-poc.cloudapp.net/api/"
-let k_API_MAIN_URL                                      = "http://23bc18a0.ngrok.io/"
+#if DEBUG
+    //let K_API_MAIN_URL                                      = "http://06053440.ngrok.io/api/"
+    let K_API_MAIN_URL                                      = "http://ieq-poc.cloudapp.net/api/"
+    #else
+    let K_API_MAIN_URL                                      = "http://ieq-poc.cloudapp.net/api/"
+#endif
 
 // API Constants
 let k_API_User_Login                                    = "user/login"
