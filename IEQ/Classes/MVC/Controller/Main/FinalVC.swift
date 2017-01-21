@@ -48,9 +48,9 @@ class FinalVC: UIViewController, MFMailComposeViewControllerDelegate {
     func showEmailError() {
         if MFMailComposeViewController.canSendMail() {
             let mailComposeViewController       = configuredMailComposeViewController()
-            
             self.present(mailComposeViewController, animated: true, completion: nil)
-        } else {
+        }
+        else {
             showSendMailErrorAlert()
         }
     }
@@ -66,13 +66,11 @@ class FinalVC: UIViewController, MFMailComposeViewControllerDelegate {
         mailComposerVC.setSubject(subject)
         mailComposerVC.setMessageBody(messageBody, isHTML: false)
         
-        print("MessageBody: \(messageBody)")
-        
         return mailComposerVC
     }
     
     fileprivate func showSendMailErrorAlert() {
-        let alert = Utils.okAlert("Error", message: "Your device doesn't support the composer sheet")
+        let alert = Utils.okAlert("Oops", message: "Your device doesn't have any mail accounts added.")
         present(alert, animated: true, completion: nil)
     }
     

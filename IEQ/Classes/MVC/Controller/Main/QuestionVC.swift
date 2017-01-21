@@ -281,13 +281,13 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         
         alert.addAction(UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.default, handler: { (action) -> Void in
             if (UIImagePickerController.isSourceTypeAvailable(.camera))  {
-                self.imagePicker.allowsEditing               = false
+                self.imagePicker.allowsEditing               = true
                 self.imagePicker.sourceType                  = .camera
                 
                 self.present(self.imagePicker, animated: true, completion: nil)
             }
             else {
-                let alert = Utils.okAlert("Attention", message: "The Camera is not available")
+                let alert = Utils.okAlert("Oops", message: "The Camera is not available")
                 self.present(alert, animated: true, completion: nil)
             }
             
@@ -295,7 +295,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         
         alert.addAction(UIAlertAction(title: "Choose from Library", style: .default, handler: { (action) -> Void in
             if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
-                self.imagePicker.allowsEditing               = false
+                self.imagePicker.allowsEditing               = true
                 self.imagePicker.sourceType                  = .photoLibrary
                 
                 self.present(self.imagePicker, animated: true, completion: nil)
