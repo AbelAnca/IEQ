@@ -173,7 +173,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
     
     func presentAttentionAlert() {
-        let alert = Utils.okAlert("Attention", message: "Please complete all the fields")
+        let alert = Utils.okAlert("Attention", message: "Make sure you added full answer (selection, text or picture) !")
         present(alert, animated: false, completion: nil)
     }
     
@@ -399,7 +399,6 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             if isChoice == true {
                 if currentStrOfSegmControl == "" {
                     presentAttentionAlert()
-                    
                     return
                 }
                 
@@ -407,26 +406,22 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             }
             
             if isText == true {
-                /*
                 if txfAnswer.text == "" {
                     presentAttentionAlert()
-                    
                     return
                 }
-                */
+                
                 if let text = txfAnswer.text {
                     dictParams["text"] = text
                 }
             }
             
             if isPicture == true {
-                /*
                 if imgView.image == nil {
                     presentAttentionAlert()
                     
                     return
                 }
-                */
                 
                 if appDelegate.bIsInternetReachable {
                     KVNProgress.show()
@@ -527,7 +522,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                         else
                             if let _ = apiManager.data {
                                 self.setupNewQuestion()
-                        }
+                            }
                     })
             }
         }
