@@ -22,8 +22,10 @@ class LoginVC: BaseVC, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         
-        txfPhoneUseraemeOrEmail.text = "ancaabel"
-        txfPassword.text = "qwerty"
+        #if DEBUG
+            txfPhoneUseraemeOrEmail.text = "ancaabel"
+            txfPassword.text = "qwerty"
+        #endif
                 
         setupUI()
     }

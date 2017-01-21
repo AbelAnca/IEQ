@@ -353,10 +353,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
                 else
                     if let data = apiManager.data {
-                        if let items = data["items"] as? [[String: AnyObject]] {
+                        if let questions = data["items"] as? [[String: AnyObject]] {
                             // save questions in Realm
-                            for item in items {
-                                _ = RLMManager.sharedInstance.saveQuestion(item)
+                            for q in questions {
+                                _ = RLMManager.sharedInstance.saveQuestion(q)
                             }
                             
                             self.arrQuestion     = (appDelegate.realm.objects(Question.self)).toArray(Question.self)
@@ -492,7 +492,11 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 setupNewQuestion()
             }
             else {
-                appDelegate.manager.request("\(K_API_MAIN_URL)\(k_API_Answer)", method: .post, parameters: dictParams, encoding: JSONEncoding.default, headers: appDelegate.headers)
+                appDelegate.manager
+                    .request("\(K_API_MAIN_URL)\(k_API_Answer)",
+                        method: .post, parameters: dictParams,
+                        encoding: JSONEncoding.default,
+                        headers: appDelegate.headers)
                     .responseJSON(completionHandler: { (response) -> Void in
                         print(response)
                         
@@ -508,15 +512,20 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                                 //=>    Session expired -> force user to login again
                                 self.presentLoginScreen()
                             }
-                            else {
-                                if let message = error.strMessage {
-                                    let alert = Utils.okAlert("Error", message: message)
-                                    self.present(alert, animated: true, completion: nil)
+                            else
+                                if error.strErrorCode == "410" {
+                                    //=>    Question no longer exists - its a BAD CASE if we get this code here
+                                    self.setupNewQuestion()
                                 }
                                 else {
-                                    let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
-                                    self.present(alert, animated: true, completion: nil)
-                                }
+                                    if let message = error.strMessage {
+                                        let alert = Utils.okAlert("Error", message: message)
+                                        self.present(alert, animated: true, completion: nil)
+                                    }
+                                    else {
+                                        let alert = Utils.okAlert("Error", message: "Something strange happened. Please try again!")
+                                        self.present(alert, animated: true, completion: nil)
+                                    }
                             }
                         }
                         else
