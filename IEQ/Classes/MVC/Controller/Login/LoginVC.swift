@@ -19,8 +19,6 @@ class LoginVC: BaseVC, UITextFieldDelegate {
     // MARK: - ViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
         #if DEBUG
             txfPhoneUseraemeOrEmail.text = "ancaabel"
@@ -28,6 +26,34 @@ class LoginVC: BaseVC, UITextFieldDelegate {
         #endif
                 
         setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginVC.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginVC.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    // MARK: - Notification Methods
+    
+    func keyboardWillShow(notification: NSNotification) {
+        if self.view.frame.origin.y == 0 {
+            self.view.frame.origin.y -= 200
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y += 200
+        }
     }
 
     // MARK: - Custom Methods
@@ -95,7 +121,6 @@ class LoginVC: BaseVC, UITextFieldDelegate {
     // MARK: - API Methods
     
     func login_APICall() {
-        
         KVNProgress.show(withStatus: "Please wait...")
         
         let parameters: Parameters = [
@@ -146,10 +171,16 @@ class LoginVC: BaseVC, UITextFieldDelegate {
     
     // MARK: - Action Methods
     @IBAction func btnSignUp_Action(_ sender: AnyObject) {
+        //|     Hide keyboard
+        view.endEditing(true)
+        
         pushSignUpVC()
     }
     
     @IBAction func btnLogin_Action(_ sender: AnyObject) {
+        //|     Hide keyboard
+        view.endEditing(true)
+        
         login()
     }
     
@@ -158,7 +189,6 @@ class LoginVC: BaseVC, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField == txfPhoneUseraemeOrEmail {
-            txfPhoneUseraemeOrEmail.resignFirstResponder()
             txfPassword.becomeFirstResponder()
         }
         else

@@ -26,6 +26,8 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
     @IBOutlet var btnEnterTheApp: UIButton!
     
     @IBOutlet var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var constScrollViewHeight: NSLayoutConstraint!
     
     var arrRoles: [[String: AnyObject]]?
     var selectedRole : [String: AnyObject]?
@@ -51,7 +53,6 @@ class SignUpVC: BaseVC, UITextFieldDelegate, PopoverRoleVCDelegate {
         
         btnBack.layer.cornerRadius                  = btnBack.frame.size.height / 2
         btnBack.clipsToBounds                       = true
-        
     }
     
     func pushQuestionVC() {

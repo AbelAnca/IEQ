@@ -14,7 +14,6 @@ import ReachabilitySwift
 
 class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblQuestion: UILabel!
     @IBOutlet weak var lblNoOfQuestion: UILabel!
     
@@ -147,8 +146,18 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         if let arrQuestion = arrQuestion {
             let questions = appDelegate.realm.objects(Question.self)
             
+            /*
+            //|     Old version
             lblNoOfQuestion.text = "\(noOfAnsweredQuestions) of \(questions.count)"
+            */
             
+            if noOfAnsweredQuestions != 1 {
+                lblNoOfQuestion.text = "\(noOfAnsweredQuestions) uploaded questions of \(questions.count)"
+            }
+            else {
+                lblNoOfQuestion.text = "\(noOfAnsweredQuestions) uploaded question of \(questions.count)"
+            }
+ 
             // Set Back and Forward button
             if index == 0 {
                 btnBack.isHidden = true
