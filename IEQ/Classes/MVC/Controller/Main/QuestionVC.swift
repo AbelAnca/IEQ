@@ -448,10 +448,10 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 }
             }
             
-            // if do not exist check box(mandatory)
+            //      if do not exist check box(mandatory)
             if isChoice == false {
                 
-                // if exist textField without imageView
+                //      if exist textField without imageView
                 if isText == true && isPicture == false {
                     // if textField is empty
                     if txfAnswer.text == "" {
@@ -461,7 +461,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     }
                 }
                 
-                // if exist imageView without textField
+                //      if exist imageView without textField
                 if isText == false && isPicture == true {
                     // if do not exist image in imageView
                     if let _ = imgView.image {
@@ -474,7 +474,7 @@ class QuestionVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                     }
                 }
                 
-                // if exist textField and imageView
+                //      if exist textField and imageView
                 if isText == true && isPicture == true {
                     // if textField is empty
                     if txfAnswer.text == "" {
