@@ -1,36 +1,47 @@
 PODS:
   - Alamofire (4.2.0)
   - AsyncSwift (2.0.1)
-  - Crashlytics (3.8.3):
-    - Fabric (~> 1.6.3)
-  - Fabric (1.6.11)
+  - Crashlytics (3.10.7):
+    - Fabric (~> 1.7.11)
+  - Fabric (1.7.11)
   - KVNProgress (2.2.4)
   - ReachabilitySwift (3)
-  - Realm (2.1.2):
-    - Realm/Headers (= 2.1.2)
-  - Realm/Headers (2.1.2)
-  - RealmSwift (2.1.2):
-    - Realm (= 2.1.2)
+  - Realm (2.8.1):
+    - Realm/Headers (= 2.8.1)
+  - Realm/Headers (2.8.1)
+  - RealmSwift (2.8.1):
+    - Realm (= 2.8.1)
 
 DEPENDENCIES:
-  - Alamofire
-  - AsyncSwift
+  - Alamofire (= 4.2.0)
+  - AsyncSwift (= 2.0.1)
   - Crashlytics
   - Fabric
-  - KVNProgress (~> 2.2.1)
-  - ReachabilitySwift (~> 3)
-  - RealmSwift
+  - KVNProgress (= 2.2.4)
+  - ReachabilitySwift (= 3)
+  - RealmSwift (= 2.8.1)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - AsyncSwift
+    - Crashlytics
+    - Fabric
+    - KVNProgress
+    - ReachabilitySwift
+    - Realm
+    - RealmSwift
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   AsyncSwift: 632138e42ead868b53c745fcde9bf733ce1527ad
-  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
-  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  Crashlytics: ccaac42660eb9351b9960c0d66106b0bcf99f4fa
+  Fabric: f233c9492b3bbc1f04e3882986740f7988a58edb
   KVNProgress: 541edcea5a1fef592aceac8d791a410d38cb499d
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
-  Realm: efe855f4d977c8ce5a82d3116d9f1ff155a6550c
-  RealmSwift: 17d6ee30b6f9df86364408c2197492e33bfea567
+  Realm: 2627602ad6818451f0cb8c2a6e072f7f10a5f360
+  RealmSwift: 4764ca7657f2193c256fb032c0b123926f70dbcd
 
-PODFILE CHECKSUM: 0d77b2f64f9d9305ad763edff35d87133723c961
+PODFILE CHECKSUM: b68a0a9e35b4887b191eddd8359814c1f00f9455
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.5.3

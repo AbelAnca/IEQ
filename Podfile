@@ -6,13 +6,13 @@ target 'IEQ' do
   use_frameworks!
 
   # Pods for IEQ
-    pod 'Alamofire'
-    pod 'KVNProgress', '~> 2.2.1'
-    pod 'RealmSwift'
-    pod 'AsyncSwift'
+    pod 'Alamofire', '4.2.0'
+    pod 'KVNProgress', '2.2.4'
+    pod 'RealmSwift', '2.8.1'
+    pod 'AsyncSwift', '2.0.1'
     pod 'Fabric'
     pod 'Crashlytics'
-    pod 'ReachabilitySwift', '~> 3'
+    pod 'ReachabilitySwift', '3'
 
   target 'IEQTests' do
     inherit! :search_paths
